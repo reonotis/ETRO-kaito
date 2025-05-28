@@ -21,11 +21,10 @@ body {
 
 
 .event-title {
-    font-size: 30px;
+    margin: 2rem auto 3rem;
+    font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
-    margin-top: 1rem;
-    margin-bottom: 3rem;
 }
 
 
@@ -52,6 +51,13 @@ body {
             background: #fff;
             border: solid 1px #B6934E;
         }
+    }
+}
+
+@media (max-width:640px){
+    .form-area {
+        width: 100%;
+        padding: 1.5rem .75rem;
     }
 }
 
@@ -86,3 +92,99 @@ input::placeholder {
     }
 }
 
+
+
+/**************************
+ * チケット画面
+ **************************/
+.ticket-container {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 30px;
+    background: #fffb;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transform: translate(-50%, -50%);
+
+    & > .event-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    & > .content-area {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+
+        & > .user-info {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        & > .unique-code {
+            font-family: monospace;
+            font-size: 18px;
+            color: #555;
+        }
+    }
+}
+
+
+@media (max-width:640px){
+    .ticket-container {
+        width: 95%;
+        padding: 1.5rem .5rem;
+    }
+}
+
+
+.warning-text {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+input[type='range'] {
+    -webkit-appearance: none;
+    width: 80%;
+    height: 50px;
+    background: #f1f1f1;
+    border-radius: 10px;
+    outline: none;
+    transition: background 0.3s;
+    border: 2px solid #0d0d0d;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 50px;
+    background: #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+    border: 2px solid #0d0d0d;
+    transition: background 0.3s;
+}
+
+input[type='range']:hover::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #357ABD, #4A90E2);
+}
+
+input[type='range']:active::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #2A6496, #4A90E2);
+}

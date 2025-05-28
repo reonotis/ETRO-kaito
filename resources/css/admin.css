@@ -33,3 +33,15 @@ input::placeholder {
 .btn-primary:hover {
     background-color: #7397bf;
 }
+
+
+
+#application_table thead {
+    background: #B6934E;
+    color: #fff;
+}
+
+#application_table td {
+    border-bottom: solid 1px #ccc;
+}
+

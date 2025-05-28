@@ -8,6 +8,7 @@ Route::prefix('campaign')->group(function () {
     Route::post('/', [ApplicationController::class, 'store']);
     Route::get('/complete', [ApplicationController::class, 'complete'])->name('application_complete');
 
+    Route::get('/email/open/{unique_code}', [ApplicationController::class, 'trackEmailOpen'])->name('winner_mail_open');
     Route::get('/view-ticket/{unique_code}', [ApplicationController::class, 'viewTicket'])->name('view_ticket');
     Route::get('/tear-ticket/{unique_code}', [ApplicationController::class, 'tearTicket'])->name('tear_ticket');
 

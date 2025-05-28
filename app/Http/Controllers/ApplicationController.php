@@ -18,12 +18,20 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Yajra\DataTables\DataTables;
 
 
 class ApplicationController extends Controller
 {
+
+    public function __construct()
+    {
+        dd(1111);
+
+    }
+
     /**
      * @return View
      */
@@ -65,6 +73,25 @@ class ApplicationController extends Controller
     public function complete(): View
     {
         return view('complete');
+    }
+
+    /**
+     * @param string $unique_code
+     * @return BinaryFileResponse
+     */
+    public function trackEmailOpen(string $unique_code): BinaryFileResponse
+    {
+        // アプリケーションを特定
+        $application = Application::where('unique_code', $unique_code)->first();
+
+        if ($application) {
+            // 閲覧日時を保存
+            $application->email_opened_at = now();
+            $application->save();
+        }
+
+        // 透明ピクセル画像を返す
+        return response()->file(public_path('image/transparent_pixel.png'));
     }
 
     /**

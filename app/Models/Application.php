@@ -24,6 +24,7 @@ class Application extends Model
 
     protected $table = 'application';
     protected $casts = [
+        'visit_scheduled_date_time' => 'datetime',
         'created_at' => 'datetime',
     ];
 
@@ -65,7 +66,7 @@ class Application extends Model
     private static function generateUniqueCode(): string
     {
         do {
-            $code = Str::random(15);
+            $code = Str::random(10);
         } while (self::where('unique_code', $code)->exists());
 
         return $code;

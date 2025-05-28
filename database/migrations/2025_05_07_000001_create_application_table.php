@@ -40,6 +40,7 @@ return new class extends Migration
 
             $table->dateTime('visit_scheduled_date_time')->nullable()->comment('来場予定日時');
             $table->boolean('sent_lottery_result_email_flg')->default(0)->comment('当選メール送信済みフラグ');
+            $table->timestamp('email_opened_at')->nullable()->comment('当選メール開封日時');
             $table->dateTime('visit_date_time')->nullable()->comment('来場した日時');
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('作成日時');

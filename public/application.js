@@ -12,6 +12,7 @@ $(document).ready(function() {
                 d.visit_scheduled_date_time = $('#search_visit_scheduled').val(); // 追加
             }
         },
+        pageLength: 20,
         columns: [
             { data: 'created_at', name: 'created_at' },
             { data: 'unique_code', name: 'unique_code' },
@@ -23,6 +24,7 @@ $(document).ready(function() {
             { data: 'email', name: 'email' },
             { data: 'full_address', name: 'full_address', orderable: false, searchable: false }, // 住所（HTML改行）
             { data: 'visit_scheduled_date_time', name: 'visit_scheduled_date_time' },
+            { data: 'status', name: 'status' },
             { data: 'visit_date_time', name: 'visit_date_time' },
         ],
         order: [[0, 'asc']], // 初期並び順：ID昇順

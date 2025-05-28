@@ -7,7 +7,7 @@
         <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script> <!-- 住所入力 -->
     </x-slot>
 
-    <div class="p-6">
+    <div class="p-2 sm:p-6">
         <div class="event-title">ETRO×高橋海人カプセルコレクション 渋谷パルコ当選チケット</div>
 
         <div class="form-area">

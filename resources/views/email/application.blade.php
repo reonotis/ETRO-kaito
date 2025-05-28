@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
 <body>
-{{ $application->sei . ' ' . $application->mei }} 様<br><br>
+
+{{ $application->sei . ' ' . $application->mei }} 様<br>
+<img src="{{ route('winner_mail_open', ['unique_code' => $application->unique_code]) }}?{{ date('YmdHis') }}" width="1" height="1" alt="Email Tracking Pixel"><br>
 先日はETRO×高橋海人カプセルコレクション渋谷パルコへの申し込みをいただき誠にありがとうございます。<br>
-抽選の結果、｛田中 太郎｝様をご招待する事が決定いたしました。<br>
-つきましては {2025年04月27日（金） 12:00} のセクションにご招待いたします。<br>
+抽選の結果、{{ $application->sei . $application->mei }}様をご招待する事が決定いたしました。<br>
+つきましては {{ $application->visit_scheduled_date_time->isoFormat('MM月DD日(ddd) HH:mm') }} のセクションにご招待いたします。<br>
 <br>
 ■日時<br>
-・｛ 2025年04月27日（金） 12:00｝<br>
+・{{ $application->visit_scheduled_date_time->isoFormat('MM月DD日(ddd) HH:mm') }} <br>
 <br>
 ■予定時間<br>
 ・30分<br>
@@ -20,8 +22,10 @@
 <a href="{{ route('view_ticket', ['unique_code' => $application->unique_code]) }}">URL</a><br>
 <br>
 ■注意事項<br>
+・運転免許証など、写真付きの身分証をご持参ください<br>
+・応募者名と一致しない場合はご入場いただけません<br>
 ・小学生以下1名まで同伴可<br>
-・etc<br>
+・ご購入はお一人さま1アイテム2点まで。<br>
 <br>
 なお、ご都合がつかずに辞退される場合については、下記メールアドレスまでご連絡いただけますと幸いです。<br>
 ｛ sample@admin.jp ｝<br>

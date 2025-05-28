@@ -45,6 +45,15 @@ class ApplicationController extends Controller
             'visit_scheduled_date_time',
             'sent_lottery_result_email_flg',
             'visit_date_time',
+            'email_opened_at',
+            \DB::raw("
+            CASE
+                WHEN email_opened_at IS NOT NULL THEN '閲覧済み'
+                WHEN visit_scheduled_date_time IS NOT NULL AND sent_lottery_result_email_flg = 1 THEN '送信済'
+                WHEN visit_scheduled_date_time IS NOT NULL THEN '招待メール未送信'
+                ELSE '-'
+            END AS status
+        ")
         );
 
         // 名前検索
@@ -132,7 +141,7 @@ class ApplicationController extends Controller
                 $zipcode = ($zipcode !== '-') ? "{$zipcode}<br>" : '';
 
                 // 住所を整形
-                $address = trim("{$application->pref21} {$application->address21} {$application->street21}");
+                $address = trim("{$application->pref21} {$application->address21}<br>{$application->street21}");
 
                 // 郵便番号 + 住所を組み合わせ
                 if ($zipcode && $address) {
@@ -186,11 +195,13 @@ class ApplicationController extends Controller
             'email',
             \DB::raw("CONCAT(zip21, '-', zip22, ' ', pref21, ' ', address21, ' ', street21) AS full_address"),
             'visit_scheduled_date_time',
-            'visit_date_time'
+            'visit_date_time',
+            'sent_lottery_result_email_flg',
+            'email_opened_at'
         )->get();
 
         $csvHeader = [
-            '申込日時', '管理番号', '名前', '性別', '年齢', '電話番号', 'メール', '住所', '来場予定日時', '来場時刻'
+            '申込日時', '管理番号', '名前', '性別', '年齢', '電話番号', 'メール', '住所', '来場予定日時', 'ステータス', '来場時刻'
         ];
 
         $response = new StreamedResponse(function () use ($applications, $csvHeader) {
@@ -201,6 +212,15 @@ class ApplicationController extends Controller
             fputcsv($file, $csvHeader);
 
             foreach ($applications as $application) {
+
+                // ステータスを判定
+                $status = '-';
+                if (!empty($application->email_opened_at)) {
+                    $status = '閲覧済み';
+                } elseif (!empty($application->visit_scheduled_date_time)) {
+                    $status = $application->sent_lottery_result_email_flg ? '招待メール送信済' : '招待メール未送信';
+                }
+
                 fputcsv($file, [
                     $application->created_at,
                     $application->unique_code,
@@ -211,7 +231,8 @@ class ApplicationController extends Controller
                     $application->email,
                     $application->full_address,
                     $application->visit_scheduled_date_time,
-                    $application->visit_date_time
+                    $status,
+                    $application->visit_date_time,
                 ]);
             }
 
@@ -235,8 +256,11 @@ class ApplicationController extends Controller
         $applications = Application::whereNotNull('visit_scheduled_date_time')
             ->where('sent_lottery_result_email_flg', 0)->get();
 
-        $application_service = new ApplicationService();
+        if ($applications->count() == 0) {
+            return response()->json(['message' => '送信する対象者がありません。もしくは全ての対象者に送信済みです']);
+        }
 
+        $application_service = new ApplicationService();
         foreach ($applications as $application) {
             Mail::to($application->email)->send(new ApplicationMail($application));
 
