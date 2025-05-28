@@ -28,8 +28,6 @@ class ApplicationController extends Controller
 
     public function __construct()
     {
-        dd(1111);
-
     }
 
     /**
