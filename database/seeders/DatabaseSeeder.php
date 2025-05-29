@@ -14,9 +14,16 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'fujisawa@reonotis.jp',
+        User::factory()->createMany([
+            [
+                'name' => '藤澤',
+                'email' => 'fujisawa@reonotis.jp',
+                'password' => 'password',
+            ], [
+                'name' => '谷畑',
+                'email' => 'info@etro-shibuya-parco-cp.com',
+                'password' => 'yabata#abc123',
+            ]
         ]);
 
         Application::factory(100)->create();
