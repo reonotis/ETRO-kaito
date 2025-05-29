@@ -8,7 +8,7 @@
 ■ヨミ<br>
 　{{ $application->sei_kana . ' ' . $application->mei_kana }}<br>
 ■性別<br>
-　{{ \App\Consts\Common::SEX_LIST[$application->sex] ?? '不明'}}歳<br>
+　{{ \App\Consts\Common::SEX_LIST[$application->sex] ?? '不明'}}<br>
 ■年齢<br>
 　{{ $application->age }}歳<br>
 ■電話番号<br>
