@@ -26,6 +26,6 @@ class DatabaseSeeder extends Seeder
             ]
         ]);
 
-        Application::factory(100)->create();
+//        Application::factory(100)->create();
     }
 }
