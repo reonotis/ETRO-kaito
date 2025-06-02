@@ -11,7 +11,11 @@
         <img src="{{ asset('image/LOGO.png') }}"
              style="width: 300px; margin: 5rem auto 0;" alt="ロゴ">
 
-        <div class="event-title">カプセルコレクション 渋谷パルコ当選チケット</div>
+        <div class="event-title">
+        ETRO per Kaito Takahash<br>
+        渋⾕PARCO 1階ポップアップスペースGATE<br>
+        6月27日（金）入場抽選応募フォーム
+        </div>
 
         <div class="form-area">
             <form action="" method="post" >
