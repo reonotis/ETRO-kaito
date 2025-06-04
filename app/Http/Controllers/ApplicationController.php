@@ -28,6 +28,42 @@ class ApplicationController extends Controller
 
     public function __construct()
     {
+        if ($this->checkErrorViewRedirect()) {
+            Redirect::route('application_period')->send();
+        }
+    }
+
+    /**
+     * 申込期間画面に行くか判定する
+     * @return bool
+     */
+    private function checkErrorViewRedirect(): bool
+    {
+        // 既にエラー画面に行こうとしている場合は再リダイレクトさせない
+        if (\Route::currentRouteName() ==  'application_period') {
+            return false;
+        }
+
+        $now = Carbon::now();
+        $from = Carbon::parse('2025-06-01 12:00:00');
+        $to = Carbon::parse('2025-06-23 23:59:59');
+
+        if ($from > $now) {
+            return true;
+        }
+
+        if ($now > $to) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return View
+     */
+    public function outsidePeriod(): View
+    {
+        return view('outside_period');
     }
 
     /**
@@ -271,3 +307,4 @@ class ApplicationController extends Controller
             ->make(true);
     }
 }
+

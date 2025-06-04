@@ -10,7 +10,7 @@
 
     <div class="p-2 sm:p-6">
         <div class="event-title">
-            ETRO per Kaito Takahash<br>
+            ETRO per Kaito Takahashi<br>
             渋⾕PARCO 1階ポップアップスペースGATE<br>
             6月27日（金）入場抽選応募フォーム
         </div>

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('campaign')->group(function () {
     Route::get('/', [ApplicationController::class, 'create'])->name('application_index');
     Route::post('/', [ApplicationController::class, 'store']);
+    Route::get('/outside-period', [ApplicationController::class, 'outsidePeriod'])->name('application_period');
     Route::get('/complete', [ApplicationController::class, 'complete'])->name('application_complete');
 
     Route::get('/email/open/{unique_code}', [ApplicationController::class, 'trackEmailOpen'])->name('winner_mail_open');
