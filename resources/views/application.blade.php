@@ -8,8 +8,6 @@
     </x-slot>
 
     <div class="p-2 sm:p-6">
-        <img src="{{ asset('image/LOGO.png') }}"
-             style="width: 300px; margin: 5rem auto 0;" alt="ロゴ">
 
         <div class="event-title">
         ETRO per Kaito Takahashi<br>
@@ -22,13 +20,6 @@
             6⽉20⽇(⾦)正午12:00〜6/23(⽉)23:59＊受付終了<br>
         </div>
 
-        <div class="support-area">
-            <div class="support-title">＜ 抽選応募 優先対象 ＞</div>
-            本抽選は、PARCOカードをお持ちのお客さま、及び下記URLより、<br>
-            新規PARCOカード(*)にお申込みを完了されたお客さまを優先とさせていただきます。<br>
-            ＊新規ご入会の場合、下記よりお申込みいただいた方のみが対象となります。<br>
-        </div>
-
         <div class="form-area" style="text-align: center;font-size: 1.2rem; margin-bottom: 2rem;">
             @include('precautions')
         </div>
@@ -36,18 +27,6 @@
         <div class="form-area">
             <form action="" method="post" >
                 @csrf
-
-                <div class="contents-row">
-                    <div class="content-title">PARCOカード</div>
-                    <div class="content-items">
-                        <span class="support-msg">PARCOカード お客様番号、または新規申込完了メールに記載の「申し込み番号」を入力して下さい</span>
-                        <div class="flex" style="gap: .5rem;">
-                            <x-input-text id="sei" class="w-full" type="text" name="card_no" :value="old('card_no')"
-                                          :error="$errors->has('card_no')"
-                                          placeholder="PARCOカードナンバー" />
-                        </div>
-                    </div>
-                </div>
                 <div class="contents-row">
                     <div class="content-title">お名前</div>
                     <div class="content-items">
@@ -193,10 +172,9 @@
                 <div class="contents-row">
                     <div class="content-title">ご⼊場に関するお願い事項</div>
                     <div class="content-items">
-                        ・ご⼊場されるお客さまは、以下1〜3までを事前にご準備ください。<br>
+                        ・ご⼊場されるお客さまは、以下を事前にご準備ください。<br>
                         1、当⽇ご本⼈確認のための顔写真付き⾝分証明書(運転免許証、パスポート、マイナンバーカード、特別永住者証明書など）<br>
-                        2、PARCOカードまたはPARCOカードお申込み完了メール<br>
-                        3、⼊場チケット画⾯が表⽰できるお客さまのスマートフォンをご持参ください。お並びになる前に⼊場チケット表⽰のご準備をお願いします。<br>
+                        2、⼊場チケット画⾯が表⽰できるお客さまのスマートフォンをご持参ください。お並びになる前に⼊場チケット表⽰のご準備をお願いします。<br>
                         ・有効期限切れの本⼈確認証・そのコピー・写真でのご提⽰、顔写真が付いていない証明書複数枚のご提⽰は不可となります。予めご了承ください。<br>
                         ・ご案内時間の5分前までに指定の場所までお越しください。ご案内時間に遅れた場合、いかなる理由であっても無効とさせていただきます。<br>
                         ・⼊場チケットは、お客さまのスマートフォンで表⽰いただく形式になります。お並びになる前に、⼊場チケットの表⽰をお願いいたします。<br>
@@ -204,7 +182,22 @@
                         ・お申し込み時の⽒名と証明書の⽒名の⼀致を確認の上ご⼊場となります。ご本⼈確認のための上記証明書をお持ちでない⽅は、ご⼊場いただけませんのでご了承ください。<br>
                         ・当⽇の混雑状況によっては、ご⼊場までに⻑時間お待ちいただく場合がございます。お時間には余裕をもってお越しください。<br>
                         ・ご⼊場の際、⼩学⽣以下のお⼦さまのご同伴は可能です。ただし当選されたご本⼈のみご購⼊いただけます。<br>
-                        ・「同⼀デザインの商品は、サイズ違いも含めておひとり様２点までご購⼊いただけます。」<br>
+                    </div>
+                </div>
+                <div class="contents-row">
+                    <div class="content-title">お買い物についてのお願い事項</div>
+                    <div class="content-items">
+                        ・同一デザインの商品は、サイズ違いも含めておひとり様2点までご購入いただけます。<br>
+                        ・ご購入希望者多数の場合、ご入場によってはご希望の商品がご購入いただけない可能性がございます。<br>
+                        ・当選したお客さまのスマートフォンの貸し借りはお断りさせていただきます。万が一判明した場合、どちらのお客さまもお買物をお断りさせていただきます。<br>
+                        ・お買い物は入場チケット獲得済のお客さまご本人のみとさせていただきます。<br>
+                        ・お買物のお時間は、1回30分の完全入れ替え制といたします。尚、入れ替えのためお待ちいただく場合がございます。<br>
+                        ・当日の混雑状況により、お買い物のお時間を制限させて頂く場合がございます。<br>
+                        ・お取り置きはご対応しておりません。<br>
+                        ・お電話・三越伊勢丹リモートショッピングによるご注文・代引き配送に関しては、対応しておりませんので予めご了承くださいませ。<br>
+                        ・お客さまご都合による返品・交換は承ることが出来かねますので、予めご了承くださいませ。<br>
+                        ・イベント期間中は混雑が予想されるため、在庫確認のお問い合わせはご遠慮ください。<br>
+                        ・数量に限りがある商品でございますので、品切れの際はご容赦ください。<br>
                     </div>
                 </div>
                 <div class="contents-row">
@@ -212,7 +205,6 @@
                     <div class="content-items">
                         イベントのお問い合わせは、下記までお願いします。<br>
                         2営業日〜担当からご連絡します。<br>
-                        PARCOカードのお申し込みについてのお問い合わせ先ではございません。<br>
                         info@etro-shibuya-parco-cp.com
                     </div>
                 </div>
