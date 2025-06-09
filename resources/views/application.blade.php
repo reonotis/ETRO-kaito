@@ -204,7 +204,7 @@
                     <div class="content-title">お問い合わせ</div>
                     <div class="content-items">
                         イベントのお問い合わせは、下記までお願いします。<br>
-                        2営業日〜担当からご連絡します。<br>
+                        2営業日以内に担当からご連絡します。<br>
                         info@etro-shibuya-parco-cp.com
                     </div>
                 </div>
