@@ -20,7 +20,7 @@
             6⽉20⽇(⾦)正午12:00〜6/23(⽉)23:59＊受付終了<br>
         </div>
 
-        <div class="form-area" style="text-align: center;font-size: 1.2rem; margin-bottom: 2rem;">
+        <div class="form-area precautions">
             @include('precautions')
         </div>
 

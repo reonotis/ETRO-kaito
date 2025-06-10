@@ -29,7 +29,7 @@ body {
 
 @media (max-width: 640px) {
     .event-title {
-        font-size: 1.7rem;
+        font-size: 1.3rem;
     }
 }
 
@@ -47,7 +47,8 @@ body {
 
 @media (max-width: 640px) {
     .support-area {
-        width: 95%;
+        width: 97%;
+        font-size: 1rem;
     }
 }
 
@@ -59,6 +60,12 @@ body {
     border-radius: .5rem;
     padding: 1.5rem;
     box-shadow: #c3c3c3 1px 1px 15px;
+
+    &.precautions {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
 
     .contents-row {
         border: solid 1px #ccc;
@@ -83,6 +90,12 @@ body {
     .form-area {
         width: 100%;
         padding: 1.5rem .75rem;
+        font-size: 0.9rem;
+
+        &.precautions {
+            text-align: center;
+            font-size: 0.9rem;
+        }
     }
 }
 
