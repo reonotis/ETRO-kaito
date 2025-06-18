@@ -31,7 +31,7 @@ class ApplicationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ETRO×高橋海人カプセルコレクション渋谷パルコへ当選しました',
+            subject: '6⽉27⽇(⾦）ご⼊場 ETRO per Kaito Takahashi 渋⾕パルコ POP UP STORE へ当選しました',
         );
     }
 
