@@ -26,6 +26,7 @@ $(document).ready(function() {
             { data: 'visit_scheduled_date_time', name: 'visit_scheduled_date_time' },
             { data: 'status', name: 'status' },
             { data: 'visit_date_time', name: 'visit_date_time' },
+            { data: 'choice_4', name: 'choice_4' },
         ],
         order: [[0, 'asc']], // 初期並び順：ID昇順
         dom: "<'row'<'col-sm-12'tr>>" + // 検索ボックスを非表示

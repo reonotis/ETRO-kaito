@@ -42,6 +42,7 @@ class ApplicationController extends Controller
             'pref21',
             'address21',
             'street21',
+            'choice_4',
             'visit_scheduled_date_time',
             'sent_lottery_result_email_flg',
             'visit_date_time',
@@ -194,6 +195,7 @@ class ApplicationController extends Controller
             'tel',
             'email',
             \DB::raw("CONCAT(zip21, '-', zip22, ' ', pref21, ' ', address21, ' ', street21) AS full_address"),
+            'choice_4',
             'visit_scheduled_date_time',
             'visit_date_time',
             'sent_lottery_result_email_flg',
@@ -201,7 +203,7 @@ class ApplicationController extends Controller
         )->get();
 
         $csvHeader = [
-            '申込日時', '管理番号', '名前', '性別', '年齢', '電話番号', 'メール', '住所', '来場予定日時', 'ステータス', '来場時刻'
+            '申込日時', '管理番号', '名前', '性別', '年齢', '電話番号', 'メール', '住所', '来場予定日時', 'ステータス', '来場時刻', 'グループ名（呼び出し番号）'
         ];
 
         $response = new StreamedResponse(function () use ($applications, $csvHeader) {
@@ -233,6 +235,7 @@ class ApplicationController extends Controller
                     $application->visit_scheduled_date_time,
                     $status,
                     $application->visit_date_time,
+                    $application->choice_4,
                 ]);
             }
 

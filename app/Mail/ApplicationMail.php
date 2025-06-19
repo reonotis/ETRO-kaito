@@ -15,6 +15,7 @@ class ApplicationMail extends Mailable
     use Queueable, SerializesModels;
 
     public Application $application;
+    private string $section_name;
 
     /**
      * Create a new message instance.
@@ -22,6 +23,9 @@ class ApplicationMail extends Mailable
     public function __construct(Application $application)
     {
         $this->application = $application;
+        $from = $application->visit_scheduled_date_time;
+        $to = $from->copy()->addMinutes(30);
+        $this->section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
     }
 
 
@@ -57,6 +61,9 @@ class ApplicationMail extends Mailable
 
     public function build()
     {
-        return $this->with(['application' => $this->application]);
+        return $this->with([
+            'application' => $this->application,
+            'section_name' => $this->section_name,
+        ]);
     }
 }

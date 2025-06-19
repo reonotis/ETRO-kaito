@@ -6,9 +6,9 @@
 <img src="{{ route('winner_mail_open', ['unique_code' => $application->unique_code]) }}?{{ date('YmdHis') }}" width="1" height="1" alt="Email Tracking Pixel"><br>
 先⽇は「ETRO per Kaito Takahashi 渋⾕パルコ POP UP STORE」への申し込みをいただき誠にありがとうございます。<br>
 抽選の結果、{{ $application->sei . $application->mei }}様をご招待する事が決定いたしました。<br>
-つきましては {{ $application->visit_scheduled_date_time->isoFormat('MM月DD日(ddd) HH:mm') }} のセクションにご招待いたします。<br>
+つきましては {{ $section_name }} {{ $application->choice_4 }} のセクションにご招待いたします。<br>
 ■⽇時<br>
-・{{ $application->visit_scheduled_date_time->isoFormat('MM月DD日(ddd) HH:mm') }} <br>
+・{{ $section_name }} {{ $application->choice_4 }}<br>
 ■来場可能時間<br>
 ・30分間<br>
 ■場所<br>
