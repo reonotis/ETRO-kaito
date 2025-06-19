@@ -45,7 +45,7 @@ class ApplicationController extends Controller
         }
 
         $now = Carbon::now();
-        $from = Carbon::parse('2025-06-20 12:00:00'); // 2025-06-20
+        $from = Carbon::parse('2025-06-10 12:00:00'); // 2025-06-20
         $to = Carbon::parse('2025-06-23 23:59:59');
 
         if ($from > $now) {
@@ -141,6 +141,10 @@ class ApplicationController extends Controller
         $application_service = new ApplicationService();
         $application = $application_service->getByUniqueCode($unique_code);
 
+        $from = $application->visit_scheduled_date_time;
+        $to = $from->copy()->addMinutes(30);
+        $section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
+
         // 無効チェック
         if (is_null($application) || is_null($application->visit_scheduled_date_time)) {
             return view('invalid_request', [
@@ -155,7 +159,8 @@ class ApplicationController extends Controller
         }
 
         return view('ticket', [
-            'application' => $application
+            'application' => $application,
+            'section_name' => $section_name,
         ]);
     }
 
@@ -184,8 +189,13 @@ class ApplicationController extends Controller
         // 来場済みにする
         $application_service->markVisited($application);
 
+        $from = $application->visit_scheduled_date_time;
+        $to = $from->copy()->addMinutes(30);
+        $section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
+
         return view('check_in', [
-            'application' => $application
+            'application' => $application,
+            'section_name' => $section_name,
         ]);
     }
 

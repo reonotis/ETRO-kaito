@@ -17,6 +17,8 @@
             <div class="content-area">
                 <div class="user-info">{{ $application->sei . ' ' . $application->mei }} 様</div>
                 <div class="unique-code">管理番号： {{ $application->unique_code }}</div>
+                <div class="unique-code">来場予定日時： {{ $section_name }}</div>
+                <div class="unique-code">グループ： {{ $application->choice_4 }}</div>
             </div>
             <div class="content-area">来場可能です</div>
         </div>
