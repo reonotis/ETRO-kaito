@@ -86,15 +86,15 @@ class ApplicationController extends Controller
 
             $application = $application_service->create($request->all());
 
-            // 申し込み完了メール送信
-            Mail::to($application->email)
-                ->bcc('fujisawareon@yahoo.co.jp')
-                ->send(new ThankYouMail($application));
-
             // 申し込み受付通知メール送信
             Mail::to(env('MAIL_FROM_ADDRESS'))
                 ->bcc('fujisawareon@yahoo.co.jp')
                 ->send(new NotificationMail($application));
+
+            // 申し込み完了メール送信
+            Mail::to($application->email)
+                ->bcc('fujisawareon@yahoo.co.jp')
+                ->send(new ThankYouMail($application));
 
             DB::commit();
             Redirect::route('application_complete')->send();
