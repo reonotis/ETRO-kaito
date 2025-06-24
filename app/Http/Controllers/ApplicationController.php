@@ -21,7 +21,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Yajra\DataTables\DataTables;
-
+use Illuminate\Support\Facades\Route;
 
 class ApplicationController extends Controller
 {
@@ -29,7 +29,11 @@ class ApplicationController extends Controller
     public function __construct()
     {
         if ($this->checkErrorViewRedirect()) {
-            Redirect::route('application_period')->send();
+            $excludedRoutes = ['view_ticket', 'tear_ticket', 'winner_mail_open'];
+
+            if (!in_array(Route::currentRouteName(), $excludedRoutes)) {
+                Redirect::route('application_period')->send();
+            }
         }
     }
 
@@ -45,8 +49,8 @@ class ApplicationController extends Controller
         }
 
         $now = Carbon::now();
-        $from = Carbon::parse('2025-06-20 12:00:00'); // 2025-06-20
-        $to = Carbon::parse('2025-06-23 23:59:59');
+        $from = Carbon::parse('2025-06-26 00:00:00'); // 2025-06-20
+        $to = Carbon::parse('2025-06-26 23:59:59');
 
         if ($from > $now) {
             return true;

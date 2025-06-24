@@ -12,7 +12,7 @@
         <div class="event-title">
             ETRO per Kaito Takahashi<br>
             渋⾕PARCO 1階ポップアップスペースGATE<br>
-            6月27日（金）入場抽選応募フォーム
+            6⽉28⽇（⼟）/6⽉29⽇（⽇）入場抽選応募フォーム
         </div>
         <div class="form-area">
             申し込みが完了しました。<br>
