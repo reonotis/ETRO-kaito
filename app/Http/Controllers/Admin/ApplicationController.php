@@ -265,7 +265,9 @@ class ApplicationController extends Controller
 
         $application_service = new ApplicationService();
         foreach ($applications as $application) {
+            Log::info($application->email . ' に送信します');
             Mail::to($application->email)->send(new ApplicationMail($application));
+            Log::info($application->email . ' に送信しました');
 
             // 来場済みにする
             $application_service->markSendMail($application);
