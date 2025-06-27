@@ -28,14 +28,14 @@ class ApplicationMail extends Mailable
         $this->section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
     }
 
-
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
+        $day = $this->application->visit_scheduled_date_time->isoFormat('MM月DD日（ddd）');
         return new Envelope(
-            subject: '6⽉27⽇(⾦）ご⼊場 ETRO per Kaito Takahashi 渋⾕パルコ POP UP STORE へ当選しました',
+            subject: $day . ' ご⼊場 ETRO per Kaito Takahashi 渋⾕パルコ POP UP STORE へ当選しました',
         );
     }
 
