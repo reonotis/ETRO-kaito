@@ -16,15 +16,8 @@
         </div>
 
         <div class="support-area">
-            <div class="support-title">【お詫びと申込期間変更のお知らせ】</div>
-                このたび、⼀部の期間において応募サイトが正しく表⽰されない不具合が発⽣しておりました。<br>
-                ご不便・ご迷惑をおかけしましたこと、深くお詫び申し上げます。<br>
-                つきましては、対象期間中にアクセスできなかったお客様にもご応募いただけるよう、申込期間を以下のとおり変更させていただきます。<br>
-        </div>
-
-        <div class="support-area">
-            <div class="support-title">＜変更後の申込期間＞</div>
-            <span style="color: red;">6⽉26⽇00:00 〜6⽉27⽇AM9:00</span><br>
+            <div class="support-title">＜申込期間＞</div>
+            抽選応募は終了しました
         </div>
 
         <div class="form-area precautions">
