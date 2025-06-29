@@ -26,7 +26,7 @@
 
         window.csrfToken = "{{ csrf_token() }}";
     </script>
-    <script src="./application.js?v=2"></script>
+    <script src="./application.js?v=3"></script>
 
     <div class="py-12 px-6">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -42,6 +42,7 @@
                 </div>
 
                 <div class="my-2 flex items-center gap-1">
+                    <input type="text" id="unique_code" class="border-gray-300 rounded-md" placeholder="管理番号で検索">
                     <input type="text" id="search_name" class="border-gray-300 rounded-md" placeholder="名前で検索">
                     <input type="text" id="search_kana" class="border-gray-300 rounded-md" placeholder="ヨミで検索">
                     <input type="text" id="search_email" class="border-gray-300 rounded-md" placeholder="メールで検索">

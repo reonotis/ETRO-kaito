@@ -10,6 +10,7 @@ use App\Service\ApplicationService;
 use App\Models\Application;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -56,6 +57,19 @@ class ApplicationController extends Controller
             END AS status
         ")
         );
+
+        // 管理番号検索
+        if ($request->has('unique_code') && $request->unique_code) {
+            // 全角・半角スペースで分割
+            $keywords = preg_split('/[\s　]+/', trim($request->unique_code));
+            $applications->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->where(function ($subQuery) use ($keyword) {
+                        $subQuery->where('unique_code', 'like', "%{$keyword}%");
+                    });
+                }
+            });
+        }
 
         // 名前検索
         if ($request->has('name') && $request->name) {
@@ -109,23 +123,10 @@ class ApplicationController extends Controller
         // 来場予定日時検索
         if ($request->has('visit_scheduled_date_time') && $request->visit_scheduled_date_time) {
             $date = trim($request->visit_scheduled_date_time);
-
-            // MM/DD HH:ii 形式を分解して日付と時間を取得
-            [$month_day, $time] = explode(' ', $date);
-            [$month, $day] = explode('/', $month_day);
-            [$hour, $minute] = explode(':', $time);
-
-            // 現在の年を取得
-            $currentYear = now()->year;
-
-            // 開始時間 (例: 2025-05-17 12:15:00)
-            $startDateTime = Carbon::create($currentYear, $month, $day, $hour, $minute, 0);
-            // 終了時間 (例: 2025-05-17 12:15:59)
-            $endDateTime = $startDateTime->copy()->addSeconds(59);
-
-            // 指定された1分間の範囲で検索
-            $applications->whereBetween('visit_scheduled_date_time', [$startDateTime, $endDateTime]);
+            // LIKE検索のように部分一致で探す
+            $applications->where('visit_scheduled_date_time', 'like', '%' . $date . '%');
         }
+
         return DataTables::of($applications)
             ->editColumn('age', function ($application) {
                 return $application->age ? $application->age . '歳' : '-';
@@ -170,9 +171,9 @@ class ApplicationController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @return View
      */
-    public function dashboard()
+    public function dashboard(): View
     {
         $application_count = Application::whereNotNull('visit_scheduled_date_time')->count();
 
@@ -182,7 +183,7 @@ class ApplicationController extends Controller
     }
 
     /**
-     * @return void
+     * @return
      */
     public function downloadCsv()
     {

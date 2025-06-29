@@ -6,6 +6,7 @@ $(document).ready(function() {
         ajax: {
             url: window.Laravel.route_applications_data, // Laravel から取得
             data: function(d) {
+                d.unique_code = $('#unique_code').val();
                 d.name = $('#search_name').val();
                 d.yomi = $('#search_kana').val();
                 d.email = $('#search_email').val();
