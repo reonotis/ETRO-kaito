@@ -10,8 +10,8 @@
         <div class="ticket-container">
             <div class="event-title">
                 ETRO per Kaito Takahashi<br>
-                渋⾕PARCO 1階ポップアップ<br>
-                6⽉28⽇（⼟）/6⽉29⽇（⽇）入場抽選応募フォーム
+                銀座ポップアップ<br>
+                7⽉8⽇（火）入場抽選応募フォーム
             </div>
             <div class="content-area">有効なチケットです</div>
             <div class="content-area">

@@ -11,20 +11,13 @@
 
         <div class="event-title">
         ETRO per Kaito Takahashi<br>
-        渋⾕PARCO 1階ポップアップスペースGATE<br>
-        6⽉28⽇（⼟）/6⽉29⽇（⽇）入場抽選応募フォーム
+        銀座ポップアップ<br>
+        7⽉8⽇（火）入場抽選応募フォーム
         </div>
 
         <div class="support-area">
-            <div class="support-title">【お詫びと申込期間変更のお知らせ】</div>
-            このたび、⼀部の期間において応募サイトが正しく表⽰されない不具合が発⽣しておりました。<br>
-            ご不便・ご迷惑をおかけしましたこと、深くお詫び申し上げます。<br>
-            つきましては、対象期間中にアクセスできなかったお客様にもご応募いただけるよう、申込期間を以下のとおり変更させていただきます。<br>
-        </div>
-
-        <div class="support-area">
-            <div class="support-title">＜変更後の申込期間＞</div>
-            <span style="color: red;">6⽉26⽇00:00 〜6⽉27⽇AM9:00</span><br>
+            <div class="support-title">＜申込期間＞</div>
+                7⽉3⽇15:00 〜 7⽉4⽇15:00<br>
         </div>
 
         <div class="form-area precautions">

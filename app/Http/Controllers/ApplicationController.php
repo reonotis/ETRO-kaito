@@ -28,26 +28,14 @@ class ApplicationController extends Controller
 
     public function __construct()
     {
-        if ($this->checkErrorViewRedirect()) {
-            $excludedRoutes = ['view_ticket', 'tear_ticket', 'winner_mail_open'];
-
-            if (!in_array(Route::currentRouteName(), $excludedRoutes)) {
-                Redirect::route('application_period')->send();
-            }
-        }
     }
 
     /**
-     * 申込期間画面に行くか判定する
+     * 申込期間外か判定する
      * @return bool
      */
     private function checkErrorViewRedirect(): bool
     {
-        // 既にエラー画面に行こうとしている場合は再リダイレクトさせない
-        if (\Route::currentRouteName() ==  'application_period') {
-            return false;
-        }
-
         $now = Carbon::now();
         $from = Carbon::parse('2025-06-26 15:00:00'); // 2025-07-03
         $to = Carbon::parse('2025-07-04 15:00:00');
@@ -63,27 +51,30 @@ class ApplicationController extends Controller
     }
 
     /**
-     * @return View
-     */
-    public function outsidePeriod(): View
-    {
-        return view('outside_period');
-    }
-
-    /**
+     * 申込画面を表示する
      * @return View
      */
     public function create(): View
     {
+        if ($this->checkErrorViewRedirect()) {
+            return view('outside_period');
+        }
+
         return view('application');
     }
 
     /**
+     * 申込処理を行う
      * @param ApplicationFormRequest $request
      * @return RedirectResponse
      */
     public function store(ApplicationFormRequest $request): RedirectResponse
     {
+        // 申込期間外だったら処理させない
+        if ($this->checkErrorViewRedirect()) {
+            Redirect::route('application_index')->send();
+        }
+
         try {
             $application_service = new ApplicationService();
             DB::beginTransaction();
