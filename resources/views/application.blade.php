@@ -17,7 +17,7 @@
 
         <div class="support-area">
             <div class="support-title">＜申込期間＞</div>
-                7⽉3⽇15:00 〜 7⽉4⽇15:00<br>
+                7⽉3⽇00:00 〜 7⽉4⽇16:00<br>
         </div>
 
         <div class="form-area precautions">
