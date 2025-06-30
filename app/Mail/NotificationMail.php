@@ -31,7 +31,7 @@ class NotificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ETRO×高橋海人カプセルコレクション渋谷パルコへの申し込みがありました',
+            subject: 'ETRO×高橋海人カプセルコレクション銀座への申し込みがありました',
         );
     }
 

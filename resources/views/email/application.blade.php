@@ -4,7 +4,7 @@
 
 {{ $application->sei . ' ' . $application->mei }} 様<br>
 <img src="{{ route('winner_mail_open', ['unique_code' => $application->unique_code]) }}?{{ date('YmdHis') }}" width="1" height="1" alt="Email Tracking Pixel"><br>
-先⽇は「ETRO per Kaito Takahashi 渋⾕パルコ POP UP STORE」への申し込みをいただき誠にありがとうございます。<br>
+先⽇は「ETRO per Kaito Takahashi エトロ 銀座本店」への申し込みをいただき誠にありがとうございます。<br>
 抽選の結果、{{ $application->sei . $application->mei }}様のご⼊場が決定しました。<br>
 つきましては {{ $section_name }} {{ $application->choice_4 }} のセクションにご招待いたします。<br>
 ■⽇時<br>
@@ -12,8 +12,8 @@
 ■来場可能時間<br>
 ・30分間<br>
 ■会場<br>
-・渋⾕パルコ 1F POP UP SPACE 「GATE」<br>
-〒150-8377 東京都渋⾕区宇⽥川町１５−１ 渋⾕パルコ・ヒューリックビル 1階<br>
+・エトロ 銀座本店<br>
+〒104-0061 東京都中央区銀座６丁目６−１<br>
 ポップアップスペース<br>
 ■⼊場⽅法<br>
 ・5分前までに会場前へお越しいただき、下記URLを係りの者にご提⽰ください。<br>
