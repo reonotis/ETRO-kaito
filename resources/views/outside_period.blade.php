@@ -27,7 +27,7 @@
         <div class="support-area">
             イベントのお問い合わせは、下記までお願いします。<br>
             2営業日以内に担当からご連絡します。<br>
-            info@etro-shibuya-parco-cp.com
+            info@etro-ginza-popup.com
         </div>
 
     </div>

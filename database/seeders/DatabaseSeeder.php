@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
                 'password' => 'password',
             ], [
                 'name' => '谷畑',
-                'email' => 'info@etro-shibuya-parco-cp.com',
+                'email' => 'info@etro-ginza-popup.com',
                 'password' => 'yabata#abc123',
             ]
         ]);
