@@ -11,8 +11,8 @@
 
         <div class="event-title">
             ETRO per Kaito Takahashi<br>
-            銀座ポップアップ<br>
-            7⽉8⽇（火）入場抽選応募フォーム
+            7⽉8⽇（火） エトロ銀座本店<br>
+            入場抽選応募フォーム
         </div>
 
         <div class="support-area">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="support-area">
-            イベントのお問い合わせは、下記までお願いします。<br>
+            入場抽選のお問い合わせは、下記までお願いします。<br>
             2営業日以内に担当からご連絡します。<br>
             info@etro-ginza-popup.com
         </div>

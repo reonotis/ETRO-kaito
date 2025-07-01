@@ -37,7 +37,7 @@ class ApplicationController extends Controller
     private function checkErrorViewRedirect(): bool
     {
         $now = Carbon::now();
-        $from = Carbon::parse('2025-07-03 00:00:00'); // 2025-07-03
+        $from = Carbon::parse('2025-07-01 00:00:00'); // 2025-07-03
         $to = Carbon::parse('2025-07-04 16:00:00');
 
         if ($from > $now) {

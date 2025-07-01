@@ -11,8 +11,8 @@
     <div class="p-2 sm:p-6">
         <div class="event-title">
             ETRO per Kaito Takahashi<br>
-            銀座ポップアップ<br>
-            7⽉8⽇（火）入場抽選応募フォーム
+            7⽉8⽇（火） エトロ銀座本店<br>
+            入場抽選応募フォーム
         </div>
         <div class="form-area">
             申し込みが完了しました。<br>
