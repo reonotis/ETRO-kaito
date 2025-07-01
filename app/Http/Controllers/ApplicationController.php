@@ -11,7 +11,6 @@ use App\Models\Application;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
