@@ -14,7 +14,6 @@
 ■会場<br>
 ・エトロ 銀座本店<br>
 〒104-0061 東京都中央区銀座６丁目６−１<br>
-ポップアップスペース<br>
 ■⼊場⽅法<br>
 ・5分前までに会場前へお越しいただき、下記URLを係りの者にご提⽰ください。<br>
 <a href="{{ route('view_ticket', ['unique_code' => $application->unique_code]) }}">URL</a><br>
