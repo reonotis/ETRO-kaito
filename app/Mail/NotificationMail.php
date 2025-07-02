@@ -31,7 +31,7 @@ class NotificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ETRO×高橋海人カプセルコレクション銀座への申し込みがありました',
+            subject: 'ETRO per Kaito Takahashi 7⽉8⽇（火） エトロ銀座本店への申し込みがありました',
         );
     }
 
