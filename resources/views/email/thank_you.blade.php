@@ -4,11 +4,18 @@
 
 <img src="{{ route('mail_open', ['unique_code' => $application->unique_code]) }}?{{ date('YmdHis') }}" width="1" height="1" alt="Email Tracking Pixel"><br>
 
-<br>
-<br>
-<br>
-<br>
 (Please scroll down for English)<br>
+<br>
+{{ $application->name }} 様<br>
+この度は、Tokyo Watch Week への申込みありがとうございます。<br>
+<br>
+下記URLを現地の受付スタッフへご提示ください。<br>
+<br>
+<a href="{{ route('view_ticket', ['unique_code' => $application->unique_code]) }}">URL</a><br>
+<br>
+それでは当日お会いできるのを楽しみにしております。<br>
+<br>
+------------------------------------------------------------<br>
 <br>
 Dear {{ $application->name }} ,<br>
 <br>
@@ -20,7 +27,6 @@ Please show the below URL to the reception staff on the day of the event.<br>
 <br>
 We look forward to seeing you soon.<br>
 <br>
-(登録メール・チケット画面）<br>
 <br>
 </body>
 </html>

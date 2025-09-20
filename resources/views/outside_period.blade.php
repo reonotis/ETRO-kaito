@@ -10,18 +10,8 @@
         <img src="{{ asset('image/TWW_logo.png') }}" alt="TWW ロゴ">
     </div>
 
-
         <div class="support-area">
-            応募は終了しました
-        </div>
-
-        <div class="form-area precautions">
-            @include('precautions')
-        </div>
-
-        <div class="support-area">
-            入場抽選のお問い合わせは、下記までお願いします。<br>
-            2営業日以内に担当からご連絡します。<br>
+            申込期間外です
         </div>
 
     </div>

@@ -134,24 +134,48 @@ class ApplicationController extends Controller
      */
     public function downloadCsv()
     {
-        $applications = Application::select(
+
+        $applications = Application::select('id',
             'created_at',
             'unique_code',
-            \DB::raw("CONCAT(sei, ' ', mei, '（', sei_kana, mei_kana, '）') AS full_name"),
-            'sex',
-            'age',
+            'name',
             'tel',
             'email',
-            \DB::raw("CONCAT(zip21, '-', zip22, ' ', pref21, ' ', address21, ' ', street21) AS full_address"),
-            'choice_4',
-            'visit_scheduled_date_time',
-            'visit_date_time',
-            'sent_lottery_result_email_flg',
-            'email_opened_at'
+            'address',
+            \DB::raw("
+            CASE
+                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 1 AND deleted_at IS NULL) THEN '希望'
+                ELSE '-'
+            END AS date_1
+        "),
+            \DB::raw("
+            CASE
+                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 2 AND deleted_at IS NULL) THEN '希望'
+                ELSE '-'
+            END AS date_2
+        "),
+            \DB::raw("
+            CASE
+                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 3 AND deleted_at IS NULL) THEN '希望'
+                ELSE '-'
+            END AS date_3
+        "),
+            \DB::raw("
+            CASE
+                WHEN email_opened_at IS  NULL  THEN '未確認'
+                WHEN email_opened_at IS NOT NULL THEN '閲覧済み'
+                ELSE '-'
+            END AS mail_status
+        "),
+            \DB::raw("
+            (SELECT GROUP_CONCAT(DATE_FORMAT(visited.created_at, '%Y/%m/%d %H:%i:%s') ORDER BY visited.created_at ASC SEPARATOR '<br>')
+                FROM visited
+                WHERE visited.application_id = application.id AND visited.deleted_at IS NULL) AS visit_dates
+        ")
         )->get();
 
         $csvHeader = [
-            '申込日時', '管理番号', '名前', '性別', '年齢', '電話番号', 'メール', '住所', '来場予定日時', 'ステータス', '来場時刻', 'グループ名（呼び出し番号）'
+            '申込日時', '管理番号', '名前', '電話番号', 'メールアドレス', '住所', '10/4(展示会)',  '10/4(レセプション)',  '10/5', 'メールステータス'
         ];
 
         $response = new StreamedResponse(function () use ($applications, $csvHeader) {
@@ -174,16 +198,15 @@ class ApplicationController extends Controller
                 fputcsv($file, [
                     $application->created_at,
                     $application->unique_code,
-                    $application->full_name,
-                    Common::SEX_LIST[$application->sex] ?? '',
-                    $application->age,
+                    $application->name,
                     $application->tel,
                     $application->email,
-                    $application->full_address,
-                    $application->visit_scheduled_date_time,
-                    $status,
+                    $application->address,
+                    $application->date_1,
+                    $application->date_2,
+                    $application->date_3,
+                    $application->mail_status,
                     $application->visit_date_time,
-                    $application->choice_4,
                 ]);
             }
 
