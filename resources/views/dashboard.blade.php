@@ -25,7 +25,7 @@
 
         window.csrfToken = "{{ csrf_token() }}";
     </script>
-    <script src="./application.js?v=3"></script>
+    <script src="{{ asset('application.js?v=3') }}"></script>
 
     <div class="py-12 px-6">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
