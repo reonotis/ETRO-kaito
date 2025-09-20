@@ -5,17 +5,18 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 /**
  * @property int $id
- * @property string $sei
- * @property string $mei
- * @property string $sei_kana
- * @property string $mei_kana
+ * @property string $name
+ * @property string $tel
  * @property string $email
- * @property Carbon $visit_scheduled_date_time
- * @property Carbon $visit_date_time
+ * @property string $address
+ * @property string $unique_code
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  *
  */
 class Application extends Model
@@ -29,21 +30,11 @@ class Application extends Model
     ];
 
     protected $fillable = [
-        'sei',
-        'mei',
-        'sei_kana',
-        'mei_kana',
-        'age',
-        'sex',
+        'name',
         'tel',
         'email',
-        'zip21',
-        'zip22',
-        'pref21',
-        'address21',
-        'street21',
-        'sent_lottery_result_email_flg',
-        'visit_date_time',
+        'address',
+        'unique_code',
     ];
 
     protected $guarded = ['id', '_token']; // ID と _token は保存不可
@@ -72,5 +63,12 @@ class Application extends Model
         return $code;
     }
 
+    /**
+     * @return HasMany
+     */
+    public function targetEvents(): HasMany
+    {
+        return $this->hasMany(TargetEvent::class);
+    }
 
 }

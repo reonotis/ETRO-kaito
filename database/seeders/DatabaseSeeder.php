@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             ], [
                 'name' => '谷畑',
                 'email' => 'info@etro-ginza-lottery.com',
-                'password' => 'yabata#abc123',
+                'password' => 'yabata#abc12345',
             ]
         ]);
 

@@ -6,11 +6,9 @@ $(document).ready(function() {
         ajax: {
             url: window.Laravel.route_applications_data, // Laravel から取得
             data: function(d) {
-                d.unique_code = $('#unique_code').val();
+                d.unique_code = $('#search_unique_code').val();
                 d.name = $('#search_name').val();
-                d.yomi = $('#search_kana').val();
                 d.email = $('#search_email').val();
-                d.visit_scheduled_date_time = $('#search_visit_scheduled').val(); // 追加
             }
         },
         pageLength: 20,
@@ -18,16 +16,14 @@ $(document).ready(function() {
             { data: 'created_at', name: 'created_at' },
             { data: 'unique_code', name: 'unique_code' },
             { data: 'name', name: 'name' },
-            { data: 'yomi', name: 'yomi' },
-            { data: 'sex', name: 'sex' },
-            { data: 'age', name: 'age' },
             { data: 'tel', name: 'tel' },
             { data: 'email', name: 'email' },
-            { data: 'full_address', name: 'full_address', orderable: false, searchable: false }, // 住所（HTML改行）
-            { data: 'visit_scheduled_date_time', name: 'visit_scheduled_date_time' },
-            { data: 'status', name: 'status' },
-            { data: 'visit_date_time', name: 'visit_date_time' },
-            { data: 'choice_4', name: 'choice_4' },
+            { data: 'address', name: 'address', orderable: false, searchable: false },
+            { data: 'date_1', name: 'date_1' },
+            { data: 'date_2', name: 'date_2' },
+            { data: 'date_3', name: 'date_3' },
+            { data: 'mail_status', name: 'mail_status' },
+            { data: 'visit_dates', name: 'visit_dates', orderable: false, searchable: false },
         ],
         order: [[0, 'asc']], // 初期並び順：ID昇順
         dom: "<'row'<'col-sm-12'tr>>" + // 検索ボックスを非表示
@@ -51,30 +47,6 @@ $(document).ready(function() {
         },
     });
 
-    /**
-     * 当選メール送信
-     */
-    $('#send_mail').click(function() {
-        if (!confirm("当選者にメールを送信しますか？\n一度送信した方へは再送されません")) {
-            return;
-        }
-
-        $.ajax({
-            url: window.Laravel.route_send_mail,
-            type: "POST",
-            data: {
-                _token: window.csrfToken  // CSRFトークンを使用
-            },
-            success: function (response) {
-                alert(response.message);
-            },
-            error: function () {
-                alert("メール送信に失敗しました。");
-            }
-        });
-
-    });
-
     // CSVダウンロード
     $('#csv_download').click(function() {
         window.location.href = window.Laravel.route_download_csv;
@@ -87,10 +59,9 @@ $(document).ready(function() {
 
     // リセットボタンで検索リセット
     $('#resetBtn').click(function() {
+        $('#search_unique_code').val('');
         $('#search_name').val('');
-        $('#search_kana').val('');
         $('#search_email').val('');
-        $('#search_visit_scheduled').val('');
         table.draw();
     });
 

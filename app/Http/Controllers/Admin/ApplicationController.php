@@ -30,31 +30,43 @@ class ApplicationController extends Controller
     public function getData(Request $request)
     {
         $applications = Application::select('id',
-            \DB::raw("CONCAT(sei, ' ', mei) AS name"),
-            \DB::raw("CONCAT(sei_kana, ' ', mei_kana) AS yomi"),
             'created_at',
             'unique_code',
-            'email',
-            'sex',
-            'age',
+            'name',
             'tel',
-            'zip21',
-            'zip22',
-            'pref21',
-            'address21',
-            'street21',
-            'choice_4',
-            'visit_scheduled_date_time',
+            'email',
+            'address',
             'sent_lottery_result_email_flg',
-            'visit_date_time',
-            'email_opened_at',
+            'visit_scheduled_date_time',
             \DB::raw("
             CASE
-                WHEN email_opened_at IS NOT NULL THEN '閲覧済み'
-                WHEN visit_scheduled_date_time IS NOT NULL AND sent_lottery_result_email_flg = 1 THEN '送信済'
-                WHEN visit_scheduled_date_time IS NOT NULL THEN '招待メール未送信'
+                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 1 AND deleted_at IS NULL) THEN '希望'
                 ELSE '-'
-            END AS status
+            END AS date_1
+        "),
+            \DB::raw("
+            CASE
+                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 2 AND deleted_at IS NULL) THEN '希望'
+                ELSE '-'
+            END AS date_2
+        "),
+            \DB::raw("
+            CASE
+                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 3 AND deleted_at IS NULL) THEN '希望'
+                ELSE '-'
+            END AS date_3
+        "),
+            \DB::raw("
+            CASE
+                WHEN email_opened_at IS  NULL  THEN '未確認'
+                WHEN email_opened_at IS NOT NULL THEN '閲覧済み'
+                ELSE '-'
+            END AS mail_status
+        "),
+            \DB::raw("
+            (SELECT GROUP_CONCAT(DATE_FORMAT(visited.created_at, '%Y/%m/%d %H:%i:%s') ORDER BY visited.created_at ASC SEPARATOR '<br>')
+                FROM visited
+                WHERE visited.application_id = application.id AND visited.deleted_at IS NULL) AS visit_dates
         ")
         );
 
@@ -73,39 +85,7 @@ class ApplicationController extends Controller
 
         // 名前検索
         if ($request->has('name') && $request->name) {
-            // 全角・半角スペースで分割
-            $keywords = preg_split('/[\s　]+/', trim($request->name));
-
-            $applications->where(function ($query) use ($keywords) {
-                foreach ($keywords as $keyword) {
-                    $query->where(function ($subQuery) use ($keyword) {
-                        $subQuery->where('sei', 'like', "%{$keyword}%")
-                            ->orWhere('mei', 'like', "%{$keyword}%");
-                    });
-                }
-            });
-        }
-
-        // ヨミ検索
-        if ($request->has('yomi') && $request->yomi) {
-            // トリムし、BOMを削除してからUTF-8に変換
-            $input = trim($request->yomi);
-            $input = preg_replace('/^\xEF\xBB\xBF/', '', $input); // BOMを削除
-            $input = mb_convert_encoding($input, 'UTF-8', 'auto');
-
-            // 全角・半角スペースで分割 (マルチバイト対応)
-            $keywords = mb_split('\s+', $input);
-            $keywords = array_filter($keywords); // 空要素を除去
-
-            $applications->where(function ($query) use ($keywords) {
-
-                foreach ($keywords as $keyword) {
-                    $query->where(function ($subQuery) use ($keyword) {
-                        $subQuery->where('sei_kana', 'like', "%{$keyword}%")
-                            ->orWhere('mei_kana', 'like', "%{$keyword}%");
-                    });
-                }
-            });
+            $applications->where('name', 'like', "%{$request->name}%");
         }
 
         // メール検索
@@ -120,57 +100,24 @@ class ApplicationController extends Controller
             });
         }
 
-        // 来場予定日時検索
-        if ($request->has('visit_scheduled_date_time') && $request->visit_scheduled_date_time) {
-            $date = trim($request->visit_scheduled_date_time);
-            // LIKE検索のように部分一致で探す
-            $applications->where('visit_scheduled_date_time', 'like', '%' . $date . '%');
-        }
-
         return DataTables::of($applications)
-            ->editColumn('age', function ($application) {
-                return $application->age ? $application->age . '歳' : '-';
-            })
-            ->editColumn('sex', function ($application) {
-                return Common::SEX_LIST[$application->sex] ?? '不明';
-            })
             ->editColumn('created_at', function ($application) {
                 return Carbon::parse($application->created_at)->format('Y/m/d H:i:s'); // 秒あり
-            })
-            ->addColumn('full_address', function ($application) {
-                // 郵便番号を整形
-                $zipcode = trim("{$application->zip21}-{$application->zip22}");
-                $zipcode = ($zipcode !== '-') ? "{$zipcode}<br>" : '';
-
-                // 住所を整形
-                $address = trim("{$application->pref21} {$application->address21}<br>{$application->street21}");
-
-                // 郵便番号 + 住所を組み合わせ
-                if ($zipcode && $address) {
-                    return "{$zipcode}{$address}";
-                } elseif ($zipcode) {
-                    return $zipcode;
-                } elseif ($address) {
-                    return $address;
-                } else {
-                    return '-';
-                }
             })
             ->editColumn('visit_scheduled_date_time', function ($application) {
                 return $application->visit_scheduled_date_time
                     ? Carbon::parse($application->visit_scheduled_date_time)->format('m/d H:i')
                     : '-';
             })
-            ->editColumn('visit_date_time', function ($application) {
-                return $application->visit_date_time
-                    ? Carbon::parse($application->visit_date_time)->format('m/d H:i')
-                    : '-';
+            ->editColumn('visit_dates', function ($application) {
+                return $application->visit_dates ?: '-';
             })
-            ->rawColumns(['full_address']) // HTMLをそのまま表示
+            ->rawColumns(['visit_dates'])
             ->make(true);
     }
 
     /**
+     * 申込者一覧画面を表示
      * @return View
      */
     public function dashboard(): View
@@ -250,31 +197,6 @@ class ApplicationController extends Controller
         $response->headers->set('Expires', '0');
 
         return $response;
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    public function sendWinnerMail(): JsonResponse
-    {
-        $applications = Application::whereNotNull('visit_scheduled_date_time')
-            ->where('sent_lottery_result_email_flg', 0)->get();
-
-        if ($applications->count() == 0) {
-            return response()->json(['message' => '送信する対象者がありません。もしくは全ての対象者に送信済みです']);
-        }
-
-        $application_service = new ApplicationService();
-        foreach ($applications as $application) {
-            Log::info($application->email . ' に送信します');
-            Mail::to($application->email)->send(new ApplicationMail($application));
-            Log::info($application->email . ' に送信しました');
-
-            // 来場済みにする
-            $application_service->markSendMail($application);
-        }
-
-        return response()->json(['message' => $applications->count() . '件のメールが送信されました。']);
     }
 
 }

@@ -15,13 +15,15 @@ class NotificationMail extends Mailable
     use Queueable, SerializesModels;
 
     public Application $application;
+    public array $target_events;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Application $application)
+    public function __construct(Application $application, array $target_events)
     {
         $this->application = $application;
+        $this->target_events = $target_events;
     }
 
 
@@ -31,7 +33,7 @@ class NotificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ETRO per Kaito Takahashi 7⽉8⽇（火） エトロ銀座本店への申し込みがありました',
+            subject: '申し込みがありました',
         );
     }
 
@@ -57,6 +59,6 @@ class NotificationMail extends Mailable
 
     public function build()
     {
-        return $this->with(['application' => $this->application]);
+        return $this->with(['application' => $this->application, 'target_events' => $this->target_events]);
     }
 }

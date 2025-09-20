@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Models\Application;
+use App\Models\TargetEvent;
+use App\Models\Visited;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Http\FormRequest;
@@ -17,11 +19,29 @@ class ApplicationService
     /**
      * 登録処理を行う
      * @param array $request
-     * @return Application
+     * @return array
      */
-    public function create(array $request): Application
+    public function create(array $request): array
     {
-        return Application::create($request);
+        $application = Application::create([
+            'name' => $request['name'],
+            'address' => $request['address'],
+            'tel' => $request['tel'],
+            'email' => $request['email'],
+        ]);
+
+        $target_event_list = [];
+        foreach ($request['target_date'] as $target_date) { // 希望イベントを複数選択できるようにする
+            $target_event_list[] = TargetEvent::create([
+                'application_id' => $application->id,
+                'target_number' => $target_date,
+            ]);
+        }
+
+        return [
+            'application' => $application,
+            'target_events' => $target_event_list,
+        ];
     }
 
     /**
@@ -47,14 +67,13 @@ class ApplicationService
     }
 
     /**
-     * 来場処理を行う
-     * @param Application $application
-     * @return bool
+     * 来場履歴を作成する
+     * @param int $application_id
      */
-    public function markVisited(Application $application): bool
+    public function markVisited(int $application_id)
     {
-        return $application->update([
-            'visit_date_time' => Carbon::now(),
+        return Visited::create([
+            'application_id' => $application_id,
         ]);
     }
 
