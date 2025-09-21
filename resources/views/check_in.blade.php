@@ -14,10 +14,10 @@
         <div class="ticket-container">
             <div class="content-area">有効なチケットです</div>
             <div class="content-area">
-                <div class="user-info">{{ $application->name }} 様</div>
+                <div class="user-info">Welcome {{ $application->name }}</div>
                 <div class="unique-code">管理番号： {{ $application->unique_code }}</div>
             </div>
-            <div class="content-area">来場可能です</div>
+            <div class="content-area">Please enjoy the event!</div>
         </div>
     </div>
 </x-application-layout>

@@ -12,12 +12,18 @@
 
     <div class="p-2 sm:p-6">
         <div class="ticket-container">
-            <div class="content-area">この画面をスタッフに見せてください</div>
+            <div class="content-area">
+                この画面をスタッフに見せてください<br>
+                Please show this screen to the reception staff.
+            </div>
             <div class="content-area">
                 <div class="user-info">{{ $application->name }} 様</div>
                 <div class="unique-code">管理番号： {{ $application->unique_code }}</div>
             </div>
-            <div class="warning-text">運営スタッフではない方は触らないようにして下さい</div>
+            <div class="warning-text">
+                運営スタッフではない方は触らないようにして下さい<br>
+                Staff Only: Please do not swipe the below
+            </div>
             <div class="slider-container">
                 <input type="range" id="slider" min="0" max="100" value="0" style="width: 80%;"/>
             </div>

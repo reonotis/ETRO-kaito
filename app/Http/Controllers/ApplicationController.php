@@ -138,7 +138,7 @@ class ApplicationController extends Controller
         // 無効チェック
         if (is_null($application)) {
             return view('invalid_request', [
-                'message' => '不正なURLです',
+                'message' => '不正なURLです。  Invalid Ticket',
             ]);
         }
 
@@ -159,7 +159,7 @@ class ApplicationController extends Controller
         // 無効チェック
         if (is_null($application) ) {
             return view('invalid_request', [
-                'message' => '不正なURLです',
+                'message' => '不正なURLです。  Invalid Ticket',
             ]);
         }
 
@@ -182,7 +182,7 @@ class ApplicationController extends Controller
         // 無効チェック
         if (is_null($application) ) {
             return view('invalid_request', [
-                'message' => '不正なURLです',
+                'message' => '不正なURLです。  Invalid Ticket',
             ]);
         }
 
