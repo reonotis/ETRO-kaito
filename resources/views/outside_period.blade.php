@@ -10,12 +10,9 @@
         <img src="{{ asset('image/TWW_logo.png') }}" alt="TWW ロゴ">
     </div>
 
-        <div class="support-area">
-            申込期間外です
-        </div>
-
+    <div class="support-area">
+        申込期間外です
     </div>
+
 </x-application-layout>
 
-<style>
-</style>

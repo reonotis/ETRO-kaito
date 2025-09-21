@@ -3,16 +3,15 @@
     <x-slot name="title">申込フォーム</x-slot>
 
     <x-slot name="script">
-        @vite(['resources/scss/application.scss'])
+        <link rel="stylesheet" href="{{ asset('application.css') }}">
     </x-slot>
+
+    <div class="logo-container">
+        <img src="{{ asset('image/TWW_logo.png') }}" alt="TWW ロゴ">
+    </div>
 
     <div class="p-2 sm:p-6">
         <div class="ticket-container">
-            <div class="event-title">
-                ETRO per Kaito Takahashi<br>
-                7⽉8⽇（火） エトロ銀座本店<br>
-                入場抽選応募フォーム
-            </div>
             <div class="content-area">{{ $message }}</div>
         </div>
     </div>
