@@ -7,6 +7,7 @@
 (Please scroll down for English)<br>
 <br>
 {{ $application->name }} 様<br>
+<br>
 この度は、Tokyo Watch Week への申込みありがとうございます。<br>
 <br>
 下記URLを現地の受付スタッフへご提示ください。<br>
