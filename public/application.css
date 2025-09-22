@@ -151,18 +151,22 @@ input::placeholder {
 /**************************
  * チケット画面
  **************************/
+.ticket-page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
 .ticket-container {
-    position: absolute;
-    top: 40%;
-    left: 50%;
     max-width: 600px;
     width: 100%;
-    margin: 0 auto;
+    margin: 2rem auto 0;
     padding: 20px 30px;
     background: #fffb;
     border-radius: 15px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    transform: translate(-50%, -50%);
 
     & > .event-title {
         font-size: 1.5rem;
@@ -191,9 +195,14 @@ input::placeholder {
 
 
 @media (max-width:640px){
+    .ticket-page-container {
+        padding: 1rem 0.5rem;
+    }
+
     .ticket-container {
         width: 95%;
         padding: 1.5rem .5rem;
+        margin: 1rem auto 0;
     }
 }
 
