@@ -2,7 +2,7 @@
 
     <x-slot name="title">申込フォーム</x-slot>
 
-    <x-slot name="script"></x-slot>
+    <x-slot name="script">
         <link rel="stylesheet" href="{{ asset('application.css') }}?v={{ time() }}">
     </x-slot>
 
