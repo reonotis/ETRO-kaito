@@ -71,4 +71,12 @@ class Application extends Model
         return $this->hasMany(TargetEvent::class);
     }
 
+    /**
+     * @return HasMany
+     */
+    public function visited(): HasMany
+    {
+        return $this->hasMany(Visited::class);
+    }
+
 }

@@ -175,7 +175,7 @@ class ApplicationController extends Controller
         )->get();
 
         $csvHeader = [
-            '申込日時', '管理番号', '名前', '電話番号', 'メールアドレス', '住所', '10/4(展示会)',  '10/4(レセプション)',  '10/5', 'メールステータス'
+            '申込日時', '管理番号', '名前', '電話番号', 'メールアドレス', '住所', '10/4(展示会)',  '10/4(レセプション)',  '10/5', 'メールステータス', '来場日時'
         ];
 
         $response = new StreamedResponse(function () use ($applications, $csvHeader) {
@@ -195,6 +195,15 @@ class ApplicationController extends Controller
                     $status = $application->sent_lottery_result_email_flg ? '招待メール送信済' : '招待メール未送信';
                 }
 
+                // 来場日時の処理
+                $visitDates = '-';
+                if ($application->visit_dates) {
+                    // HTMLの<br>タグをカンマに置き換えて、CSV用に整形
+                    $visitDates = str_replace('<br>', '", "', $application->visit_dates);
+                    // 最初と最後にクォーテーションを追加
+                    $visitDates = '"' . $visitDates . '"';
+                }
+
                 fputcsv($file, [
                     $application->created_at,
                     $application->unique_code,
@@ -206,7 +215,7 @@ class ApplicationController extends Controller
                     $application->date_2,
                     $application->date_3,
                     $application->mail_status,
-                    $application->visit_date_time,
+                    $visitDates,
                 ]);
             }
 
