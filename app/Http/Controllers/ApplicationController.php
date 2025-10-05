@@ -37,7 +37,7 @@ class ApplicationController extends Controller
     {
         $now = Carbon::now();
         $from = Carbon::parse('2025-09-14 00:00:00');
-        $to = Carbon::parse('2025-10-05 20:00:00');
+        $to = Carbon::parse('2025-10-05 19:00:00');
 
         if ($from > $now) {
             return true;
