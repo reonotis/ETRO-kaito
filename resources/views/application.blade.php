@@ -10,19 +10,19 @@
     <div class="p-2 sm:p-6">
 
         <div class="event-title">
-        ETRO per Kaito Takahashi<br>
-        7⽉8⽇（火） エトロ銀座本店<br>
-        入場抽選応募フォーム
+            ETRO per Kaito Takahashi for holiday<br>
+            11月26日〜28日販売イベント<br>
+            入場抽選応募フォーム
         </div>
 
         <div class="support-area">
             <div class="support-title">＜申込期間＞</div>
-                7⽉3⽇00:00 〜 7⽉4⽇16:00<br>
+                11⽉13⽇00:00 〜 11⽉18⽇23:59<br>
         </div>
 
-        <div class="form-area precautions">
-            @include('precautions')
-        </div>
+{{--        <div class="form-area precautions">--}}
+{{--            @include('precautions')--}}
+{{--        </div>--}}
 
         <div class="form-area">
             <form action="" method="post" >
@@ -79,15 +79,13 @@
                     </div>
                 </div>
                 <div class="contents-row">
-                    <div class="content-title">年齢</div>
+                    <div class="content-title">電話番号</div>
                     <div class="content-items">
-                        <div class="flex items-center" style="gap: .5rem;">
-                            <div style="width: 100px">
-                                <x-input-text id="age" class="w-full" type="number" name="age" :value="old('age')" placeholder="18" required/>
-                            </div>
-                            歳
-                        </div>
-                        <x-input-error :messages="$errors->get('age')" class="mb-1" />
+                        <span class="support-msg">※ハイフン(-)を入れて入力して下さい。</span>
+                        <x-input-text id="tel" class="w-full" type="text" name="tel" :value="old('tel')"
+                                      :error="$errors->has('tel')"
+                                      placeholder="090-1234-5678" required/>
+                        <x-input-error :messages="$errors->get('tel')" class="mb-1" />
                     </div>
                 </div>
                 <div class="contents-row">
@@ -129,13 +127,15 @@
                     </div>
                 </div>
                 <div class="contents-row">
-                    <div class="content-title">電話番号</div>
+                    <div class="content-title">年齢</div>
                     <div class="content-items">
-                        <span class="support-msg">※ハイフン(-)を入れて入力して下さい。</span>
-                        <x-input-text id="tel" class="w-full" type="text" name="tel" :value="old('tel')"
-                                      :error="$errors->has('tel')"
-                                      placeholder="090-1234-5678" required/>
-                        <x-input-error :messages="$errors->get('tel')" class="mb-1" />
+                        <div class="flex items-center" style="gap: .5rem;">
+                            <div style="width: 100px">
+                                <x-input-text id="age" class="w-full" type="number" name="age" :value="old('age')" placeholder="18" required/>
+                            </div>
+                            歳
+                        </div>
+                        <x-input-error :messages="$errors->get('age')" class="mb-1" />
                     </div>
                 </div>
                 <div class="contents-row">
@@ -169,37 +169,38 @@
                         <x-input-error :messages="$errors->get('term')" class="" />
                     </div>
                 </div>
-                <div class="contents-row">
-                    <div class="content-title">ご⼊場に関するお願い事項</div>
-                    <div class="content-items">
-                        ・ご⼊場されるお客さまは、以下を事前にご準備ください。<br>
-                        1、当⽇ご本⼈確認のための顔写真付き⾝分証明書(運転免許証、パスポート、マイナンバーカード、特別永住者証明書など）<br>
-                        2、⼊場チケット画⾯が表⽰できるお客さまのスマートフォンをご持参ください。お並びになる前に⼊場チケット表⽰のご準備をお願いします。<br>
-                        ・有効期限切れの本⼈確認証・そのコピー・写真でのご提⽰、顔写真が付いていない証明書複数枚のご提⽰は不可となります。予めご了承ください。<br>
-                        ・ご案内時間の5分前までに、エトロ銀座本店までお越しください。ご案内時間に遅れた場合、いかなる理由であっても無効とさせていただきます。<br>
-                        ・⼊場チケットは、お客さまのスマートフォンで表⽰いただく形式になります。お並びになる前に、⼊場チケットの表⽰をお願いいたします。<br>
-                        尚、画⾯のスクリーンショットでのご提⽰は無効とさせていただきます。<br>
-                        ・お申し込み時の⽒名と証明書の⽒名の⼀致を確認の上ご⼊場となります。ご本⼈確認のための上記証明書をお持ちでない⽅は、ご⼊場いただけませんのでご了承ください。<br>
-                        ・当⽇の混雑状況によっては、ご⼊場までに⻑時間お待ちいただく場合がございます。お時間には余裕をもってお越しください。<br>
-                        ・ご⼊場の際、⼩学⽣以下のお⼦さまのご同伴は可能です。ただし当選されたご本⼈のみご購⼊いただけます。<br>
-                    </div>
-                </div>
-                <div class="contents-row">
-                    <div class="content-title">お買い物に関する注意事項</div>
-                    <div class="content-items">
-                        ・同⼀デザインの商品は、サイズ違いも含めてお⼀⼈様2点までのご購⼊とさせていただきます。<br>
-                        ・ご購⼊希望者多数の場合、⼊場状況によってはご希望の商品をご購⼊いただけない可能性がございます。<br>
-                        ・当選者ご本⼈以外によるスマートフォンの貸し借りは固くお断りいたします。判明した場合は、該当のすべてのお客様のご購⼊をお断りいたします。<br>
-                        ・ご購⼊は、当選により⼊場チケットを獲得されたご本⼈様に限らせていただきます。<br>
-                        ・お買い物は【1回30分の完全⼊れ替え制】となります。⼊れ替え時にお待ちいただく場合がございますのでご了承ください。<br>
-                        ・当⽇の混雑状況により、お買い物時間を短縮または制限させていただく場合がございます。<br>
-                        ・商品のお取り置き対応はいたしかねます。<br>
-                        ・お電話や代引き配送でのご注⽂は承っておりません。あらかじめご了承ください。<br>
-                        ・お客様都合による返品・交換はお受けいたしかねますので、ご確認のうえご購⼊ください。<br>
-                        ・応募期間中および当選者へのご案内期間中は混雑が予想されます。在庫に関するお問い合わせはご遠慮くださいますようお願いいたします。<br>
-                        ・商品には数に限りがございます。品切れの際は何卒ご容赦ください。<br>
-                    </div>
-                </div>
+
+{{--                <div class="contents-row">--}}
+{{--                    <div class="content-title">ご⼊場に関するお願い事項</div>--}}
+{{--                    <div class="content-items">--}}
+{{--                        ・ご⼊場されるお客さまは、以下を事前にご準備ください。<br>--}}
+{{--                        1、当⽇ご本⼈確認のための顔写真付き⾝分証明書(運転免許証、パスポート、マイナンバーカード、特別永住者証明書など）<br>--}}
+{{--                        2、⼊場チケット画⾯が表⽰できるお客さまのスマートフォンをご持参ください。お並びになる前に⼊場チケット表⽰のご準備をお願いします。<br>--}}
+{{--                        ・有効期限切れの本⼈確認証・そのコピー・写真でのご提⽰、顔写真が付いていない証明書複数枚のご提⽰は不可となります。予めご了承ください。<br>--}}
+{{--                        ・ご案内時間の5分前までに、エトロ銀座本店までお越しください。ご案内時間に遅れた場合、いかなる理由であっても無効とさせていただきます。<br>--}}
+{{--                        ・⼊場チケットは、お客さまのスマートフォンで表⽰いただく形式になります。お並びになる前に、⼊場チケットの表⽰をお願いいたします。<br>--}}
+{{--                        尚、画⾯のスクリーンショットでのご提⽰は無効とさせていただきます。<br>--}}
+{{--                        ・お申し込み時の⽒名と証明書の⽒名の⼀致を確認の上ご⼊場となります。ご本⼈確認のための上記証明書をお持ちでない⽅は、ご⼊場いただけませんのでご了承ください。<br>--}}
+{{--                        ・当⽇の混雑状況によっては、ご⼊場までに⻑時間お待ちいただく場合がございます。お時間には余裕をもってお越しください。<br>--}}
+{{--                        ・ご⼊場の際、⼩学⽣以下のお⼦さまのご同伴は可能です。ただし当選されたご本⼈のみご購⼊いただけます。<br>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="contents-row">--}}
+{{--                    <div class="content-title">お買い物に関する注意事項</div>--}}
+{{--                    <div class="content-items">--}}
+{{--                        ・同⼀デザインの商品は、サイズ違いも含めてお⼀⼈様2点までのご購⼊とさせていただきます。<br>--}}
+{{--                        ・ご購⼊希望者多数の場合、⼊場状況によってはご希望の商品をご購⼊いただけない可能性がございます。<br>--}}
+{{--                        ・当選者ご本⼈以外によるスマートフォンの貸し借りは固くお断りいたします。判明した場合は、該当のすべてのお客様のご購⼊をお断りいたします。<br>--}}
+{{--                        ・ご購⼊は、当選により⼊場チケットを獲得されたご本⼈様に限らせていただきます。<br>--}}
+{{--                        ・お買い物は【1回30分の完全⼊れ替え制】となります。⼊れ替え時にお待ちいただく場合がございますのでご了承ください。<br>--}}
+{{--                        ・当⽇の混雑状況により、お買い物時間を短縮または制限させていただく場合がございます。<br>--}}
+{{--                        ・商品のお取り置き対応はいたしかねます。<br>--}}
+{{--                        ・お電話や代引き配送でのご注⽂は承っておりません。あらかじめご了承ください。<br>--}}
+{{--                        ・お客様都合による返品・交換はお受けいたしかねますので、ご確認のうえご購⼊ください。<br>--}}
+{{--                        ・応募期間中および当選者へのご案内期間中は混雑が予想されます。在庫に関するお問い合わせはご遠慮くださいますようお願いいたします。<br>--}}
+{{--                        ・商品には数に限りがございます。品切れの際は何卒ご容赦ください。<br>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 <div class="contents-row">
                     <div class="content-title">お問い合わせ</div>
                     <div class="content-items">

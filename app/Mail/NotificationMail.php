@@ -24,14 +24,13 @@ class NotificationMail extends Mailable
         $this->application = $application;
     }
 
-
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ETRO per Kaito Takahashi 7⽉8⽇（火） エトロ銀座本店への申し込みがありました',
+            subject: 'ETRO per Kaito Takahashi for holidayへの申し込みがありました',
         );
     }
 
