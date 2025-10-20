@@ -206,7 +206,7 @@
                     <div class="content-items">
                         入場抽選のお問い合わせは、下記までお願いします。<br>
                         2営業日以内に担当からご連絡します。<br>
-                        info@etro-ginza-lottery.com
+                        info@etro-holiday.net
                     </div>
                 </div>
 
