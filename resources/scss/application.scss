@@ -19,6 +19,20 @@ body {
     }
 }
 
+.common-text {
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    margin: 0 0 2.2rem;
+}
+
+@media (max-width: 640px) {
+    .common-text {
+        font-size: .9rem;
+        margin: 0 0 2.2rem;
+    }
+}
+
 
 .event-title {
     margin: 2rem auto 3rem;
