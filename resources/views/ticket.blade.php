@@ -16,7 +16,7 @@
                 入場抽選応募フォーム<br>
             </div>
 
-            <div class="common-text">11/29（土）以降は一般販売とします。但し当日の混雑状況に応じ整理券を配布する場合があります。</div>
+            <div class="common-text">11/29（土）以降は一般販売とします。<br>但し当日の混雑状況に応じ整理券を配布する場合があります。</div>
 
             <div class="content-area">この画面をスタッフに見せてください</div>
             <div class="content-area">
