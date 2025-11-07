@@ -9,12 +9,11 @@
     <div class="p-2 sm:p-6">
         <div class="ticket-container">
             <div class="event-title">
-                ETRO per Kaito Takahashi for holiday<br>
-                11月26日〜28日販売イベント<br>
-                入場抽選応募フォーム<br>
+                来店予約抽選応募フォーム<br>
+                -11月26日～28日エトロ銀座本店-<br>
             </div>
 
-            <div class="common-text">11/29（土）以降は一般販売とします。但し当日の混雑状況に応じ整理券を配布する場合があります。</div>
+            <div class="common-text">11月29日(土)以降は通常販売となり、来店予約抽選はございません。<br>但し、当日の混雑状況に応じ、入場整理券を配布する場合がございます。。</div>
 
             <div class="content-area">有効なチケットです</div>
             <div class="content-area">

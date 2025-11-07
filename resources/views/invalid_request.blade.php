@@ -9,9 +9,8 @@
     <div class="p-2 sm:p-6">
         <div class="ticket-container">
             <div class="event-title">
-                ETRO per Kaito Takahashi for holiday<br>
-                11月26日〜28日販売イベント<br>
-                入場抽選応募フォーム
+                来店予約抽選応募フォーム<br>
+                -11月26日～28日エトロ銀座本店-<br>
             </div>
             <div class="content-area">{{ $message }}</div>
         </div>

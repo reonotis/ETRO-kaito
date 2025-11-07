@@ -3,7 +3,7 @@
 use App\Http\Controllers\ApplicationController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('campaign')->group(function () {
+Route::prefix('form')->group(function () {
     Route::get('/', [ApplicationController::class, 'create'])->name('application_index');
     Route::post('/', [ApplicationController::class, 'store']);
     Route::get('/complete', [ApplicationController::class, 'complete'])->name('application_complete');
