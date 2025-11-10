@@ -16,20 +16,11 @@
 
         <div class="common-text">11月29日(土)以降は通常販売となり、来店予約抽選はございません。<br>但し、当日の混雑状況に応じ、入場整理券を配布する場合がございます。</div>
 
-        <div class="support-area">
-            <div class="support-title">＜申込期間＞</div>
-            抽選応募は終了しました
-        </div>
 
-        <div class="form-area precautions">
-            @include('precautions')
-        </div>
+{{--        <div class="form-area precautions">--}}
+{{--            @include('precautions')--}}
+{{--        </div>--}}
 
-        <div class="support-area">
-            入場抽選のお問い合わせは、下記までお願いします。<br>
-            2営業日以内に担当からご連絡します。<br>
-            info@etro-ginza-lottery.com
-        </div>
 
     </div>
 </x-application-layout>
