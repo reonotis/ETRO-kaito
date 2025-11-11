@@ -10,7 +10,7 @@
 
     <div class="p-2 sm:p-6">
         <div class="event-title">
-            来店予約抽選応募フォーム<br>
+            「ETRO per Kaito Takahashi」ホリデーリミテッドエディション<br>
             -11月26日～28日エトロ銀座本店-<br>
         </div>
 
