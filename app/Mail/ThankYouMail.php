@@ -31,7 +31,7 @@ class ThankYouMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ETRO per Kaito Takahashi for holiday来店予約抽選への申し込みを受け付けました',
+            subject: '「ETRO per Kaito Takahashi」ホリデーリミテッドエディション 来店予約抽選へのお申込みを受け付けました',
         );
     }
 

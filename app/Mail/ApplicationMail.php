@@ -35,7 +35,7 @@ class ApplicationMail extends Mailable
     {
         $day = $this->application->visit_scheduled_date_time->isoFormat('MM月DD日（ddd）');
         return new Envelope(
-            subject: $day . ' ご⼊場 ETRO per Kaito Takahashi 銀座へ当選しました',
+            subject: $day . '「ETRO per Kaito Takahashi」ホリデーリミテッドエディション へ当選しました',
         );
     }
 
