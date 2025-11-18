@@ -17,9 +17,10 @@
         <div class="common-text">11月29日(土)以降は通常販売となり、来店予約抽選はございません。<br>但し、当日の混雑状況に応じ、入場整理券を配布する場合がございます。</div>
 
 
-{{--        <div class="form-area precautions">--}}
-{{--            @include('precautions')--}}
-{{--        </div>--}}
+            <div class="form-area precautions">
+                抽選のお申込みは終了しました。
+{{--                @include('precautions')--}}
+            </div>
 
 
     </div>
