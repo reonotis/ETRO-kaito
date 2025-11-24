@@ -24,7 +24,7 @@ class ApplicationMail extends Mailable
     {
         $this->application = $application;
         $from = $application->visit_scheduled_date_time;
-        $to = $from->copy()->addMinutes(30);
+        $to = $from->copy()->addMinutes(20);
         $this->section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
     }
 
