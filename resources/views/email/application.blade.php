@@ -4,6 +4,11 @@
 
 {{ $application->sei . ' ' . $application->mei }} 様<br>
 <img src="{{ route('winner_mail_open', ['unique_code' => $application->unique_code]) }}?{{ date('YmdHis') }}" width="1" height="1" alt="Email Tracking Pixel"><br>
+この度お送りした当選メールにおきまして、来場時間に誤りがございました。<br>
+ご迷惑をおかけしましたこと、深くお詫び申し上げます。<br>
+つきましては、下記が正しい情報となります。<br>
+お手数ではございますが、当日はこちらのメール文面のお時間にてご来場いただき、こちらのメール掲載のURLを運営スタッフへお見せください。<br>
+<br>
 先日は「ETRO per KaitoTakahashi for holiday」来店予約抽選への申し込みをいただき誠にありがとうございます。<br>
 抽選の結果、{{ $application->sei . $application->mei }}様のご⼊場が決定しました。<br>
 つきましては {{ $section_name }} {{ $application->choice_4 }} のセクションにご招待いたします。<br>
