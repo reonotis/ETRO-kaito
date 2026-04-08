@@ -22,21 +22,12 @@ class ApplicationFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sei'=> ['required'],
-            'mei'=> ['required'],
-            'sei_kana'=>  ['required', 'regex:/^[ァ-ヶー]+$/u'],
-            'mei_kana'=>  ['required', 'regex:/^[ァ-ヶー]+$/u'],
-            'sex' => ['required', 'in:1,2,3,4'],
-            'age' => ['required'],
-            'zip21'=> ['required', 'size:3'],
-            'zip22'=> ['required', 'size:4'],
-            'pref21'=> ['required'],
-            'address21'=> ['required'],
-            'street21'=> ['required'],
-            'tel'=> ['required', 'regex:/^[0-9]{2,4}-[0-9]{2,4}-[0-9]{3,4}$/'],
+            'name'=> ['required'],
+            'address'=> ['required'],
+            'tel'=> ['required'],
             'email' => ['required', 'regex:/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/', 'confirmed', 'email'],
             'email_confirmation' => ['required', 'regex:/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/'],
-            'term'=> ['required'],
+            'target_date'=> ['required'],
         ];
     }
 
@@ -47,11 +38,6 @@ class ApplicationFormRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'sei_kana.regex' => 'ミョウジは全角カナで入力してください。',
-            'mei_kana.regex' => 'ナマエは全角カナで入力してください。',
-            'age.required' => 'ご年齢を入力してください。',
-            'tel.regex' => '電話番号は市外局番から-(ハイフン)を含めて入力してください。',
-            'term.required' => '利用規約に同意しなければ申込できません。',
         ];
     }
 
@@ -62,6 +48,11 @@ class ApplicationFormRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'name' => '名前',
+            'address' => '居住国',
+            'email' => 'メールアドレス',
+            'email_confirmation' => 'メールアドレス(確認用)',
+            'target_date' => '希望イベント',
         ];
     }
 }

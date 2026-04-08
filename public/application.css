@@ -1,46 +1,51 @@
-
 body {
+    background: #f6f6f6;
     background-size: cover;
-    background-image: url('../images/background.jpg');
     position: relative;
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
+
+    &::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #FFFFFF99;
+        pointer-events: none;
+    }
 }
 
+.logo-container {
+    padding: 2rem 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* SP用 */
+@media (max-width: 640px) {
+    .logo-container {
+        > img {
+            width: 80%;
+        }
+    }
+}
+
+
 .event-title {
-    margin: 2rem auto 2rem;
+    margin: 2rem auto 3rem;
     font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
-
-    .event-logo {
-        max-width: 200px;
-        width: 100%;
-        height: auto;
-        display: block;
-        margin: 0 auto 1rem;
-    }
 }
 
 @media (max-width: 640px) {
     .event-title {
         font-size: 1.3rem;
-    }
-}
-
-.common-text {
-    font-size: 1rem;
-    font-weight: 400;
-    text-align: center;
-    margin: 0 auto 2.2rem;
-}
-
-@media (max-width: 640px) {
-    .common-text {
-        max-width: 245px;
-        font-size: .9rem;
-        margin: 0 auto 2.2rem;
     }
 }
 
@@ -65,41 +70,41 @@ body {
 
 
 .form-area {
-    position: relative;
     width: 800px;
     margin: 0 auto;
-    padding: 1.5rem;
-    background: #fffd;
-    border: solid 2px #F09C3F;
+    background: #FFFFFFAD;
     border-radius: .5rem;
-    box-shadow: #f09c3fd4 1px 1px 15px;
+    padding: 1.5rem;
+    box-shadow: #c3c3c3 1px 1px 15px;
+
+    &.precautions {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
 
     .contents-row {
-        margin-bottom: 2rem;
-        border: solid 1px #6acfaf5c;
+        border: solid 1px #ccc;
+        margin-bottom: 1rem;
 
         & > .content-title {
-            padding: .5rem;
-            border-bottom: solid 1px #6acfaf5c;
-            background: #6acfaf5c;
-            color: #104418;
-            font-weight: bold;
-            position: relative;
-            display: flex;
-            align-items: center;
+            padding: .25rem .5rem;
+            background: #002253;
+            border: solid 1px #002253;
+            color: white;
         }
 
         & > .content-items {
-            padding: .25rem .5rem .25rem .5rem;
+            padding: .25rem .5rem;
             background: #fff;
-            border: solid 1px #B6934E;
+            border: solid 1px #002253;
         }
     }
 }
 
 @media (max-width:640px){
     .form-area {
-        width: 90%;
+        width: 100%;
         padding: 1.5rem .75rem;
         font-size: 0.9rem;
 
@@ -129,15 +134,15 @@ input::placeholder {
 .submit-btn {
     padding: .5rem 1.5rem;
     border-radius: 50px;
-    background: #B6934E;
+    background: #002253;
     color: white;
-    border: solid 1px #B6934E;
+    border: solid 1px #002253;
     cursor: pointer;
     transition: .2s;
 
     &:hover {
         background: white;
-        color: #B6934E;
+        color: #002253;
     }
 }
 
@@ -146,18 +151,22 @@ input::placeholder {
 /**************************
  * チケット画面
  **************************/
+.ticket-page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
 .ticket-container {
-    position: absolute;
-    top: 40%;
-    left: 50%;
     max-width: 600px;
     width: 100%;
-    margin: 0 auto;
+    margin: 2rem auto 0;
     padding: 20px 30px;
     background: #fffb;
     border-radius: 15px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    transform: translate(-50%, -50%);
 
     & > .event-title {
         font-size: 1.5rem;
@@ -186,9 +195,14 @@ input::placeholder {
 
 
 @media (max-width:640px){
+    .ticket-page-container {
+        padding: 1rem 0.5rem;
+    }
+
     .ticket-container {
         width: 95%;
         padding: 1.5rem .5rem;
+        margin: 1rem auto 0;
     }
 }
 
@@ -237,3 +251,5 @@ input[type='range']:hover::-webkit-slider-thumb {
 input[type='range']:active::-webkit-slider-thumb {
     background: linear-gradient(135deg, #2A6496, #4A90E2);
 }
+
+

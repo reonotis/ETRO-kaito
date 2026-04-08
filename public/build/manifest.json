@@ -5,13 +5,9 @@
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-DKdtPoPH.css",
+    "file": "assets/app-CmOgZU0Y.css",
     "src": "resources/css/app.css",
     "isEntry": true
-  },
-  "resources/images/background.jpg": {
-    "file": "assets/background-Dd3bA9AX.jpg",
-    "src": "resources/images/background.jpg"
   },
   "resources/js/app.js": {
     "file": "assets/app-Bf4POITK.js",
@@ -20,7 +16,7 @@
     "isEntry": true
   },
   "resources/scss/application.scss": {
-    "file": "assets/application-YBOi93p_.css",
+    "file": "assets/application-DYQ90BfB.css",
     "src": "resources/scss/application.scss",
     "isEntry": true
   }
