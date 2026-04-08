@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NotificationMail extends Mailable
+class GinzaNotificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,7 +30,7 @@ class NotificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ETRO per Kaito Takahashi for holidayへの申し込みがありました',
+            subject: 'ETRO per Kaito Takahashiへの申し込みがありました',
         );
     }
 
@@ -40,7 +40,7 @@ class NotificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.notification',
+            view: 'email.ginza.notification',
         );
     }
 

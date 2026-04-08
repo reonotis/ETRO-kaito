@@ -30,7 +30,11 @@ class Application extends Model
     ];
 
     protected $fillable = [
-        'name',
+        'type',
+        'sei',
+        'mei',
+        'sei_kana',
+        'mei_kana',
         'tel',
         'email',
         'address',

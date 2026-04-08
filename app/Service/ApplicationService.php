@@ -19,29 +19,21 @@ class ApplicationService
     /**
      * 登録処理を行う
      * @param array $request
-     * @return array
      */
-    public function create(array $request): array
+    public function create(int $type, array $request)
     {
-        $application = Application::create([
-            'name' => $request['name'],
-            'address' => $request['address'],
+        return Application::create([
+            'type' => $type,
+            'sei' => $request['sei'],
+            'mei' => $request['mei'],
+            'sei_kana' => $request['sei_kana'],
+            'mei_kana' => $request['mei_kana'],
+            'sex' => $request['sex'],
+            'age' => $request['age'],
+            'zip21' => $request['zip21'],
             'tel' => $request['tel'],
             'email' => $request['email'],
         ]);
-
-        $target_event_list = [];
-        foreach ($request['target_date'] as $target_date) { // 希望イベントを複数選択できるようにする
-            $target_event_list[] = TargetEvent::create([
-                'application_id' => $application->id,
-                'target_number' => $target_date,
-            ]);
-        }
-
-        return [
-            'application' => $application,
-            'target_events' => $target_event_list,
-        ];
     }
 
     /**

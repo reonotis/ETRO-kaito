@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ThankYouMail;
-use App\Mail\NotificationMail;
+use App\Mail\GinzaNotificationMail;
 use App\Consts\Common;
 use App\Http\Requests\GinzaFormRequest;
 use App\Service\ApplicationService;
@@ -77,12 +77,12 @@ class GinzaApplicationController extends Controller
             $application_service = new ApplicationService();
             DB::beginTransaction();
 
-            $application = $application_service->create($request->all());
+            $application = $application_service->create(1, $request->validated());
 
             // 申し込み受付通知メール送信
             Mail::to(env('MAIL_FROM_ADDRESS'))
                 ->bcc('fujisawareon@yahoo.co.jp')
-                ->send(new NotificationMail($application));
+                ->send(new GinzaNotificationMail($application));
 
             // 申し込み完了メール送信
             Mail::to($application->email)
@@ -90,7 +90,7 @@ class GinzaApplicationController extends Controller
                 ->send(new ThankYouMail($application));
 
             DB::commit();
-            Redirect::route('application_complete')->send();
+            Redirect::route('ginza_complete')->send();
         } catch (Exception $e) {
             DB::rollback();
             Log::error($e->getMessage());
@@ -103,7 +103,7 @@ class GinzaApplicationController extends Controller
      */
     public function complete(): View
     {
-        return view('complete');
+        return view('ginza.complete');
     }
 
     /**
