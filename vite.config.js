@@ -19,10 +19,19 @@ export default defineConfig({
         include: ['moment', 'jquery', 'daterangepicker'],
     },
     server: {
-        host: true,
+        host: '0.0.0.0',
+        port: 5173,
         cors: true,
+        strictPort: true,
+        origin: 'http://localhost:5176',
         hmr: {
             host: 'localhost',
+            port: 5173,
+            clientPort: 5176,
+            protocol: 'ws',
+        },
+        watch: {
+            usePolling: true,
         },
     },
 });

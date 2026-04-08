@@ -5,9 +5,13 @@
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-CmOgZU0Y.css",
+    "file": "assets/app-DKdtPoPH.css",
     "src": "resources/css/app.css",
     "isEntry": true
+  },
+  "resources/images/background.jpg": {
+    "file": "assets/background-Dd3bA9AX.jpg",
+    "src": "resources/images/background.jpg"
   },
   "resources/js/app.js": {
     "file": "assets/app-Bf4POITK.js",
@@ -16,7 +20,7 @@
     "isEntry": true
   },
   "resources/scss/application.scss": {
-    "file": "assets/application-C3CWx_Y9.css",
+    "file": "assets/application-YBOi93p_.css",
     "src": "resources/scss/application.scss",
     "isEntry": true
   }
