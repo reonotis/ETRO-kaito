@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ThankYouMail;
-use App\Mail\NotificationMail;
+use App\Mail\GinzaNotificationMail;
 use App\Consts\Common;
 use App\Http\Requests\ApplicationFormRequest;
 use App\Service\ApplicationService;
@@ -83,7 +83,7 @@ class ApplicationController extends Controller
             // 申し込み受付通知メール送信
             Mail::to(env('MAIL_FROM_ADDRESS'))
                 ->bcc('fujisawareon@yahoo.co.jp')
-                ->send(new NotificationMail($insert_data['application'], $insert_data['target_events']));
+                ->send(new GinzaNotificationMail($insert_data['application'], $insert_data['target_events']));
 
             // 申し込み完了メール送信
             Mail::to($insert_data['application']->email)
