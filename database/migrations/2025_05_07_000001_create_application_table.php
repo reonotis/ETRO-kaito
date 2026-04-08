@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('application', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('ID');
+            $table->tinyinteger('type')->comment('申込フォーム種別');
 
             $table->string('unique_code', 15)->unique()->nullable();
 //            $table->string('sei')->comment('苗字');
@@ -35,8 +36,6 @@ return new class extends Migration
             $table->text('comment3')->nullable()->comment('コメント3');
             $table->text('choice_1')->nullable()->comment('選択項目1');
             $table->text('choice_2')->nullable()->comment('選択項目2');
-            $table->text('choice_3')->nullable()->comment('選択項目3');
-            $table->text('choice_4')->nullable()->comment('選択項目4');
 
             $table->dateTime('visit_scheduled_date_time')->nullable()->comment('来場予定日時');
             $table->boolean('sent_lottery_result_email_flg')->default(0)->comment('当選メール送信済みフラグ');

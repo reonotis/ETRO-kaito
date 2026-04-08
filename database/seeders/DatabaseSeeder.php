@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
                 'password' => 'password',
             ], [
                 'name' => '谷畑',
-                'email' => 'info@tww-event.com',
+                'email' => 'info@etro-holiday.com',
                 'password' => 'yabata#abc123',
             ], [
                 'name' => '大村 沙織',

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ThankYouMail;
 use App\Mail\NotificationMail;
 use App\Consts\Common;
-use App\Http\Requests\ApplicationFormRequest;
+use App\Http\Requests\GinzaFormRequest;
 use App\Service\ApplicationService;
 use App\Models\Application;
 use Carbon\Carbon;
@@ -18,11 +18,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Route;
 
-class ApplicationController extends Controller
+class GinzaApplicationController extends Controller
 {
 
     public function __construct()
@@ -36,8 +35,8 @@ class ApplicationController extends Controller
     private function checkErrorViewRedirect(): bool
     {
         $now = Carbon::now();
-        $from = Carbon::parse('2025-11-13 00:00:00'); // 11/13～
-        $to = Carbon::parse('2025-11-18 23:59:59');
+        $from = Carbon::parse('2026-04-08 00:00:00'); // 08/10～
+        $to = Carbon::parse('2026-08-13 23:59:59');
 
         if ($from > $now) {
             return true;
@@ -56,39 +55,39 @@ class ApplicationController extends Controller
     public function create(): View
     {
         if ($this->checkErrorViewRedirect()) {
-            return view('outside_period');
+            return view('ginza.outside_period');
         }
 
-        return view('application');
+        return view('ginza.application');
     }
 
     /**
      * 申込処理を行う
-     * @param ApplicationFormRequest $request
+     * @param GinzaFormRequest $request
      * @return RedirectResponse
      */
-    public function store(ApplicationFormRequest $request): RedirectResponse
+    public function store(GinzaFormRequest $request): RedirectResponse
     {
         // 申込期間外だったら処理させない
         if ($this->checkErrorViewRedirect()) {
-            Redirect::route('application_index')->send();
+            Redirect::route('ginza_index')->send();
         }
 
         try {
             $application_service = new ApplicationService();
             DB::beginTransaction();
 
-            $insert_data = $application_service->create($request->all());
+            $application = $application_service->create($request->all());
 
             // 申し込み受付通知メール送信
             Mail::to(env('MAIL_FROM_ADDRESS'))
                 ->bcc('fujisawareon@yahoo.co.jp')
-                ->send(new NotificationMail($insert_data['application'], $insert_data['target_events']));
+                ->send(new NotificationMail($application));
 
             // 申し込み完了メール送信
-            Mail::to($insert_data['application']->email)
+            Mail::to($application->email)
                 ->bcc('fujisawareon@yahoo.co.jp')
-                ->send(new ThankYouMail($insert_data['application']));
+                ->send(new ThankYouMail($application));
 
             DB::commit();
             Redirect::route('application_complete')->send();
@@ -135,15 +134,26 @@ class ApplicationController extends Controller
         $application_service = new ApplicationService();
         $application = $application_service->getByUniqueCode($unique_code);
 
+        $from = $application->visit_scheduled_date_time;
+        $to = $from->copy()->addMinutes(30);
+        $section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
+
         // 無効チェック
-        if (is_null($application)) {
+        if (is_null($application) || is_null($application->visit_scheduled_date_time)) {
             return view('invalid_request', [
-                'message' => '不正なURLです。  Invalid Ticket',
+                'message' => '不正なURLです',
+            ]);
+        }
+
+        if ($application->visit_date_time) {
+            return view('invalid_request', [
+                'message' => '既にチェックイン済みです',
             ]);
         }
 
         return view('ticket', [
             'application' => $application,
+            'section_name' => $section_name,
         ]);
     }
 
@@ -151,43 +161,34 @@ class ApplicationController extends Controller
      * @param string $unique_code
      * @return View
      */
-    public function tearTicket(string $unique_code)
+    public function tearTicket(string $unique_code): View
     {
         $application_service = new ApplicationService();
         $application = $application_service->getByUniqueCode($unique_code);
 
         // 無効チェック
-        if (is_null($application) ) {
+        if (is_null($application) || is_null($application->visit_scheduled_date_time)) {
             return view('invalid_request', [
-                'message' => '不正なURLです。  Invalid Ticket',
+                'message' => '不正なURLです',
             ]);
         }
 
-        // 来場履歴を作成する
-        $application_service->markVisited($application->id);
-
-        Redirect::route('view_tear_ticket', ['unique_code' => $unique_code])->send();
-
-    }
-
-    /**
-     * @param string $unique_code
-     * @return View
-     */
-    public function viewTearTicket(string $unique_code): View
-    {
-        $application_service = new ApplicationService();
-        $application = $application_service->getByUniqueCode($unique_code);
-
-        // 無効チェック
-        if (is_null($application) ) {
+        if ($application->visit_date_time) {
             return view('invalid_request', [
-                'message' => '不正なURLです。  Invalid Ticket',
+                'message' => '既にチェックイン済みです',
             ]);
         }
+
+        // 来場済みにする
+        $application_service->markVisited($application);
+
+        $from = $application->visit_scheduled_date_time;
+        $to = $from->copy()->addMinutes(30);
+        $section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
 
         return view('check_in', [
             'application' => $application,
+            'section_name' => $section_name,
         ]);
     }
 

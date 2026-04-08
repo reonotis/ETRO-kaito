@@ -10,11 +10,12 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NotificationMail extends Mailable
+class ApplicationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public Application $application;
+    private string $section_name;
 
     /**
      * Create a new message instance.
@@ -22,6 +23,9 @@ class NotificationMail extends Mailable
     public function __construct(Application $application)
     {
         $this->application = $application;
+        $from = $application->visit_scheduled_date_time;
+        $to = $from->copy()->addMinutes(20);
+        $this->section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
     }
 
     /**
@@ -29,8 +33,9 @@ class NotificationMail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $day = $this->application->visit_scheduled_date_time->isoFormat('MM月DD日（ddd）');
         return new Envelope(
-            subject: 'ETRO per Kaito Takahashi for holidayへの申し込みがありました',
+            subject: '来場時間訂正のお知らせ（再送） ' . $day . '「ETRO per Kaito Takahashi」ホリデーリミテッドエディション へ当選しました',
         );
     }
 
@@ -40,7 +45,7 @@ class NotificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.notification',
+            view: 'email.application',
         );
     }
 
@@ -56,6 +61,9 @@ class NotificationMail extends Mailable
 
     public function build()
     {
-        return $this->with(['application' => $this->application]);
+        return $this->with([
+            'application' => $this->application,
+            'section_name' => $this->section_name,
+        ]);
     }
 }
