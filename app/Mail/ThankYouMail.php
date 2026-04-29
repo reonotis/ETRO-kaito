@@ -41,7 +41,7 @@ class ThankYouMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.thank_you',
+            view: 'email.ginza.thank_you',
         );
     }
 

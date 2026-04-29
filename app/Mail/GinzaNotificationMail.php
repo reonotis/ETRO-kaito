@@ -30,7 +30,7 @@ class GinzaNotificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ETRO per Kaito Takahashiへの申し込みがありました',
+            subject: 'ETRO per Kaito Takahashi Ginzaへの申し込みがありました',
         );
     }
 

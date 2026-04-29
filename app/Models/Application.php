@@ -36,6 +36,8 @@ class Application extends Model
         'sei_kana',
         'mei_kana',
         'tel',
+        'sex',
+        'age',
         'email',
         'address',
         'unique_code',

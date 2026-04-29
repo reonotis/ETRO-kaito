@@ -170,7 +170,9 @@
                     <div class="content-items">
                         入場抽選のお問い合わせは、下記までお願いします。<br>
                         2営業日以内に担当からご連絡します。<br>
-                        info@etro-holiday.com
+
+                        {{ config('app.mail_secretariat') }}
+
                     </div>
                 </div>
 

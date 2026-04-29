@@ -9,10 +9,6 @@
     "src": "resources/css/app.css",
     "isEntry": true
   },
-  "resources/images/background.jpg": {
-    "file": "assets/background-Dd3bA9AX.jpg",
-    "src": "resources/images/background.jpg"
-  },
   "resources/js/app.js": {
     "file": "assets/app-Bf4POITK.js",
     "name": "app",
@@ -20,7 +16,7 @@
     "isEntry": true
   },
   "resources/scss/application.scss": {
-    "file": "assets/application-Dd1wLAyd.css",
+    "file": "assets/application-CVfMR0hn.css",
     "src": "resources/scss/application.scss",
     "isEntry": true
   }
