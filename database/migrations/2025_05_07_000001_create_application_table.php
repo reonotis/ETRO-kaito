@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->string('unique_code', 15)->unique()->nullable();
             $table->string('sei')->comment('苗字');
-            $table->string('name')->comment('名前');
+            $table->string('mei')->comment('名前');
             $table->string('sei_kana')->comment('ミョウジ');
             $table->string('mei_kana')->comment('ナマエ');
             $table->integer('sex')->nullable()->comment('性別');
