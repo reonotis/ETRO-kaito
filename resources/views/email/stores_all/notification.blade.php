@@ -5,7 +5,6 @@
 下記内容の申し込みを受け付けました<br>
 ■店舗<br>
 　{{ \App\Consts\StoreAllConst::STORE_LIST[$application->choice_1] }}<br>
-<br>
 ■名前<br>
 　{{ $application->sei }} {{ $application->mei }} <br>
 　{{ $application->sei_kana }} {{ $application->mei_kana }} <br>
