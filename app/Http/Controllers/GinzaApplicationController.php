@@ -77,7 +77,23 @@ class GinzaApplicationController extends Controller
             $application_service = new ApplicationService();
             DB::beginTransaction();
 
-            $application = $application_service->create(CommonConst::APPLICATION_TYPE_1, $request->validated());
+            $param = [
+                'type' => CommonConst::APPLICATION_TYPE_1,
+                'sei' => $request['sei'],
+                'mei' => $request['mei'],
+                'sei_kana' => $request['sei_kana'],
+                'mei_kana' => $request['mei_kana'],
+                'sex' => $request['sex'],
+                'tel' => $request['tel'],
+                'age' => $request['age'],
+                'email' => $request['email'],
+                'zip21' => $request['zip21'],
+                'zip22' => $request['zip22'],
+                'pref21' => $request['pref21'],
+                'address21' => $request['address21'],
+                'street21' => $request['street21'],
+            ];
+            $application = $application_service->create($param);
 
             // 申し込み受付通知メール送信
             Mail::to(env('MAIL_FROM_ADDRESS'))
