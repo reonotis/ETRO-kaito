@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\ThankYouMail;
-use App\Mail\GinzaNotificationMail;
 use App\Consts\Common;
+use App\Consts\CommonConst;
 use App\Http\Requests\GinzaFormRequest;
-use App\Service\ApplicationService;
+use App\Mail\Ginza\NotificationMail;
+use App\Mail\Ginza\ThankYouMail;
 use App\Models\Application;
+use App\Service\ApplicationService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Route;
 
 class GinzaApplicationController extends Controller
 {
@@ -77,12 +77,12 @@ class GinzaApplicationController extends Controller
             $application_service = new ApplicationService();
             DB::beginTransaction();
 
-            $application = $application_service->create(1, $request->validated());
+            $application = $application_service->create(CommonConst::APPLICATION_TYPE_1, $request->validated());
 
             // 申し込み受付通知メール送信
             Mail::to(env('MAIL_FROM_ADDRESS'))
                 ->bcc('fujisawareon@yahoo.co.jp')
-                ->send(new GinzaNotificationMail($application));
+                ->send(new NotificationMail($application));
 
             // 申し込み完了メール送信
             Mail::to($application->email)

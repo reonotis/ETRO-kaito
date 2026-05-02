@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\StoresAllController;
 use App\Http\Controllers\GinzaApplicationController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,14 +15,14 @@ Route::prefix('ginza')->group(function () {
 });
 
 
-Route::prefix('stores-exclude')->group(function () {
-    Route::get('/', [ApplicationController::class, 'create'])->name('stores_exclude_index');
-    Route::post('/', [ApplicationController::class, 'store']);
-    Route::get('/complete', [ApplicationController::class, 'complete'])->name('stores_exclude_complete');
+Route::prefix('stores-all')->group(function () {
+    Route::get('/', [StoresAllController::class, 'create'])->name('stores_exclude_index');
+    Route::post('/', [StoresAllController::class, 'store']);
+    Route::get('/complete', [StoresAllController::class, 'complete'])->name('stores_exclude_complete');
 
-    Route::get('/email/open/{unique_code}', [ApplicationController::class, 'trackEmailOpen'])->name('winner_mail_open');
-    Route::get('/view-ticket/{unique_code}', [ApplicationController::class, 'viewTicket'])->name('view_ticket');
-    Route::get('/tear-ticket/{unique_code}', [ApplicationController::class, 'tearTicket'])->name('tear_ticket');
+    Route::get('/email/open/{unique_code}', [StoresAllController::class, 'trackEmailOpen']);
+    Route::get('/view-ticket/{unique_code}', [StoresAllController::class, 'viewTicket']);
+    Route::get('/tear-ticket/{unique_code}', [StoresAllController::class, 'tearTicket']);
 });
 
 require __DIR__.'/auth.php';

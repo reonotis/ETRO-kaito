@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Ginza;
 
 use App\Models\Application;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class GinzaNotificationMail extends Mailable
+class ThankYouMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -24,13 +23,14 @@ class GinzaNotificationMail extends Mailable
         $this->application = $application;
     }
 
+
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ETRO per Kaito Takahashi Ginzaへの申し込みがありました',
+            subject: '「ETRO per Kaito Takahashi」銀座 来店予約抽選へのお申込みを受け付けました',
         );
     }
 
@@ -40,7 +40,7 @@ class GinzaNotificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.ginza.notification',
+            view: 'email.ginza.thank_you',
         );
     }
 

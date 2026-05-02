@@ -31,16 +31,22 @@ class Application extends Model
 
     protected $fillable = [
         'type',
+        'unique_code',
         'sei',
         'mei',
         'sei_kana',
         'mei_kana',
-        'tel',
         'sex',
         'age',
+        'tel',
         'email',
+        'zip21',
+        'zip22',
+        'pref21',
+        'address21',
+        'street21',
         'address',
-        'unique_code',
+        'choice_1',
     ];
 
     protected $guarded = ['id', '_token']; // ID と _token は保存不可

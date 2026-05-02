@@ -29,10 +29,15 @@ class ApplicationService
             'sei_kana' => $request['sei_kana'],
             'mei_kana' => $request['mei_kana'],
             'sex' => $request['sex'],
-            'age' => $request['age'],
-            'zip21' => $request['zip21'],
             'tel' => $request['tel'],
+            'age' => $request['age'],
             'email' => $request['email'],
+            'zip21' => $request['zip21'],
+            'zip22' => $request['zip22'],
+            'pref21' => $request['pref21'],
+            'address21' => $request['address21'],
+            'street21' => $request['street21'],
+            'choice_1' => $request['choice_1'],
         ]);
     }
 

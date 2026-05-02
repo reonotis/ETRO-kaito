@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\StoresAll;
 
 use App\Models\Application;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ApplicationMail extends Mailable
+class ThankYouMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public Application $application;
-    private string $section_name;
 
     /**
      * Create a new message instance.
@@ -23,19 +21,16 @@ class ApplicationMail extends Mailable
     public function __construct(Application $application)
     {
         $this->application = $application;
-        $from = $application->visit_scheduled_date_time;
-        $to = $from->copy()->addMinutes(20);
-        $this->section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
     }
+
 
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
-        $day = $this->application->visit_scheduled_date_time->isoFormat('MM月DD日（ddd）');
         return new Envelope(
-            subject: '来場時間訂正のお知らせ（再送） ' . $day . '「ETRO per Kaito Takahashi」ホリデーリミテッドエディション へ当選しました',
+            subject: '「ETRO per Kaito Takahashi」全国 来店予約抽選へのお申込みを受け付けました',
         );
     }
 
@@ -45,7 +40,7 @@ class ApplicationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.application',
+            view: 'email.stores_all.thank_you',
         );
     }
 
@@ -61,9 +56,6 @@ class ApplicationMail extends Mailable
 
     public function build()
     {
-        return $this->with([
-            'application' => $this->application,
-            'section_name' => $this->section_name,
-        ]);
+        return $this->with(['application' => $this->application]);
     }
 }
