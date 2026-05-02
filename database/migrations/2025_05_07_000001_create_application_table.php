@@ -34,7 +34,7 @@ return new class extends Migration
             $table->text('comment')->nullable()->comment('コメント');
 //            $table->text('comment2')->nullable()->comment('コメント2');
 //            $table->text('comment3')->nullable()->comment('コメント3');
-//            $table->text('choice_1')->nullable()->comment('選択項目1');
+            $table->text('choice_1')->nullable()->comment('選択項目1');
 //            $table->text('choice_2')->nullable()->comment('選択項目2');
 
             $table->dateTime('visit_scheduled_date_time')->nullable()->comment('来場予定日時');
