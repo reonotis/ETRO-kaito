@@ -3,20 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\ApplicationMail;
-use App\Consts\Common;
-use App\Http\Requests\ApplicationFormRequest;
-use App\Service\ApplicationService;
 use App\Models\Application;
 use Carbon\Carbon;
-use Exception;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Yajra\DataTables\DataTables;
@@ -32,42 +21,24 @@ class ApplicationController extends Controller
         $applications = Application::select('id',
             'created_at',
             'unique_code',
-            'name',
+            'sei',
+            'mei',
             'tel',
             'email',
-            'address',
             'sent_lottery_result_email_flg',
             'visit_scheduled_date_time',
-            \DB::raw("
-            CASE
-                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 1 AND deleted_at IS NULL) THEN '希望'
-                ELSE '-'
-            END AS date_1
-        "),
-            \DB::raw("
-            CASE
-                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 2 AND deleted_at IS NULL) THEN '希望'
-                ELSE '-'
-            END AS date_2
-        "),
-            \DB::raw("
-            CASE
-                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 3 AND deleted_at IS NULL) THEN '希望'
-                ELSE '-'
-            END AS date_3
-        "),
             \DB::raw("
             CASE
                 WHEN email_opened_at IS  NULL  THEN '未確認'
                 WHEN email_opened_at IS NOT NULL THEN '閲覧済み'
                 ELSE '-'
             END AS mail_status
-        "),
-            \DB::raw("
-            (SELECT GROUP_CONCAT(DATE_FORMAT(visited.created_at, '%Y/%m/%d %H:%i:%s') ORDER BY visited.created_at ASC SEPARATOR '<br>')
-                FROM visited
-                WHERE visited.application_id = application.id AND visited.deleted_at IS NULL) AS visit_dates
-        ")
+            "),
+                \DB::raw("
+                (SELECT GROUP_CONCAT(DATE_FORMAT(visited.created_at, '%Y/%m/%d %H:%i:%s') ORDER BY visited.created_at ASC SEPARATOR '<br>')
+                    FROM visited
+                    WHERE visited.application_id = application.id AND visited.deleted_at IS NULL) AS visit_dates
+            ")
         );
 
         // 管理番号検索
@@ -103,6 +74,9 @@ class ApplicationController extends Controller
         return DataTables::of($applications)
             ->editColumn('created_at', function ($application) {
                 return Carbon::parse($application->created_at)->format('Y/m/d H:i:s'); // 秒あり
+            })
+            ->editColumn('name', function ($application) {
+                return $application->sei . ' ' . $application->mei;
             })
             ->editColumn('visit_scheduled_date_time', function ($application) {
                 return $application->visit_scheduled_date_time

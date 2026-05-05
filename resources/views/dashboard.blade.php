@@ -25,7 +25,7 @@
 
         window.csrfToken = "{{ csrf_token() }}";
     </script>
-    <script src="{{ asset('./js/application.js?v=1') }}"></script>
+    <script src="{{ asset('./js/admin.js?v=1') }}"></script>
 
     <div class="py-12 px-6">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -52,10 +52,6 @@
                         <th>名前</th>
                         <th>電話番号</th>
                         <th>メールアドレス</th>
-                        <th>住所</th>
-                        <th>10/4(展示会)</th>
-                        <th>10/4(レセプション)</th>
-                        <th>10/5</th>
                         <th>メールステータス</th>
                         <th>来場日時</th>
                     </tr>
