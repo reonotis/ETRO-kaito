@@ -27,8 +27,6 @@
         window.Laravel = {
             route_download_csv: "{{ route('applications.download-csv') }}",
             route_applications_data: "{{ route('applications.data') }}",
-            application_type: {{ (int)$type }},
-            application_type_label: @json($typeLabel),
         };
 
         window.csrfToken = "{{ csrf_token() }}";
@@ -188,6 +186,7 @@
                         <th>電話番号</th>
                         <th>メールアドレス</th>
                         <th>メールステータス</th>
+                        <th>来場予定日時</th>
                         <th>来場日時</th>
                     </tr>
                     </thead>

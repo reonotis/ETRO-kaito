@@ -52,16 +52,25 @@ input::placeholder {
     line-height: 1.25rem;
 }
 
+/*'未送信'*/
 .status-badge--pending {
     background: #FBF1DD;
     color: #9A6B1A;
     border: 1px solid #EBD9B0;
 }
 
-.status-badge--done {
+/*'未確認'*/
+.status-badge--none-check {
     background: #E6F4EA;
     color: #1E7C3A;
     border: 1px solid #BFE4CB;
+}
+
+/*'開封済み'*/
+.status-badge--done {
+    background: #e6e9f4;
+    color: #1e2e7c;
+    border: 1px solid #bfc4e4;
 }
 
 /* =========================================

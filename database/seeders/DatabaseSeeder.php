@@ -21,12 +21,12 @@ class DatabaseSeeder extends Seeder
                 'password' => 'password',
             ], [
                 'name' => '谷畑',
-                'email' => 'info@etro-holiday.com',
+                'email' => env('MAIL_SECRETARIAT'),
                 'password' => 'yabata#abc123',
-            ], [
-                'name' => '大村 沙織',
-                'email' => 'so@fivew.jp',
-                'password' => 'omura#abc123',
+//            ], [
+//                'name' => '大村 沙織',
+//                'email' => 'so@fivew.jp',
+//                'password' => 'omura#abc123',
             ]
         ]);
 

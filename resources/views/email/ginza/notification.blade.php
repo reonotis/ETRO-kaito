@@ -16,7 +16,7 @@
 　{{ $application->age }}歳<br>
 <br>
 応募内容は下記からご確認いただけます<br>
-<a href="{{ route('dashboard') }}">管理画面</a><br>
+<a href="{{ route('admin_dashboard') }}">管理画面</a><br>
 <br>
 <br>
 </body>

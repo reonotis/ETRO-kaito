@@ -33,20 +33,18 @@ class ApplicationController extends Controller
             'mei',
             'tel',
             'email',
+            'choice_1',
             'sent_lottery_result_email_flg',
             'visit_scheduled_date_time',
             \DB::raw("
-            CASE
-                WHEN email_opened_at IS  NULL  THEN '未確認'
-                WHEN email_opened_at IS NOT NULL THEN '閲覧済み'
-                ELSE '-'
-            END AS mail_status
+                CASE
+                    WHEN email_opened_at IS NOT NULL THEN '開封済み'
+                    WHEN email_opened_at IS NULL THEN '未確認'
+                    WHEN sent_lottery_result_email_flg = 0 THEN '未送信'
+                    ELSE '-'
+                END AS mail_status
             "),
-                \DB::raw("
-                (SELECT GROUP_CONCAT(DATE_FORMAT(visited.created_at, '%Y/%m/%d %H:%i:%s') ORDER BY visited.created_at ASC SEPARATOR '<br>')
-                    FROM visited
-                    WHERE visited.application_id = application.id AND visited.deleted_at IS NULL) AS visit_dates
-            ")
+            'visit_date_time',
         )->where('type', $type);
 
         // 管理番号検索
@@ -105,23 +103,6 @@ class ApplicationController extends Controller
             }
         }
 
-        // 来場日時検索（visited テーブルとの紐付き）
-        if ($request->filled('visit_from') || $request->filled('visit_to')) {
-            $applications->whereExists(function ($query) use ($request) {
-                $query->select(\DB::raw(1))
-                    ->from('visited')
-                    ->whereColumn('visited.application_id', 'application.id')
-                    ->whereNull('visited.deleted_at');
-
-                if ($request->filled('visit_from')) {
-                    $query->whereDate('visited.created_at', '>=', $request->visit_from);
-                }
-                if ($request->filled('visit_to')) {
-                    $query->whereDate('visited.created_at', '<=', $request->visit_to);
-                }
-            });
-        }
-
         return DataTables::of($applications)
             ->editColumn('created_at', function ($application) {
                 return Carbon::parse($application->created_at)->format('Y/m/d H:i:s'); // 秒あり
@@ -129,15 +110,26 @@ class ApplicationController extends Controller
             ->editColumn('name', function ($application) {
                 return $application->sei . ' ' . $application->mei;
             })
+            // `name` は実テーブルの列ではないため、姓・名で明示的に並び替える
+            ->orderColumn('name', function ($query, $order) {
+                $query->orderBy('sei', $order)->orderBy('mei', $order);
+            })
             ->editColumn('visit_scheduled_date_time', function ($application) {
                 return $application->visit_scheduled_date_time
-                    ? Carbon::parse($application->visit_scheduled_date_time)->format('m/d H:i')
+                    ? Carbon::parse($application->visit_scheduled_date_time)->format('Y/m/d H:i')
                     : '-';
             })
-            ->editColumn('visit_dates', function ($application) {
-                return $application->visit_dates ?: '-';
+            ->editColumn('visit_date_time', function ($application) {
+                return $application->visit_date_time ?: '-';
             })
-            ->rawColumns(['visit_dates'])
+            ->addColumn('store_name', function ($application) {
+                // 全国フォーム(type=2)用の来場店舗名。choice_1 を StoreAllConst で変換する。
+                if (empty($application->choice_1)) {
+                    return '-';
+                }
+                return \App\Consts\StoreAllConst::STORE_LIST[$application->choice_1] ?? '-';
+            })
+            ->rawColumns(['visit_date_time'])
             ->make(true);
     }
 
