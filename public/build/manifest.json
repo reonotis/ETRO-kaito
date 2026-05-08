@@ -1,12 +1,27 @@
 {
   "resources/css/admin.css": {
-    "file": "assets/admin-BBXC_y6a.css",
+    "file": "assets/admin-DYEWzvZw.css",
     "src": "resources/css/admin.css",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-DKdtPoPH.css",
+    "file": "assets/app-CvjLwlel.css",
     "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/admin/all-store-list.js": {
+    "file": "assets/all-store-list-BskibJZv.js",
+    "name": "all-store-list",
+    "src": "resources/js/admin/all-store-list.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/admin/ginza-list.js"
+    ]
+  },
+  "resources/js/admin/ginza-list.js": {
+    "file": "assets/ginza-list-mBiC6sPC.js",
+    "name": "ginza-list",
+    "src": "resources/js/admin/ginza-list.js",
     "isEntry": true
   },
   "resources/js/app.js": {

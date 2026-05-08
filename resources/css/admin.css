@@ -1,19 +1,207 @@
+/* =========================================
+ * 申込・来場管理 ダッシュボード スタイル
+ * ========================================= */
 
+/* placeholder 色 */
+input::placeholder {
+    color: #c7cad1;
+}
+
+/* =========================================
+ * テーブル
+ * ========================================= */
+#application_table {
+    width: 100% !important;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.875rem;
+}
+
+#application_table thead th {
+    background: #fff;
+    color: #6b7280;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid #B6934E;
+    text-align: left;
+    white-space: nowrap;
+}
+
+#application_table tbody td {
+    padding: 1rem;
+    border-bottom: 1px solid #f1f1ec;
+    color: #374151;
+    vertical-align: middle;
+}
+
+#application_table tbody tr:hover {
+    background: #fafaf6;
+}
+
+/* =========================================
+ * ステータスバッジ
+ * ========================================= */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+}
+
+.status-badge--pending {
+    background: #FBF1DD;
+    color: #9A6B1A;
+    border: 1px solid #EBD9B0;
+}
+
+.status-badge--done {
+    background: #E6F4EA;
+    color: #1E7C3A;
+    border: 1px solid #BFE4CB;
+}
+
+/* =========================================
+ * 絞り込み条件チップ
+ * ========================================= */
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.5rem 0.25rem 0.75rem;
+    background: #fff;
+    border: 1px solid #EBD9B0;
+    color: #8A6A2A;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border-radius: 9999px;
+}
+
+.filter-chip__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 9999px;
+    color: #B6934E;
+    background: transparent;
+    transition: background-color 0.15s;
+}
+
+.filter-chip__close:hover {
+    background: #F5E8C7;
+    color: #8A6A2A;
+}
+
+/* =========================================
+ * DataTables ページネーション (golden 系)
+ * ========================================= */
+.dataTables_wrapper .dataTables_info {
+    color: #6b7280;
+    font-size: 0.875rem;
+    padding: 0.5rem 0;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    padding-top: 0.5rem;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.375rem 0.75rem;
+    margin: 0 2px;
+    border-radius: 0.375rem !important;
+    border: 1px solid #e5e7eb !important;
+    background: #fff !important;
+    color: #374151 !important;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #faf5e6 !important;
+    border-color: #B6934E !important;
+    color: #8A6A2A !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: #B6934E !important;
+    border: 1px solid #B6934E !important;
+    color: #fff !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+    background: #fff !important;
+    color: #c7cad1 !important;
+    cursor: not-allowed;
+}
+
+.dataTables_wrapper .dataTables_processing {
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+/* DataTables のデフォルト spacing 調整 */
+.dataTables_wrapper .dt-body {
+    overflow-x: auto;
+}
+
+/* =========================================
+ * daterangepicker テーマ調整
+ * ========================================= */
+.daterangepicker {
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    font-size: 0.8125rem;
+}
+
+.daterangepicker td.active,
+.daterangepicker td.active:hover {
+    background: #B6934E !important;
+    color: #fff !important;
+    border-color: #B6934E !important;
+}
+
+.daterangepicker td.in-range {
+    background: #faf5e6 !important;
+    color: #8A6A2A !important;
+}
+
+.daterangepicker .drp-buttons .btn-primary,
+.daterangepicker .drp-buttons .applyBtn {
+    background-color: #2563eb !important;
+    border: 1px solid #2563eb !important;
+    color: #fff !important;
+}
+
+.daterangepicker .drp-buttons .btn-default,
+.daterangepicker .drp-buttons .cancelBtn {
+    background-color: #f3f4f6 !important;
+    border: 1px solid #e5e7eb !important;
+    color: #374151 !important;
+}
+
+#search_visit_range {
+    background-image: none;
+}
+
+/* =========================================
+ * 旧スタイル (互換用最小限)
+ * ========================================= */
 .btn {
     background: #999;
     padding: .25rem 1rem;
     border-radius: .25rem;
 }
-
-.dataTables_length select {
-    padding-right: 2rem!important;
-}
-
-
-input::placeholder {
-    color: #ccc;
-}
-
 
 .btn-primary {
     display: inline-block;
@@ -33,15 +221,3 @@ input::placeholder {
 .btn-primary:hover {
     background-color: #7397bf;
 }
-
-
-
-#application_table thead {
-    background: #B6934E;
-    color: #fff;
-}
-
-#application_table td {
-    border-bottom: solid 1px #ccc;
-}
-

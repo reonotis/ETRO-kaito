@@ -18,6 +18,14 @@ class ApplicationController extends Controller
      */
     public function getData(Request $request)
     {
+        // 申込フォーム種別での絞り込み（必須）
+        // 銀座=APPLICATION_TYPE_1, 全国=APPLICATION_TYPE_2 で完全に別フォーム
+        $type = (int)$request->input('type');
+        if (!array_key_exists($type, \App\Consts\CommonConst::APPLICATION_TYPE_LIST)) {
+            // 不正な type が来た場合は空のレスポンスを返す
+            return DataTables::of(Application::query()->whereRaw('1 = 0'))->make(true);
+        }
+
         $applications = Application::select('id',
             'created_at',
             'unique_code',
@@ -39,34 +47,77 @@ class ApplicationController extends Controller
                     FROM visited
                     WHERE visited.application_id = application.id AND visited.deleted_at IS NULL) AS visit_dates
             ")
-        );
+        )->where('type', $type);
 
         // 管理番号検索
-        if ($request->has('unique_code') && $request->unique_code) {
+        if ($request->filled('unique_code')) {
             // 全角・半角スペースで分割
             $keywords = preg_split('/[\s　]+/', trim($request->unique_code));
             $applications->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
-                    $query->where(function ($subQuery) use ($keyword) {
-                        $subQuery->where('unique_code', 'like', "%{$keyword}%");
+                    if ($keyword === '') {
+                        continue;
+                    }
+                    $query->where('unique_code', 'like', "%{$keyword}%");
+                }
+            });
+        }
+
+        // 名前検索（姓・名・連結のいずれにも対応）
+        if ($request->filled('name')) {
+            $keywords = preg_split('/[\s　]+/', trim($request->name));
+            $applications->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    if ($keyword === '') {
+                        continue;
+                    }
+                    $query->where(function ($sub) use ($keyword) {
+                        $sub->where('sei', 'like', "%{$keyword}%")
+                            ->orWhere('mei', 'like', "%{$keyword}%")
+                            ->orWhereRaw("CONCAT(sei, ' ', mei) LIKE ?", ["%{$keyword}%"])
+                            ->orWhereRaw("CONCAT(sei, mei) LIKE ?", ["%{$keyword}%"]);
                     });
                 }
             });
         }
 
-        // 名前検索
-        if ($request->has('name') && $request->name) {
-            $applications->where('name', 'like', "%{$request->name}%");
-        }
-
         // メール検索
-        if ($request->has('email') && $request->email) {
+        if ($request->filled('email')) {
             // 全角・半角スペースで分割
             $keywords = preg_split('/[\s　]+/', trim($request->email));
 
             $applications->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
+                    if ($keyword === '') {
+                        continue;
+                    }
                     $query->where('email', 'like', "%{$keyword}%");
+                }
+            });
+        }
+
+        // メールステータス検索
+        if ($request->filled('mail_status')) {
+            if ($request->mail_status === '未確認') {
+                $applications->whereNull('email_opened_at');
+            } elseif ($request->mail_status === '閲覧済み') {
+                $applications->whereNotNull('email_opened_at');
+            }
+        }
+
+        // 来場日時検索（visited テーブルとの紐付き）
+        if ($request->filled('visit_from') || $request->filled('visit_to')) {
+            $applications->whereExists(function ($query) use ($request) {
+                $query->select(\DB::raw(1))
+                    ->from('visited')
+                    ->whereColumn('visited.application_id', 'application.id')
+                    ->whereNull('visited.deleted_at');
+
+                if ($request->filled('visit_from')) {
+                    $query->whereDate('visited.created_at', '>=', $request->visit_from);
+                }
+                if ($request->filled('visit_to')) {
+                    $query->whereDate('visited.created_at', '<=', $request->visit_to);
                 }
             });
         }
@@ -96,18 +147,38 @@ class ApplicationController extends Controller
      */
     public function dashboard(): View
     {
-        $application_count = Application::whereNotNull('visit_scheduled_date_time')->count();
+        return view('admin.dashboard');
+    }
 
-        return view('dashboard', [
-            'count' => $application_count
-        ]);
+    /**
+     * @return View
+     */
+    public function list(int $type): View
+    {
+        // 不正な type は 404
+        if (!array_key_exists($type, \App\Consts\CommonConst::APPLICATION_TYPE_LIST)) {
+            abort(404);
+        }
+
+        $typeLabel = \App\Consts\CommonConst::APPLICATION_TYPE_LIST[$type];
+
+        if ($type === \App\Consts\CommonConst::APPLICATION_TYPE_1) {
+            return view('admin.list-ginza', compact('type', 'typeLabel'));
+        }
+
+        return view('admin.list-all', compact('type', 'typeLabel'));
     }
 
     /**
      * @return
      */
-    public function downloadCsv()
+    public function downloadCsv(Request $request)
     {
+        // 申込フォーム種別での絞り込み（必須）
+        $type = (int)$request->input('type');
+        if (!array_key_exists($type, \App\Consts\CommonConst::APPLICATION_TYPE_LIST)) {
+            abort(404);
+        }
 
         $applications = Application::select('id',
             'created_at',
@@ -146,7 +217,11 @@ class ApplicationController extends Controller
                 FROM visited
                 WHERE visited.application_id = application.id AND visited.deleted_at IS NULL) AS visit_dates
         ")
-        )->get();
+        )
+            ->where('type', $type)
+            ->get();
+
+        $typeLabel = \App\Consts\CommonConst::APPLICATION_TYPE_LIST[$type];
 
         $csvHeader = [
             '申込日時', '管理番号', '名前', '電話番号', 'メールアドレス', '住所', '10/4(展示会)',  '10/4(レセプション)',  '10/5', 'メールステータス', '来場日時'
@@ -196,8 +271,9 @@ class ApplicationController extends Controller
             fclose($file);
         });
 
+        $filename = '申込一覧_' . $typeLabel . '.csv';
         $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
-        $response->headers->set('Content-Disposition', 'attachment; filename="申込一覧.csv"');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . rawurlencode($filename) . '"; filename*=UTF-8\'\'' . rawurlencode($filename));
         $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
         $response->headers->set('Pragma', 'no-cache');
         $response->headers->set('Expires', '0');
