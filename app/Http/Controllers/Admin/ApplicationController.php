@@ -39,8 +39,8 @@ class ApplicationController extends Controller
             \DB::raw("
                 CASE
                     WHEN email_opened_at IS NOT NULL THEN '開封済み'
-                    WHEN email_opened_at IS NULL THEN '未確認'
-                    WHEN sent_lottery_result_email_flg = 0 THEN '未送信'
+                    WHEN sent_lottery_result_email_flg = 1 THEN '未確認'
+                    WHEN visit_scheduled_date_time IS NOT NULL THEN '未送信'
                     ELSE '-'
                 END AS mail_status
             "),
@@ -120,7 +120,9 @@ class ApplicationController extends Controller
                     : '-';
             })
             ->editColumn('visit_date_time', function ($application) {
-                return $application->visit_date_time ?: '-';
+                return $application->visit_date_time
+                    ? Carbon::parse($application->visit_date_time)->format('Y/m/d H:i')
+                    : '-';
             })
             ->addColumn('store_name', function ($application) {
                 // 全国フォーム(type=2)用の来場店舗名。choice_1 を StoreAllConst で変換する。
