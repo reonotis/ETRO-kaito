@@ -1,6 +1,6 @@
 {
-  "_application-list-DapnmpLk.js": {
-    "file": "assets/application-list-DapnmpLk.js",
+  "_application-list-B5XNwhIS.js": {
+    "file": "assets/application-list-B5XNwhIS.js",
     "name": "application-list"
   },
   "resources/css/admin.css": {
@@ -14,21 +14,21 @@
     "isEntry": true
   },
   "resources/js/admin/all-store-list.js": {
-    "file": "assets/all-store-list-Bq30nMlZ.js",
+    "file": "assets/all-store-list-CgMFBChL.js",
     "name": "all-store-list",
     "src": "resources/js/admin/all-store-list.js",
     "isEntry": true,
     "imports": [
-      "_application-list-DapnmpLk.js"
+      "_application-list-B5XNwhIS.js"
     ]
   },
   "resources/js/admin/ginza-list.js": {
-    "file": "assets/ginza-list-dS_vYzzz.js",
+    "file": "assets/ginza-list-DKpeOl2k.js",
     "name": "ginza-list",
     "src": "resources/js/admin/ginza-list.js",
     "isEntry": true,
     "imports": [
-      "_application-list-DapnmpLk.js"
+      "_application-list-B5XNwhIS.js"
     ]
   },
   "resources/js/app.js": {

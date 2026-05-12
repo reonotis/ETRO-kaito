@@ -77,7 +77,7 @@
             </div>
 
             <div x-show="open" x-transition.duration.150ms class="px-6 pb-5">
-                <div class="flex gap-4">
+                <div class="flex gap-4 flex-wrap">
                     <div>
                         <label class="block text-xs text-gray-600 mb-1">管理番号</label>
                         <input type="text" id="search_unique_code"
@@ -104,6 +104,27 @@
                             <option value="未確認">未確認</option>
                             <option value="閲覧済み">閲覧済み</option>
                         </select>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs text-gray-600 mb-1">来場予定日時</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3M4 11h16M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                            </span>
+                            <input type="text" id="search_visit_scheduled_range" autocomplete="off" readonly
+                                   class="w-full pl-9 pr-9 py-2 border border-gray-300 rounded-md text-sm bg-white cursor-pointer focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="期間を選択（YYYY/MM/DD 〜 YYYY/MM/DD）">
+                            <button type="button" id="clear_visit_scheduled_range"
+                                    class="hidden absolute inset-y-0 right-2 my-auto h-6 w-6 items-center justify-center text-gray-400 hover:text-gray-600 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                            <input type="hidden" id="search_visit_scheduled_from">
+                            <input type="hidden" id="search_visit_scheduled_to">
+                        </div>
                     </div>
                     <div class="sm:col-span-2">
                         <label class="block text-xs text-gray-600 mb-1">来場日時</label>

@@ -103,6 +103,22 @@ class ApplicationController extends Controller
             }
         }
 
+        // 来場予定日時の期間検索（visit_scheduled_date_time）
+        if ($request->filled('visit_scheduled_from')) {
+            $applications->whereDate('visit_scheduled_date_time', '>=', $request->input('visit_scheduled_from'));
+        }
+        if ($request->filled('visit_scheduled_to')) {
+            $applications->whereDate('visit_scheduled_date_time', '<=', $request->input('visit_scheduled_to'));
+        }
+
+        // 来場日時の期間検索（visit_date_time）
+        if ($request->filled('visit_from')) {
+            $applications->whereDate('visit_date_time', '>=', $request->input('visit_from'));
+        }
+        if ($request->filled('visit_to')) {
+            $applications->whereDate('visit_date_time', '<=', $request->input('visit_to'));
+        }
+
         return DataTables::of($applications)
             ->editColumn('created_at', function ($application) {
                 return Carbon::parse($application->created_at)->format('Y/m/d H:i:s'); // 秒あり

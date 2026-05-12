@@ -8,6 +8,7 @@
  *   - COLUMNS              : 表示できる列の定義（エントリで並べて使う）
  *   - initApplicationList  : 画面全体の初期化エントリ
  *   - createTable          : DataTable の構築
+ *   - DATE_RANGE_PICKERS   : 来場予定日時 / 来場日時 ピッカーの定義
  *   - setupDateRangePicker : 来場日時ピッカー
  *   - setupSearchHandlers  : 検索ボタン・Enterキー・リセット等のバインド
  *   - updateFilterChips    : 絞り込みチップ表示
@@ -56,7 +57,7 @@ export function initApplicationList({ type, columns }) {
             table.draw();
         };
 
-        setupDateRangePicker(apply);
+        DATE_RANGE_PICKERS.forEach((picker) => setupDateRangePicker(picker, apply));
         setupSearchHandlers(table, apply);
         setupCsvDownload(type);
 
@@ -75,13 +76,15 @@ function createTable(type, columns) {
         ajax: {
             url: window.Laravel.route_applications_data,
             data: (d) => {
-                d.type        = type;
-                d.unique_code = $('#search_unique_code').val();
-                d.name        = $('#search_name').val();
-                d.email       = $('#search_email').val();
-                d.mail_status = $('#search_mail_status').val();
-                d.visit_from  = $('#search_visit_from').val();
-                d.visit_to    = $('#search_visit_to').val();
+                d.type                 = type;
+                d.unique_code          = $('#search_unique_code').val();
+                d.name                 = $('#search_name').val();
+                d.email                = $('#search_email').val();
+                d.mail_status          = $('#search_mail_status').val();
+                d.visit_scheduled_from = $('#search_visit_scheduled_from').val();
+                d.visit_scheduled_to   = $('#search_visit_scheduled_to').val();
+                d.visit_from           = $('#search_visit_from').val();
+                d.visit_to             = $('#search_visit_to').val();
             },
         },
         columns: columns,
@@ -129,10 +132,27 @@ function renderMailStatus(status) {
 
 
 /* ============================================================
- * 来場日時 daterangepicker
+ * 来場予定日時 / 来場日時 daterangepicker
  * ============================================================ */
-function setupDateRangePicker(apply) {
-    const $input = $('#search_visit_range');
+const DATE_RANGE_PICKERS = [
+    {
+        label: '来場予定日時',
+        rangeInputId: 'search_visit_scheduled_range',
+        fromInputId:  'search_visit_scheduled_from',
+        toInputId:    'search_visit_scheduled_to',
+        clearBtnId:   'clear_visit_scheduled_range',
+    },
+    {
+        label: '来場日時',
+        rangeInputId: 'search_visit_range',
+        fromInputId:  'search_visit_from',
+        toInputId:    'search_visit_to',
+        clearBtnId:   'clear_visit_range',
+    },
+];
+
+function setupDateRangePicker(picker, apply) {
+    const $input = $('#' + picker.rangeInputId);
     if (!$input.length || typeof $.fn.daterangepicker !== 'function') {
         return;
     }
@@ -143,29 +163,29 @@ function setupDateRangePicker(apply) {
         locale: DATE_RANGE_LOCALE,
     });
 
-    $input.on('apply.daterangepicker', function (ev, picker) {
-        $input.val(picker.startDate.format('YYYY/MM/DD') + ' 〜 ' + picker.endDate.format('YYYY/MM/DD'));
-        $('#search_visit_from').val(picker.startDate.format('YYYY-MM-DD'));
-        $('#search_visit_to').val(picker.endDate.format('YYYY-MM-DD'));
-        $('#clear_visit_range').removeClass('hidden').addClass('inline-flex');
+    $input.on('apply.daterangepicker', function (ev, dp) {
+        $input.val(dp.startDate.format('YYYY/MM/DD') + ' 〜 ' + dp.endDate.format('YYYY/MM/DD'));
+        $('#' + picker.fromInputId).val(dp.startDate.format('YYYY-MM-DD'));
+        $('#' + picker.toInputId).val(dp.endDate.format('YYYY-MM-DD'));
+        $('#' + picker.clearBtnId).removeClass('hidden').addClass('inline-flex');
         apply();
     });
 
     $input.on('cancel.daterangepicker', function () {
-        clearVisitRange(apply);
+        clearDateRange(picker, apply);
     });
 
-    $('#clear_visit_range').on('click', function (e) {
+    $('#' + picker.clearBtnId).on('click', function (e) {
         e.stopPropagation();
-        clearVisitRange(apply);
+        clearDateRange(picker, apply);
     });
 }
 
-function clearVisitRange(apply) {
-    $('#search_visit_range').val('');
-    $('#search_visit_from').val('');
-    $('#search_visit_to').val('');
-    $('#clear_visit_range').addClass('hidden').removeClass('inline-flex');
+function clearDateRange(picker, apply) {
+    $('#' + picker.rangeInputId).val('');
+    $('#' + picker.fromInputId).val('');
+    $('#' + picker.toInputId).val('');
+    $('#' + picker.clearBtnId).addClass('hidden').removeClass('inline-flex');
     apply();
 }
 
@@ -200,8 +220,10 @@ function setupSearchHandlers(table, apply) {
 
     $('#resetBtn').on('click', function () {
         $('#search_unique_code, #search_name, #search_email, #search_mail_status').val('');
-        $('#search_visit_range, #search_visit_from, #search_visit_to').val('');
-        $('#clear_visit_range').addClass('hidden').removeClass('inline-flex');
+        DATE_RANGE_PICKERS.forEach((picker) => {
+            $('#' + picker.rangeInputId + ', #' + picker.fromInputId + ', #' + picker.toInputId).val('');
+            $('#' + picker.clearBtnId).addClass('hidden').removeClass('inline-flex');
+        });
         apply();
     });
 
@@ -248,14 +270,16 @@ function collectActiveFilters() {
     const mailStatus = $('#search_mail_status').val();
     if (mailStatus) chips.push({ label: 'メールステータス：' + mailStatus, target: '#search_mail_status' });
 
-    const vf = $('#search_visit_from').val();
-    const vt = $('#search_visit_to').val();
-    if (vf || vt) {
-        chips.push({
-            label: '来場日時：' + (vf || '指定なし') + ' 〜 ' + (vt || '指定なし'),
-            target: ['#search_visit_from', '#search_visit_to'],
-        });
-    }
+    DATE_RANGE_PICKERS.forEach((picker) => {
+        const from = $('#' + picker.fromInputId).val();
+        const to   = $('#' + picker.toInputId).val();
+        if (from || to) {
+            chips.push({
+                label: picker.label + '：' + (from || '指定なし') + ' 〜 ' + (to || '指定なし'),
+                picker: picker,
+            });
+        }
+    });
 
     return chips;
 }
@@ -273,14 +297,14 @@ function buildChipElement(chip, apply) {
     );
 
     $chip.find('.filter-chip__close').on('click', function () {
+        // 日付レンジ系のチップは picker 経由でまとめてクリアする
+        if (chip.picker) {
+            clearDateRange(chip.picker, apply);
+            return;
+        }
+
         const targets = Array.isArray(chip.target) ? chip.target : [chip.target];
         targets.forEach(function (t) { $(t).val(''); });
-
-        // 来場日時の場合は表示用 input と clear ボタンも隠す
-        if (targets.indexOf('#search_visit_from') !== -1) {
-            $('#search_visit_range').val('');
-            $('#clear_visit_range').addClass('hidden').removeClass('inline-flex');
-        }
         apply();
     });
 
