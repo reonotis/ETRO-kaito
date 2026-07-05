@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Application;
+use App\Service\ApplicationService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Yajra\DataTables\DataTables;
 
@@ -19,7 +22,7 @@ class ApplicationController extends Controller
     public function getData(Request $request)
     {
         // 申込フォーム種別での絞り込み（必須）
-        // 銀座=APPLICATION_TYPE_1, 全国=APPLICATION_TYPE_2 で完全に別フォーム
+        // 銀座=APPLICATION_TYPE_1, 阪急=APPLICATION_TYPE_2 で完全に別フォーム
         $type = (int)$request->input('type');
         if (!array_key_exists($type, \App\Consts\CommonConst::APPLICATION_TYPE_LIST)) {
             // 不正な type が来た場合は空のレスポンスを返す
@@ -33,7 +36,6 @@ class ApplicationController extends Controller
             'mei',
             'tel',
             'email',
-            'choice_1',
             'sent_lottery_result_email_flg',
             'visit_scheduled_date_time',
             \DB::raw("
@@ -140,13 +142,6 @@ class ApplicationController extends Controller
                     ? Carbon::parse($application->visit_date_time)->format('Y/m/d H:i')
                     : '-';
             })
-            ->addColumn('store_name', function ($application) {
-                // 全国フォーム(type=2)用の来場店舗名。choice_1 を StoreAllConst で変換する。
-                if (empty($application->choice_1)) {
-                    return '-';
-                }
-                return \App\Consts\StoreAllConst::STORE_LIST[$application->choice_1] ?? '-';
-            })
             ->rawColumns(['visit_date_time'])
             ->make(true);
     }
@@ -176,7 +171,7 @@ class ApplicationController extends Controller
             return view('admin.list-ginza', compact('type', 'typeLabel'));
         }
 
-        return view('admin.list-all', compact('type', 'typeLabel'));
+        return view('admin.list-hankyu', compact('type', 'typeLabel'));
     }
 
     /**
@@ -193,39 +188,24 @@ class ApplicationController extends Controller
         $applications = Application::select('id',
             'created_at',
             'unique_code',
-            'name',
+            'sei',
+            'mei',
             'tel',
             'email',
-            'address',
+            'zip21',
+            'zip22',
+            'pref21',
+            'address21',
+            'street21',
+            'visit_scheduled_date_time',
+            'visit_date_time',
             \DB::raw("
             CASE
-                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 1 AND deleted_at IS NULL) THEN '希望'
-                ELSE '-'
-            END AS date_1
-        "),
-            \DB::raw("
-            CASE
-                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 2 AND deleted_at IS NULL) THEN '希望'
-                ELSE '-'
-            END AS date_2
-        "),
-            \DB::raw("
-            CASE
-                WHEN EXISTS(SELECT 1 FROM target_event WHERE application_id = application.id AND target_number = 3 AND deleted_at IS NULL) THEN '希望'
-                ELSE '-'
-            END AS date_3
-        "),
-            \DB::raw("
-            CASE
-                WHEN email_opened_at IS  NULL  THEN '未確認'
-                WHEN email_opened_at IS NOT NULL THEN '閲覧済み'
+                WHEN email_opened_at IS NOT NULL THEN '開封済み'
+                WHEN sent_lottery_result_email_flg = 1 THEN '未確認'
+                WHEN visit_scheduled_date_time IS NOT NULL THEN '未送信'
                 ELSE '-'
             END AS mail_status
-        "),
-            \DB::raw("
-            (SELECT GROUP_CONCAT(DATE_FORMAT(visited.created_at, '%Y/%m/%d %H:%i:%s') ORDER BY visited.created_at ASC SEPARATOR '<br>')
-                FROM visited
-                WHERE visited.application_id = application.id AND visited.deleted_at IS NULL) AS visit_dates
         ")
         )
             ->where('type', $type)
@@ -234,7 +214,7 @@ class ApplicationController extends Controller
         $typeLabel = \App\Consts\CommonConst::APPLICATION_TYPE_LIST[$type];
 
         $csvHeader = [
-            '申込日時', '管理番号', '名前', '電話番号', 'メールアドレス', '住所', '10/4(展示会)',  '10/4(レセプション)',  '10/5', 'メールステータス', '来場日時'
+            '申込日時', '管理番号', '名前', '電話番号', 'メールアドレス', '住所', 'メールステータス', '来場予定日時', '来場日時'
         ];
 
         $response = new StreamedResponse(function () use ($applications, $csvHeader) {
@@ -246,35 +226,26 @@ class ApplicationController extends Controller
 
             foreach ($applications as $application) {
 
-                // ステータスを判定
-                $status = '-';
-                if (!empty($application->email_opened_at)) {
-                    $status = '閲覧済み';
-                } elseif (!empty($application->visit_scheduled_date_time)) {
-                    $status = $application->sent_lottery_result_email_flg ? '招待メール送信済' : '招待メール未送信';
-                }
-
-                // 来場日時の処理
-                $visitDates = '-';
-                if ($application->visit_dates) {
-                    // HTMLの<br>タグをカンマに置き換えて、CSV用に整形
-                    $visitDates = str_replace('<br>', '", "', $application->visit_dates);
-                    // 最初と最後にクォーテーションを追加
-                    $visitDates = '"' . $visitDates . '"';
-                }
+                // 郵便番号 + 住所を整形
+                $zipcode = trim("{$application->zip21}-{$application->zip22}");
+                $zipcode = ($zipcode !== '-') ? "{$zipcode} " : '';
+                $address = trim("{$application->pref21} {$application->address21} {$application->street21}");
+                $fullAddress = trim($zipcode . $address) ?: '-';
 
                 fputcsv($file, [
                     $application->created_at,
                     $application->unique_code,
-                    $application->name,
+                    $application->sei . ' ' . $application->mei,
                     $application->tel,
                     $application->email,
-                    $application->address,
-                    $application->date_1,
-                    $application->date_2,
-                    $application->date_3,
+                    $fullAddress,
                     $application->mail_status,
-                    $visitDates,
+                    $application->visit_scheduled_date_time
+                        ? Carbon::parse($application->visit_scheduled_date_time)->format('Y/m/d H:i')
+                        : '-',
+                    $application->visit_date_time
+                        ? Carbon::parse($application->visit_date_time)->format('Y/m/d H:i')
+                        : '-',
                 ]);
             }
 
@@ -289,6 +260,134 @@ class ApplicationController extends Controller
         $response->headers->set('Expires', '0');
 
         return $response;
+    }
+
+    /**
+     * CSVをアップロードし、来場予定日時(H列)だけを一括更新する
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateVisitSchedule(Request $request)
+    {
+        $request->validate([
+            'type' => ['required', 'integer'],
+            'csv_file' => ['required', 'file', 'mimes:csv,txt'],
+        ]);
+
+        $type = (int)$request->input('type');
+        if (!array_key_exists($type, \App\Consts\CommonConst::APPLICATION_TYPE_LIST)) {
+            abort(404);
+        }
+
+        $handle = fopen($request->file('csv_file')->getRealPath(), 'r');
+
+        $updated = 0;
+        $errors = [];
+        $rowNumber = 0;
+        $isHeaderRow = true;
+
+        while (($row = fgetcsv($handle)) !== false) {
+            $rowNumber++;
+
+            if ($isHeaderRow) {
+                $isHeaderRow = false;
+                continue;
+            }
+
+            // 空行はスキップ
+            if (count(array_filter($row, fn ($v) => $v !== null && $v !== '')) === 0) {
+                continue;
+            }
+
+            // BOM除去（先頭列にBOMが残る場合がある）
+            $uniqueCode = trim(preg_replace('/^\xEF\xBB\xBF/', '', $row[1] ?? ''));
+            $visitScheduled = trim($row[7] ?? '');
+
+            if ($uniqueCode === '') {
+                $errors[] = "{$rowNumber}行目: 管理番号が空です";
+                continue;
+            }
+
+            $application = Application::where('unique_code', $uniqueCode)->where('type', $type)->first();
+            if (!$application) {
+                $errors[] = "{$rowNumber}行目: 管理番号「{$uniqueCode}」が見つかりません";
+                continue;
+            }
+
+            if ($visitScheduled === '' || $visitScheduled === '-') {
+                $application->visit_scheduled_date_time = null;
+            } else {
+                try {
+                    $application->visit_scheduled_date_time = Carbon::parse($visitScheduled);
+                } catch (\Exception $e) {
+                    $errors[] = "{$rowNumber}行目: 来場予定日時「{$visitScheduled}」を解釈できません（管理番号: {$uniqueCode}）";
+                    continue;
+                }
+            }
+
+            $application->save();
+            $updated++;
+        }
+
+        fclose($handle);
+
+        return response()->json([
+            'updated' => $updated,
+            'errors' => $errors,
+        ]);
+    }
+
+    /**
+     * 「未送信」の申込者に対して、当選通知メールを一斉送信する
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendWinnerMail(Request $request)
+    {
+        $request->validate([
+            'type' => ['required', 'integer'],
+        ]);
+
+        $type = (int)$request->input('type');
+        if (!array_key_exists($type, \App\Consts\CommonConst::APPLICATION_TYPE_LIST)) {
+            abort(404);
+        }
+
+        // 「未送信」＝来場予定日時が確定していて、まだ当選メールを送っていない申込者
+        $applications = Application::where('type', $type)
+            ->whereNotNull('visit_scheduled_date_time')
+            ->where('sent_lottery_result_email_flg', 0)
+            ->whereNull('email_opened_at')
+            ->get();
+
+        $application_service = new ApplicationService();
+        $sent = 0;
+        $errors = [];
+
+        foreach ($applications as $application) {
+            try {
+                $from = Carbon::parse($application->visit_scheduled_date_time);
+                $to = $from->copy()->addMinutes(30);
+                $sectionName = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
+
+                if ($type === \App\Consts\CommonConst::APPLICATION_TYPE_1) {
+                    Mail::to($application->email)->send(new \App\Mail\Ginza\WinnerNotificationMail($application, $sectionName));
+                } else {
+                    Mail::to($application->email)->send(new \App\Mail\Hankyu\WinnerNotificationMail($application, $sectionName));
+                }
+
+                $application_service->markSendMail($application);
+                $sent++;
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+                $errors[] = "管理番号「{$application->unique_code}」への送信に失敗しました";
+            }
+        }
+
+        return response()->json([
+            'sent' => $sent,
+            'errors' => $errors,
+        ]);
     }
 
 }

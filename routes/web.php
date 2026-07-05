@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\StoresAllController;
+use App\Http\Controllers\HankyuApplicationController;
 use App\Http\Controllers\GinzaApplicationController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,14 +15,10 @@ Route::prefix('ginza')->group(function () {
 });
 
 
-Route::prefix('stores-all')->group(function () {
-    Route::get('/', [StoresAllController::class, 'create'])->name('stores_exclude_index');
-    Route::post('/', [StoresAllController::class, 'store']);
-    Route::get('/complete', [StoresAllController::class, 'complete'])->name('stores_exclude_complete');
-
-    Route::get('/email/open/{unique_code}', [StoresAllController::class, 'trackEmailOpen']);
-    Route::get('/view-ticket/{unique_code}', [StoresAllController::class, 'viewTicket']);
-    Route::get('/tear-ticket/{unique_code}', [StoresAllController::class, 'tearTicket']);
+Route::prefix('hankyu')->group(function () {
+    Route::get('/', [HankyuApplicationController::class, 'create'])->name('hankyu_index');
+    Route::post('/', [HankyuApplicationController::class, 'store']);
+    Route::get('/complete', [HankyuApplicationController::class, 'complete'])->name('hankyu_complete');
 });
 
 require __DIR__.'/auth.php';

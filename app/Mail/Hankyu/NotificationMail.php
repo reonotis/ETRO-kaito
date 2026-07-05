@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail\StoresAll;
+namespace App\Mail\Hankyu;
 
 use App\Models\Application;
 use Illuminate\Bus\Queueable;
@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ThankYouMail extends Mailable
+class NotificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -23,14 +23,13 @@ class ThankYouMail extends Mailable
         $this->application = $application;
     }
 
-
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '「ETRO per Kaito Takahashi」全国 来店予約抽選へのお申込みを受け付けました',
+            subject: 'ETRO per Kaito Takahashi 阪急への申し込みがありました',
         );
     }
 
@@ -40,7 +39,7 @@ class ThankYouMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.stores_all.thank_you',
+            view: 'email.hankyu.notification',
         );
     }
 

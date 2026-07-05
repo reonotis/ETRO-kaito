@@ -43,9 +43,8 @@ class ApplicationService
      */
     public function markSendMail(Application $application): bool
     {
-        return $application->update([
-            'sent_lottery_result_email_flg' => 1,
-        ]);
+        $application->sent_lottery_result_email_flg = 1;
+        return $application->save();
     }
 
     /**

@@ -9,7 +9,7 @@
     <div class="py-16">
         <div class="form-area">
 
-            @include('stores_all.hero')
+            @include('hankyu.hero')
 
         </div>
     </div>

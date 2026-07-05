@@ -60,6 +60,8 @@ export function initApplicationList({ type, columns }) {
         DATE_RANGE_PICKERS.forEach((picker) => setupDateRangePicker(picker, apply));
         setupSearchHandlers(table, apply);
         setupCsvDownload(type);
+        setupVisitScheduleUpload(type, table);
+        setupSendWinnerMail(type, table);
 
         // 初期表示時のチップ
         updateFilterChips(apply);
@@ -319,5 +321,100 @@ function setupCsvDownload(type) {
         const url = new URL(window.Laravel.route_download_csv, window.location.origin);
         url.searchParams.set('type', type);
         window.location.href = url.toString();
+    });
+}
+
+/* ============================================================
+ * 来場予定日時 一括更新（CSVアップロード）
+ * ============================================================ */
+function setupVisitScheduleUpload(type, table) {
+    const $btn = $('#visit_schedule_upload_btn');
+    const $input = $('#visit_schedule_file_input');
+
+    if (!$btn.length || !$input.length) {
+        return;
+    }
+
+    $btn.on('click', function () {
+        $input.val('');
+        $input.trigger('click');
+    });
+
+    $input.on('change', function () {
+        const file = this.files && this.files[0];
+        if (!file) {
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('type', type);
+        formData.append('csv_file', file);
+
+        $btn.prop('disabled', true).text('更新中...');
+
+        fetch(window.Laravel.route_update_visit_schedule, {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': window.csrfToken },
+            body: formData,
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                let message = `${data.updated}件の来場予定日時を更新しました。`;
+                if (data.errors && data.errors.length) {
+                    message += `\n\n以下の${data.errors.length}件は更新できませんでした:\n` + data.errors.join('\n');
+                }
+                alert(message);
+                table.ajax.reload(null, false);
+            })
+            .catch(() => {
+                alert('更新に失敗しました。ファイルの形式をご確認のうえ、再度お試しください。');
+            })
+            .finally(() => {
+                $btn.prop('disabled', false).text('来場予定日時を更新');
+            });
+    });
+}
+
+/* ============================================================
+ * 未送信者への当選通知メール一斉送信
+ * ============================================================ */
+function setupSendWinnerMail(type, table) {
+    const $btn = $('#send_winner_mail_btn');
+
+    if (!$btn.length) {
+        return;
+    }
+
+    $btn.on('click', function () {
+        if (!confirm('「未送信」の申込者へ当選通知メールを一斉送信します。よろしいですか？')) {
+            return;
+        }
+
+        $btn.prop('disabled', true).text('送信中...');
+
+        fetch(window.Laravel.route_send_winner_mail, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': window.csrfToken,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ type }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                let message = `${data.sent}件に当選通知メールを送信しました。`;
+                if (data.errors && data.errors.length) {
+                    message += `\n\n以下の${data.errors.length}件は送信できませんでした:\n` + data.errors.join('\n');
+                }
+                alert(message);
+                table.ajax.reload(null, false);
+            })
+            .catch(() => {
+                alert('送信に失敗しました。時間をおいて再度お試しください。');
+            })
+            .finally(() => {
+                $btn.prop('disabled', false).text('未送信者へ一斉送信');
+            });
     });
 }

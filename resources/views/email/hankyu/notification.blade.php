@@ -3,13 +3,11 @@
 <body>
 
 下記内容の申し込みを受け付けました<br>
-■店舗<br>
-　{{ \App\Consts\StoreAllConst::STORE_LIST[$application->choice_1] }}<br>
 ■名前<br>
 　{{ $application->sei }} {{ $application->mei }} <br>
 　{{ $application->sei_kana }} {{ $application->mei_kana }} <br>
 ■性別<br>
-　{{ \App\Consts\GinzaConst::SEX_LIST[$application->sex] }}<br>
+　{{ \App\Consts\HankyuConst::SEX_LIST[$application->sex] }}<br>
 ■電話番号<br>
 　{{ $application->tel }}<br>
 ■住所<br>

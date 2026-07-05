@@ -1,14 +1,12 @@
 /**
- * 全国フォーム（type=2）の申込者一覧画面エントリポイント。
- * 全国フォームは来場店舗の選択があるため、申込日時の直後に storeName 列を入れる。
+ * 阪急フォーム（type=2）の申込者一覧画面エントリポイント。
  */
 import { COLUMNS, initApplicationList } from './application-list.js';
 
 initApplicationList({
-    type: 2, // CommonConst::APPLICATION_TYPE_2（全国）
+    type: 2, // CommonConst::APPLICATION_TYPE_2（阪急）
     columns: [
         COLUMNS.createdAt,
-        COLUMNS.storeName, // 全国専用：来場店舗
         COLUMNS.uniqueCode,
         COLUMNS.name,
         COLUMNS.tel,

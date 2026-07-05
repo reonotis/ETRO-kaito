@@ -21,6 +21,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/list/{type}', [App\Http\Controllers\Admin\ApplicationController::class, 'list'])->name('admin_list');
         Route::get('/applications/data', [App\Http\Controllers\Admin\ApplicationController::class, 'getData'])->name('applications.data');
         Route::get('/applications/download-csv', [App\Http\Controllers\Admin\ApplicationController::class, 'downloadCsv'])->name('applications.download-csv');
+        Route::post('/applications/update-visit-schedule', [App\Http\Controllers\Admin\ApplicationController::class, 'updateVisitSchedule'])->name('applications.update-visit-schedule');
+        Route::post('/applications/send-winner-mail', [App\Http\Controllers\Admin\ApplicationController::class, 'sendWinnerMail'])->name('applications.send-winner-mail');
     });
 });
 

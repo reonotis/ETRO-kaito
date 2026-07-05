@@ -12,7 +12,7 @@
     <div class="py-16">
         <div class="form-area">
 
-            @include('stores_all.hero')
+            @include('hankyu.hero')
 
             <div class="common-text">
                 申し込みが完了しました。<br>

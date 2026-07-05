@@ -27,6 +27,8 @@
         window.Laravel = {
             route_download_csv: "{{ route('applications.download-csv') }}",
             route_applications_data: "{{ route('applications.data') }}",
+            route_update_visit_schedule: "{{ route('applications.update-visit-schedule') }}",
+            route_send_winner_mail: "{{ route('applications.send-winner-mail') }}",
         };
 
         window.csrfToken = "{{ csrf_token() }}";
@@ -49,12 +51,21 @@
                 </div>
             </div>
 
-            <button id="csv_download" type="button" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-sm transition">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
-                </svg>
-                CSVダウンロード
-            </button>
+            <div class="flex flex-col items-stretch gap-2">
+                <button id="csv_download" type="button" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-sm transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
+                    </svg>
+                    CSVダウンロード
+                </button>
+                <button id="visit_schedule_upload_btn" type="button" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold shadow-sm transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V3m0 0L8 7m4-4l4 4" />
+                    </svg>
+                    来場予定日時を更新
+                </button>
+                <input type="file" id="visit_schedule_file_input" accept=".csv,text/csv" class="hidden">
+            </div>
         </div>
 
         {{-- ===== 絞り込み ===== --}}
@@ -187,13 +198,19 @@
                     </svg>
                     <span class="font-semibold text-gray-800">検索結果</span>
                     <span id="result_count_badge" class="inline-flex items-center px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-xs font-semibold">0件</span>
+                    <button id="refresh_btn" type="button"
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582M20 20v-5h-.581M5.5 9A7.5 7.5 0 0118.418 7.582M18.5 15A7.5 7.5 0 015.582 16.418"/>
+                        </svg>
+                        最新の情報に更新
+                    </button>
                 </div>
-                <button id="refresh_btn" type="button"
-                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm transition">
+                <button id="send_winner_mail_btn" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-sm transition">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582M20 20v-5h-.581M5.5 9A7.5 7.5 0 0118.418 7.582M18.5 15A7.5 7.5 0 015.582 16.418"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    最新の情報に更新
+                    未送信者へ一斉送信
                 </button>
             </div>
 

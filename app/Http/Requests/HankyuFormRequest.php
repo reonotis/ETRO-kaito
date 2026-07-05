@@ -14,7 +14,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property int goal_time
  * @property int shoes_size
  */
-class StoreAllFormRequest extends FormRequest
+class HankyuFormRequest extends FormRequest
 {
     /**
      * @return array
@@ -22,7 +22,6 @@ class StoreAllFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'choice_1'=> ['required'],
             'sei'=> ['required'],
             'mei'=> ['required'],
             'sei_kana'=>  ['required', 'regex:/^[ァ-ヶー]+$/u'],
@@ -66,4 +65,3 @@ class StoreAllFormRequest extends FormRequest
         ];
     }
 }
-

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail\StoresAll;
+namespace App\Mail\Ginza;
 
 use App\Models\Application;
 use Illuminate\Bus\Queueable;
@@ -9,18 +9,20 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NotificationMail extends Mailable
+class WinnerNotificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public Application $application;
+    public string $sectionName;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Application $application)
+    public function __construct(Application $application, string $sectionName)
     {
         $this->application = $application;
+        $this->sectionName = $sectionName;
     }
 
     /**
@@ -29,7 +31,7 @@ class NotificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ETRO per Kaito Takahashi 全国への申し込みがありました',
+            subject: 'ETRO per Kaito Takahashi 銀座 ご当選のお知らせ',
         );
     }
 
@@ -39,7 +41,7 @@ class NotificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.stores_all.notification',
+            view: 'email.application',
         );
     }
 
@@ -55,6 +57,9 @@ class NotificationMail extends Mailable
 
     public function build()
     {
-        return $this->with(['application' => $this->application]);
+        return $this->with([
+            'application' => $this->application,
+            'section_name' => $this->sectionName,
+        ]);
     }
 }

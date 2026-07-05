@@ -64,7 +64,7 @@
                 </div>
             </a>
 
-            {{-- 全国カード --}}
+            {{-- 阪急カード --}}
             <a href="{{ route('admin_list', ['type' => \App\Consts\CommonConst::APPLICATION_TYPE_2]) }}"
                class="dashboard-card group relative block bg-white rounded-xl shadow-sm hover:shadow-lg overflow-hidden transition-all duration-300">
                 <span class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-amber-700"></span>
@@ -76,9 +76,9 @@
                         </svg>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-xs font-semibold text-amber-700 tracking-wider uppercase">ALL</p>
-                        <h2 class="mt-0.5 text-lg font-bold text-gray-800">全国のリストを確認する</h2>
-                        <p class="mt-1 text-sm text-gray-500">全国エリアの申込者一覧へ</p>
+                        <p class="text-xs font-semibold text-amber-700 tracking-wider uppercase">Hankyu</p>
+                        <h2 class="mt-0.5 text-lg font-bold text-gray-800">阪急のリストを確認する</h2>
+                        <p class="mt-1 text-sm text-gray-500">阪急エリアの申込者一覧へ</p>
                     </div>
                     <div class="flex-shrink-0 text-amber-600 group-hover:translate-x-1 transition-transform">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

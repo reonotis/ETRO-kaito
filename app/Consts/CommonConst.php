@@ -8,7 +8,7 @@ class CommonConst
     public const APPLICATION_TYPE_2 = 2;
     public const APPLICATION_TYPE_LIST = [
         self::APPLICATION_TYPE_1 => '銀座',
-        self::APPLICATION_TYPE_2 => '全国',
+        self::APPLICATION_TYPE_2 => '阪急',
     ];
 
 }

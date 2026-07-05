@@ -9,7 +9,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/admin/ginza-list.js',
-                'resources/js/admin/all-store-list.js',
+                'resources/js/admin/hankyu-list.js',
                 'resources/css/admin.css',
                 'resources/scss/application.scss',
             ],

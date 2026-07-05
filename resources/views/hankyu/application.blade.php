@@ -10,29 +10,11 @@
     <div class="py-16">
         <div class="form-area">
 
-            @include('stores_all.hero')
-            <div class="common-text">9月5日(_)以降は通常販売となり、来店予約抽選はございません。<br>但し、当日の混雑状況に応じ、入場整理券を配布する場合がございます。</div>
+            @include('hankyu.hero')
+            <div class="common-text">8月10日(月)以降は通常販売となり、来店予約抽選はございません。<br>但し、当日の混雑状況に応じ、入場整理券を配布する場合がございます。</div>
 
             <form action="" method="post" >
                 @csrf
-                <div class="contents-row">
-                    <div class="content-title">来場店舗</div>
-                    <div class="content-items">
-                        <div class="flex" style="flex-wrap: wrap;gap: .5rem;">
-                            @foreach(App\Consts\StoreAllConst::STORE_LIST as $key => $value)
-                                <label class="radio-label" style="padding: 0 .5rem;">
-                                    <input type="radio" class="" name="choice_1" value="{{ $key }}"
-                                           @if(old('choice_1') == $key)
-                                               checked="checked"
-                                        @endif
-                                    >
-                                    {{ $value }}
-                                </label>
-                            @endforeach
-                        </div>
-                        <x-input-error :messages="$errors->get('choice_1')" class="" />
-                    </div>
-                </div>
                 <div class="contents-row">
                     <div class="content-title">お名前</div>
                     <div class="content-items">
@@ -70,7 +52,7 @@
                     <div class="content-title">性別</div>
                     <div class="content-items">
                         <div class="flex" style="flex-wrap: wrap;gap: .5rem;">
-                            @foreach(App\Consts\StoreAllConst::SEX_LIST as $key => $value)
+                            @foreach(App\Consts\HankyuConst::SEX_LIST as $key => $value)
                                 <label class="radio-label" style="padding: 0 .5rem;">
                                     <input type="radio" class="" name="sex" value="{{ $key }}"
                                            @if(old('sex') == $key)
@@ -167,7 +149,7 @@
                     <div class="content-title">利用規約</div>
                     <div class="content-items">
                         <div class="terms-condition">
-                            @include('ginza.terms')
+                            @include('hankyu.terms')
                         </div>
                         <div class="flex justify-center my-1">
                             <label><input type="checkbox" name="term" @if(old('term')) checked="checked" @endif>同意する</label>
@@ -179,7 +161,7 @@
                 <div class="contents-row">
                     <div class="content-title">お買い物に関する注意事項</div>
                     <div class="content-items">
-                        @include('ginza.admission-notes')
+                        @include('hankyu.admission-notes')
                     </div>
                 </div>
 
@@ -201,5 +183,3 @@
         </div>
     </div>
 </x-application-layout>
-
-
