@@ -11,7 +11,6 @@
         <div class="form-area">
 
             @include('hankyu.hero')
-            {{-- <div class="common-text">8月10日(月)以降は通常販売となり、来店予約抽選はございません。<br>但し、当日の混雑状況に応じ、入場整理券を配布する場合がございます。</div>--}}
 
             <form action="" method="post" >
                 @csrf

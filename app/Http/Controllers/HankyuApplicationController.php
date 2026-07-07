@@ -30,7 +30,7 @@ class HankyuApplicationController extends Controller
     private function checkErrorViewRedirect(): bool
     {
         $now = Carbon::now();
-        $from = Carbon::parse('2026-07-05 00:00:00');
+        $from = Carbon::parse('2026-07-08 00:00:00');
         $to = Carbon::parse('2026-07-23 23:59:59');
 
         if ($from > $now) {
