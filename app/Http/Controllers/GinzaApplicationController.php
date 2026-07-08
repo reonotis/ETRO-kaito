@@ -34,8 +34,13 @@ class GinzaApplicationController extends Controller
      */
     private function checkErrorViewRedirect(): bool
     {
+        // 期間外でも表示する設定の場合は期間チェックを行わない
+        if (config('app.ginza_show_outside_period')) {
+            return false;
+        }
+
         $now = Carbon::now();
-        $from = Carbon::parse('2026-04-08 00:00:00'); // 08/10～
+        $from = Carbon::parse('2026-08-10 00:00:00'); // 08/10～
         $to = Carbon::parse('2026-08-13 23:59:59');
 
         if ($from > $now) {

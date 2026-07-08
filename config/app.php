@@ -126,4 +126,15 @@ return [
 
     'mail_secretariat' => env('MAIL_SECRETARIAT'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Ginza Application Period Override
+    |--------------------------------------------------------------------------
+    |
+    | trueの場合、申込期間外でも申込画面を表示する（期間チェックを無効化する）。
+    |
+    */
+
+    'ginza_show_outside_period' => (bool) env('GINZA_SHOW_OUTSIDE_PERIOD', false),
+
 ];
