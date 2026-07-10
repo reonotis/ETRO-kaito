@@ -11,7 +11,7 @@
         <div class="form-area">
 
             @include('ginza.hero')
-            <div class="common-text">8月22日(土)以降は通常販売となり、来店予約抽選はございません。<br>但し、当日の混雑状況に応じ、入場整理券を配布する場合がございます。</div>
+            <div class="common-text">8月22日(土)以降は通常販売となり、来店予約抽選はございません。<br>但し、当日の混雑状況に応じ、入店整理券を配布する場合がございます。</div>
 
             <form action="" method="post" >
                 @csrf
@@ -168,7 +168,7 @@
                 <div class="contents-row">
                     <div class="content-title">お問い合わせ</div>
                     <div class="content-items">
-                        入場抽選のお問い合わせは、下記までお願いします。<br>
+                        入店抽選のお問い合わせは、下記までお願いします。<br>
                         2営業日以内に担当からご連絡します。<br>
 
                         {{ config('app.mail_secretariat') }}
