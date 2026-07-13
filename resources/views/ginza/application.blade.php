@@ -168,7 +168,7 @@
                 <div class="contents-row">
                     <div class="content-title">お問い合わせ</div>
                     <div class="content-items">
-                        入店抽選のお問い合わせは、下記までお願いします。<br>
+                        来店予約抽選のお問い合わせは、下記までお願いします。<br>
                         2営業日以内に担当からご連絡します。<br>
 
                         {{ config('app.mail_secretariat') }}
