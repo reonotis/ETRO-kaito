@@ -11,6 +11,8 @@
 
             @include('hankyu.hero')
 
+            <div class="content-area text-center">現在準備中です。</div>
+
         </div>
     </div>
 

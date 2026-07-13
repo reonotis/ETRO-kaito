@@ -29,9 +29,14 @@ class HankyuApplicationController extends Controller
      */
     private function checkErrorViewRedirect(): bool
     {
+        // 期間外でも表示する設定の場合は期間チェックを行わない
+        if (config('app.hankyu_show_outside_period')) {
+            return false;
+        }
+
         $now = Carbon::now();
-        $from = Carbon::parse('2026-07-08 00:00:00');
-        $to = Carbon::parse('2026-07-23 23:59:59');
+        $from = Carbon::parse('2026-07-16 10:00:00');
+        $to = Carbon::parse('2026-07-23 20:00:00');
 
         if ($from > $now) {
             return true;

@@ -137,4 +137,15 @@ return [
 
     'ginza_show_outside_period' => (bool) env('GINZA_SHOW_OUTSIDE_PERIOD', false),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Hankyu Application Period Override
+    |--------------------------------------------------------------------------
+    |
+    | trueの場合、申込期間外でも申込画面を表示する（期間チェックを無効化する）。
+    |
+    */
+
+    'hankyu_show_outside_period' => (bool) env('HANKYU_SHOW_OUTSIDE_PERIOD', false),
+
 ];
