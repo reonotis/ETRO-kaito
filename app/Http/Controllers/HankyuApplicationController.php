@@ -6,6 +6,7 @@ use App\Consts\CommonConst;
 use App\Http\Requests\HankyuFormRequest;
 use App\Mail\Hankyu\NotificationMail;
 use App\Mail\Hankyu\ThankYouMail;
+use App\Models\Application;
 use App\Service\ApplicationService;
 use Carbon\Carbon;
 use Exception;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class HankyuApplicationController extends Controller
 {
@@ -120,5 +122,91 @@ class HankyuApplicationController extends Controller
     public function complete(): View
     {
         return view('hankyu.complete');
+    }
+
+    /**
+     * @param string $unique_code
+     * @return BinaryFileResponse
+     */
+    public function trackEmailOpen(string $unique_code): BinaryFileResponse
+    {
+        // アプリケーションを特定
+        $application = Application::where('unique_code', $unique_code)->first();
+
+        if ($application) {
+            // 閲覧日時を保存
+            $application->email_opened_at = now();
+            $application->save();
+        }
+
+        // 透明ピクセル画像を返す
+        return response()->file(public_path('image/transparent_pixel.png'));
+    }
+
+    /**
+     * @param string $unique_code
+     * @return View
+     */
+    public function viewTicket(string $unique_code): View
+    {
+        $application_service = new ApplicationService();
+        $application = $application_service->getByUniqueCode($unique_code);
+
+        // 無効チェック
+        if (is_null($application) || is_null($application->visit_scheduled_date_time)) {
+            return view('invalid_request', [
+                'message' => '不正なURLです',
+            ]);
+        }
+
+        if ($application->visit_date_time) {
+            return view('invalid_request', [
+                'message' => '既にチェックイン済みです',
+            ]);
+        }
+
+        $from = $application->visit_scheduled_date_time;
+        $to = $from->copy()->addMinutes(30);
+        $section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
+
+        return view('hankyu.ticket', [
+            'application' => $application,
+            'section_name' => $section_name,
+        ]);
+    }
+
+    /**
+     * @param string $unique_code
+     * @return View
+     */
+    public function tearTicket(string $unique_code): View
+    {
+        $application_service = new ApplicationService();
+        $application = $application_service->getByUniqueCode($unique_code);
+
+        // 無効チェック
+        if (is_null($application) || is_null($application->visit_scheduled_date_time)) {
+            return view('invalid_request', [
+                'message' => '不正なURLです',
+            ]);
+        }
+
+        if ($application->visit_date_time) {
+            return view('invalid_request', [
+                'message' => '既にチェックイン済みです',
+            ]);
+        }
+
+        // 来場済みにする
+        $application_service->markVisited($application);
+
+        $from = $application->visit_scheduled_date_time;
+        $to = $from->copy()->addMinutes(30);
+        $section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
+
+        return view('hankyu.check_in', [
+            'application' => $application,
+            'section_name' => $section_name,
+        ]);
     }
 }

@@ -38,6 +38,7 @@ class ApplicationController extends Controller
             'email',
             'sent_lottery_result_email_flg',
             'visit_scheduled_date_time',
+            'choice_1',
             \DB::raw("
                 CASE
                     WHEN email_opened_at IS NOT NULL THEN '開封済み'
@@ -131,6 +132,11 @@ class ApplicationController extends Controller
             // `name` は実テーブルの列ではないため、姓・名で明示的に並び替える
             ->orderColumn('name', function ($query, $order) {
                 $query->orderBy('sei', $order)->orderBy('mei', $order);
+            })
+            ->editColumn('choice_1', function ($application) {
+                return $application->choice_1 !== null && $application->choice_1 !== ''
+                    ? $application->choice_1
+                    : '-';
             })
             ->editColumn('visit_scheduled_date_time', function ($application) {
                 return $application->visit_scheduled_date_time
@@ -263,7 +269,7 @@ class ApplicationController extends Controller
     }
 
     /**
-     * CSVをアップロードし、来場予定日時(H列)だけを一括更新する
+     * CSVをアップロードし、choice_1(セクション列/H列)と来場予定日時(K列)だけを一括更新する
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -301,7 +307,8 @@ class ApplicationController extends Controller
 
             // BOM除去（先頭列にBOMが残る場合がある）
             $uniqueCode = trim(preg_replace('/^\xEF\xBB\xBF/', '', $row[1] ?? ''));
-            $visitScheduled = trim($row[7] ?? '');
+            $choice1 = trim($row[7] ?? '');
+            $visitScheduled = trim($row[10] ?? '');
 
             if ($uniqueCode === '') {
                 $errors[] = "{$rowNumber}行目: 管理番号が空です";
@@ -313,6 +320,8 @@ class ApplicationController extends Controller
                 $errors[] = "{$rowNumber}行目: 管理番号「{$uniqueCode}」が見つかりません";
                 continue;
             }
+
+            $application->choice_1 = $choice1 !== '' ? $choice1 : null;
 
             if ($visitScheduled === '' || $visitScheduled === '-') {
                 $application->visit_scheduled_date_time = null;

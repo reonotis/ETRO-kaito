@@ -1,6 +1,6 @@
 {
-  "_application-list-BSMzwANz.js": {
-    "file": "assets/application-list-BSMzwANz.js",
+  "_application-list-Wfbk8zV7.js": {
+    "file": "assets/application-list-Wfbk8zV7.js",
     "name": "application-list"
   },
   "resources/css/admin.css": {
@@ -14,21 +14,21 @@
     "isEntry": true
   },
   "resources/js/admin/ginza-list.js": {
-    "file": "assets/ginza-list-DtJF3SHW.js",
+    "file": "assets/ginza-list-f1ff5BLV.js",
     "name": "ginza-list",
     "src": "resources/js/admin/ginza-list.js",
     "isEntry": true,
     "imports": [
-      "_application-list-BSMzwANz.js"
+      "_application-list-Wfbk8zV7.js"
     ]
   },
   "resources/js/admin/hankyu-list.js": {
-    "file": "assets/hankyu-list-D5D1dqyO.js",
+    "file": "assets/hankyu-list-Bx7-a63x.js",
     "name": "hankyu-list",
     "src": "resources/js/admin/hankyu-list.js",
     "isEntry": true,
     "imports": [
-      "_application-list-BSMzwANz.js"
+      "_application-list-Wfbk8zV7.js"
     ]
   },
   "resources/js/app.js": {

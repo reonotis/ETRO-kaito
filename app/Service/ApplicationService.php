@@ -48,14 +48,18 @@ class ApplicationService
     }
 
     /**
-     * 来場履歴を作成する
-     * @param int $application_id
+     * 来場履歴を作成し、来場日時を記録する
+     * @param Application $application
+     * @return bool
      */
-    public function markVisited(int $application_id)
+    public function markVisited(Application $application): bool
     {
-        return Visited::create([
-            'application_id' => $application_id,
+        Visited::create([
+            'application_id' => $application->id,
         ]);
+
+        $application->visit_date_time = now();
+        return $application->save();
     }
 
 }

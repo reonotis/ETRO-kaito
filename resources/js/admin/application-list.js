@@ -26,6 +26,7 @@ export const COLUMNS = {
     tel: {data: 'tel', name: 'tel'},
     email: {data: 'email', name: 'email'},
     mailStatus: {data: 'mail_status', name: 'mail_status', class: 'text-center', render: renderMailStatus},
+    choice1: {data: 'choice_1', name: 'choice_1', class: 'text-center'},
     visitScheduledDateTime: {
         data: 'visit_scheduled_date_time',
         name: 'visit_scheduled_date_time',

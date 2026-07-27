@@ -12,6 +12,7 @@ initApplicationList({
         COLUMNS.tel,
         COLUMNS.email,
         COLUMNS.mailStatus,
+        COLUMNS.choice1,
         COLUMNS.visitScheduledDateTime,
         COLUMNS.visitDateTime,
     ],
