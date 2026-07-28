@@ -203,6 +203,7 @@ class ApplicationController extends Controller
             'pref21',
             'address21',
             'street21',
+            'choice_1',
             'visit_scheduled_date_time',
             'visit_date_time',
             \DB::raw("
@@ -219,8 +220,9 @@ class ApplicationController extends Controller
 
         $typeLabel = \App\Consts\CommonConst::APPLICATION_TYPE_LIST[$type];
 
+        // 「来場予定日時を更新」アップロードの列位置（B列=管理番号, H列=セクション, I列=来場予定日時）と一致させる
         $csvHeader = [
-            '申込日時', '管理番号', '名前', '電話番号', 'メールアドレス', '住所', 'メールステータス', '来場予定日時', '来場日時'
+            '申込日時', '管理番号', '名前', '電話番号', 'メールアドレス', '住所', 'メールステータス', 'セクション', '来場予定日時', '来場日時'
         ];
 
         $response = new StreamedResponse(function () use ($applications, $csvHeader) {
@@ -246,6 +248,7 @@ class ApplicationController extends Controller
                     $application->email,
                     $fullAddress,
                     $application->mail_status,
+                    $application->choice_1 !== null && $application->choice_1 !== '' ? $application->choice_1 : '',
                     $application->visit_scheduled_date_time
                         ? Carbon::parse($application->visit_scheduled_date_time)->format('Y/m/d H:i')
                         : '-',
@@ -269,7 +272,8 @@ class ApplicationController extends Controller
     }
 
     /**
-     * CSVをアップロードし、choice_1(セクション列/H列)と来場予定日時(K列)だけを一括更新する
+     * CSVをアップロードし、choice_1(セクション列/H列)と来場予定日時(I列)だけを一括更新する
+     * CSVダウンロードで出力される列順（申込日時,管理番号,名前,電話番号,メールアドレス,住所,メールステータス,セクション,来場予定日時,来場日時）と一致させること
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -308,7 +312,7 @@ class ApplicationController extends Controller
             // BOM除去（先頭列にBOMが残る場合がある）
             $uniqueCode = trim(preg_replace('/^\xEF\xBB\xBF/', '', $row[1] ?? ''));
             $choice1 = trim($row[7] ?? '');
-            $visitScheduled = trim($row[10] ?? '');
+            $visitScheduled = trim($row[8] ?? '');
 
             if ($uniqueCode === '') {
                 $errors[] = "{$rowNumber}行目: 管理番号が空です";
