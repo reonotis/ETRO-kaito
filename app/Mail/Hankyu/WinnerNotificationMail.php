@@ -31,7 +31,7 @@ class WinnerNotificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ETRO per Kaito Takahashi 阪急 ご当選のお知らせ',
+            subject: 'ETRO per Kaito Takahashi 阪急うめだ本店 ご当選のお知らせ',
         );
     }
 
