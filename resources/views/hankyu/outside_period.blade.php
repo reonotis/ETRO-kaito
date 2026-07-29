@@ -11,7 +11,11 @@
 
             @include('hankyu.hero')
 
-            <div class="content-area text-center">現在準備中です。</div>
+            <div class="content-area text-center">
+                本イベントのお問い合わせは下記までお願いします。<br>
+                2営業日以内に担当からご連絡します。<br>
+                {{ config('app.mail_secretariat') }}
+            </div>
 
         </div>
     </div>
