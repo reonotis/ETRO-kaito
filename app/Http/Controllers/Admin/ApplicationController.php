@@ -403,4 +403,49 @@ class ApplicationController extends Controller
         ]);
     }
 
+    /**
+     * 阪急：実行日の翌日以降に来場予定の申込者に対して、来場リマインドメールを一斉送信する
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendReminderMail(Request $request)
+    {
+        $request->validate([
+            'type' => ['required', 'integer'],
+        ]);
+
+        $type = (int)$request->input('type');
+        if ($type !== \App\Consts\CommonConst::APPLICATION_TYPE_2) {
+            abort(404);
+        }
+
+        // 「実行日の翌日以降に来場予定」＝来場予定日時が確定していて、その日付が明日以降の申込者
+        $applications = Application::where('type', $type)
+            ->whereNotNull('visit_scheduled_date_time')
+            ->whereDate('visit_scheduled_date_time', '>=', Carbon::tomorrow())
+            ->get();
+
+        $sent = 0;
+        $errors = [];
+
+        foreach ($applications as $application) {
+            try {
+                $from = Carbon::parse($application->visit_scheduled_date_time);
+                $to = $from->copy()->addMinutes(30);
+                $sectionName = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
+
+                Mail::to($application->email)->send(new \App\Mail\Hankyu\ReminderMail($application, $sectionName));
+                $sent++;
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+                $errors[] = "管理番号「{$application->unique_code}」への送信に失敗しました";
+            }
+        }
+
+        return response()->json([
+            'sent' => $sent,
+            'errors' => $errors,
+        ]);
+    }
+
 }

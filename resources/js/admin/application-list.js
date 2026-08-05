@@ -63,6 +63,7 @@ export function initApplicationList({ type, columns }) {
         setupCsvDownload(type);
         setupVisitScheduleUpload(type, table);
         setupSendWinnerMail(type, table);
+        setupSendReminderMail(type, table);
 
         // 初期表示時のチップ
         updateFilterChips(apply);
@@ -416,6 +417,52 @@ function setupSendWinnerMail(type, table) {
             })
             .finally(() => {
                 $btn.prop('disabled', false).text('未送信者へ一斉送信');
+            });
+    });
+}
+
+/* ============================================================
+ * 翌日以降来場予定者へのリマインドメール一斉送信
+ * ============================================================ */
+function setupSendReminderMail(type, table) {
+    const $btn = $('#send_reminder_mail_btn');
+
+    if (!$btn.length) {
+        return;
+    }
+
+    const defaultLabel = 'リマインドメール送信';
+
+    $btn.on('click', function () {
+        if (!confirm('翌日以降にご来場予定の申込者へリマインドメールを一斉送信します。よろしいですか？')) {
+            return;
+        }
+
+        $btn.prop('disabled', true).text('送信中...');
+
+        fetch(window.Laravel.route_send_reminder_mail, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': window.csrfToken,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ type }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                let message = `${data.sent}件にリマインドメールを送信しました。`;
+                if (data.errors && data.errors.length) {
+                    message += `\n\n以下の${data.errors.length}件は送信できませんでした:\n` + data.errors.join('\n');
+                }
+                alert(message);
+                table.ajax.reload(null, false);
+            })
+            .catch(() => {
+                alert('送信に失敗しました。時間をおいて再度お試しください。');
+            })
+            .finally(() => {
+                $btn.prop('disabled', false).text(defaultLabel);
             });
     });
 }

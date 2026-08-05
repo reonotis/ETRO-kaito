@@ -23,6 +23,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/applications/download-csv', [App\Http\Controllers\Admin\ApplicationController::class, 'downloadCsv'])->name('applications.download-csv');
         Route::post('/applications/update-visit-schedule', [App\Http\Controllers\Admin\ApplicationController::class, 'updateVisitSchedule'])->name('applications.update-visit-schedule');
         Route::post('/applications/send-winner-mail', [App\Http\Controllers\Admin\ApplicationController::class, 'sendWinnerMail'])->name('applications.send-winner-mail');
+        Route::post('/applications/send-reminder-mail', [App\Http\Controllers\Admin\ApplicationController::class, 'sendReminderMail'])->name('applications.send-reminder-mail');
     });
 });
 

@@ -29,6 +29,7 @@
             route_applications_data: "{{ route('applications.data') }}",
             route_update_visit_schedule: "{{ route('applications.update-visit-schedule') }}",
             route_send_winner_mail: "{{ route('applications.send-winner-mail') }}",
+            route_send_reminder_mail: "{{ route('applications.send-reminder-mail') }}",
         };
 
         window.csrfToken = "{{ csrf_token() }}";
@@ -206,12 +207,20 @@
                         最新の情報に更新
                     </button>
                 </div>
-                <button id="send_winner_mail_btn" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-sm transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    未送信者へ一斉送信
-                </button>
+                <div>
+                    <button id="send_reminder_mail_btn" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold shadow-sm transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        リマインドメール送信
+                    </button>
+                    <button id="send_winner_mail_btn" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-sm transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        未送信者へ一斉送信
+                    </button>
+                </div>
             </div>
 
             <div class="px-6 pt-4 pb-2">
