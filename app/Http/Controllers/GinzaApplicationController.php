@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Consts\Common;
 use App\Consts\CommonConst;
+use App\Consts\GinzaConst;
 use App\Http\Requests\GinzaFormRequest;
 use App\Mail\Ginza\NotificationMail;
 use App\Mail\Ginza\ThankYouMail;
@@ -40,8 +40,8 @@ class GinzaApplicationController extends Controller
         }
 
         $now = Carbon::now();
-        $from = Carbon::parse('2026-08-10 00:00:00'); // 08/10～
-        $to = Carbon::parse('2026-08-13 23:59:59');
+        $from = Carbon::parse('2026-08-10 10:00:00'); // 08/10～
+        $to = Carbon::parse('2026-08-14 19:59:59');
 
         if ($from > $now) {
             return true;
@@ -293,7 +293,7 @@ class GinzaApplicationController extends Controller
                 return $application->age ? $application->age . '歳' : '-';
             })
             ->editColumn('sex', function ($application) {
-                return Common::SEX_LIST[$application->sex] ?? '不明';
+                return GinzaConst::SEX_LIST[$application->sex] ?? '不明';
             })
             ->editColumn('created_at', function ($application) {
                 return Carbon::parse($application->created_at)->format('Y/m/d H:i:s'); // 秒あり
