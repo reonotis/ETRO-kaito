@@ -41,7 +41,7 @@ class WinnerNotificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.application',
+            view: 'email.ginza.winner_notification',
         );
     }
 

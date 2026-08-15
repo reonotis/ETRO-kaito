@@ -161,18 +161,18 @@ class GinzaApplicationController extends Controller
 
         // 無効チェック
         if (is_null($application) || is_null($application->visit_scheduled_date_time)) {
-            return view('invalid_request', [
+            return view('ginza.invalid_request', [
                 'message' => '不正なURLです',
             ]);
         }
 
         if ($application->visit_date_time) {
-            return view('invalid_request', [
+            return view('ginza.invalid_request', [
                 'message' => '既にチェックイン済みです',
             ]);
         }
 
-        return view('ticket', [
+        return view('ginza.ticket', [
             'application' => $application,
             'section_name' => $section_name,
         ]);
@@ -189,13 +189,13 @@ class GinzaApplicationController extends Controller
 
         // 無効チェック
         if (is_null($application) || is_null($application->visit_scheduled_date_time)) {
-            return view('invalid_request', [
+            return view('ginza.invalid_request', [
                 'message' => '不正なURLです',
             ]);
         }
 
         if ($application->visit_date_time) {
-            return view('invalid_request', [
+            return view('ginza.invalid_request', [
                 'message' => '既にチェックイン済みです',
             ]);
         }
@@ -207,7 +207,7 @@ class GinzaApplicationController extends Controller
         $to = $from->copy()->addMinutes(30);
         $section_name = $from->isoFormat('YYYY年MM月DD日（ddd）') . ' ' . $from->format('H:i') . '〜' . $to->format('H:i');
 
-        return view('check_in', [
+        return view('ginza.check_in', [
             'application' => $application,
             'section_name' => $section_name,
         ]);
