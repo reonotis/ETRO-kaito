@@ -11,6 +11,10 @@
 
             @include('ginza.hero')
 
+            <div class="text-center mb-4">
+                8/22～8/25は混雑状況によって整理券を配布する場合があります
+            </div>
+
             <div class="content-area text-center">
                 本イベントのお問い合わせは下記までお願いします。<br>
                 {{ config('app.mail_secretariat') }}
