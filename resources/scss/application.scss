@@ -121,6 +121,110 @@ body {
 }
 
 
+.store-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    margin: .5rem 0;
+}
+
+.store-card {
+    border: solid 1px #d9ede6;
+    border-radius: .5rem;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 6px rgba(16, 68, 24, .08);
+
+    .store-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin: 0;
+        border: none;
+        padding: .6rem .9rem;
+        background: #5f9884;
+        color: #fff;
+        font-weight: bold;
+        font-size: .95rem;
+        line-height: 1.4;
+        font-family: inherit;
+        text-align: left;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+
+        &:hover {
+            background: #558977;
+        }
+    }
+
+    .store-card-toggle-icon {
+        flex: 0 0 auto;
+        margin-left: .75rem;
+        transition: transform .2s;
+
+        &.is-open {
+            transform: rotate(180deg);
+        }
+    }
+
+    .store-card-body {
+        padding: .5rem .9rem .7rem;
+    }
+
+    .store-card-row {
+        display: flex;
+        gap: .5rem;
+        padding: .4rem 0;
+        border-bottom: solid 1px #f0ece0;
+        font-size: .85rem;
+        line-height: 1.5;
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    .store-card-label {
+        flex: 0 0 5.5em;
+        color: #6b8079;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .store-card-value {
+        flex: 1;
+        color: #333;
+    }
+
+    .store-card-value:empty::after {
+        content: '-';
+        color: #bbb;
+    }
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+@media (max-width: 640px) {
+    .store-card {
+        .store-card-header {
+            font-size: .9rem;
+            padding: .5rem .75rem;
+        }
+
+        .store-card-row {
+            font-size: .8rem;
+        }
+
+        .store-card-label {
+            flex: 0 0 5em;
+        }
+    }
+}
+
 .terms-condition {
     max-height: 300px;
     overflow-y: scroll;
