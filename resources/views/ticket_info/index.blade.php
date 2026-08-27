@@ -19,7 +19,7 @@
             </div>
 
 
-            <p style="font-weight: bold;color: red;">2026年8月28日12:00現在</p>
+            <p style="font-weight: bold; text-align: end;">2026年8月28日12:00現在</p>
 
             {{-- TODO: 店舗ごとの展開アイテムを記載 --}}
             <div class="store-card-grid">
