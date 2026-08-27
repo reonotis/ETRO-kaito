@@ -18,6 +18,7 @@
                 整理券について
             </div>
 
+
             <p style="font-weight: bold;color: red;">2026年8月28日12:00現在</p>
 
             {{-- TODO: 店舗ごとの展開アイテムを記載 --}}
