@@ -19,7 +19,7 @@
             </div>
 
 
-            <p style="font-weight: bold; text-align: end;">2026年8月29日12:00現在</p>
+            <p style="font-weight: bold; text-align: end;">2026年8月29日23:00現在</p>
 
             {{-- TODO: 店舗ごとの展開アイテムを記載 --}}
             <div class="store-card-grid">
@@ -83,11 +83,11 @@
                     <div class="store-card-body" x-show="open" x-cloak x-transition>
                         <div class="store-card-row">
                             <span class="store-card-label">配布方法</span>
-                            <span class="store-card-value">混雑状況により配布</span>
+                            <span class="store-card-value">開店前に整理券事前配布</span>
                         </div>
                         <div class="store-card-row">
                             <span class="store-card-label">場所</span>
-                            <span class="store-card-value">ショップ入口</span>
+                            <span class="store-card-value">開始時間9月2日（水）午前9時半〜 地下1階＝自由通路</span>
                         </div>
                     </div>
                 </div>
