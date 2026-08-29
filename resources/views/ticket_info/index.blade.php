@@ -19,7 +19,7 @@
             </div>
 
 
-            <p style="font-weight: bold; text-align: end;">2026年8月28日12:00現在</p>
+            <p style="font-weight: bold; text-align: end;">2026年8月29日12:00現在</p>
 
             {{-- TODO: 店舗ごとの展開アイテムを記載 --}}
             <div class="store-card-grid">
@@ -66,11 +66,11 @@
                     <div class="store-card-body" x-show="open" x-cloak x-transition>
                         <div class="store-card-row">
                             <span class="store-card-label">配布方法</span>
-                            <span class="store-card-value">随時更新</span>
+                            <span class="store-card-value">開店前に整理券事前配布</span>
                         </div>
                         <div class="store-card-row">
                             <span class="store-card-label">場所</span>
-                            <span class="store-card-value">随時更新</span>
+                            <span class="store-card-value">開始時間：9月2日(水)午前9時半～ 2階 サザンテラス口</span>
                         </div>
                     </div>
                 </div>
@@ -134,11 +134,11 @@
                     <div class="store-card-body" x-show="open" x-cloak x-transition>
                         <div class="store-card-row">
                             <span class="store-card-label">配布方法</span>
-                            <span class="store-card-value">随時更新</span>
+                            <span class="store-card-value">開店前に整理券事前配布</span>
                         </div>
                         <div class="store-card-row">
                             <span class="store-card-label">場所</span>
-                            <span class="store-card-value">随時更新</span>
+                            <span class="store-card-value">開始時間：9月2日(水)午前9時半～ 本館大町側玄関口</span>
                         </div>
                     </div>
                 </div>
@@ -236,7 +236,7 @@
                     <div class="store-card-body" x-show="open" x-cloak x-transition>
                         <div class="store-card-row">
                             <span class="store-card-label">配布方法</span>
-                            <span class="store-card-value">開店前に整理券事前配布配布<br>開始時間：9月2日(水)午前9時半～	</span>
+                            <span class="store-card-value">開店前に整理券事前配布<br>開始時間：9月2日(水)午前9時半～	</span>
                         </div>
                         <div class="store-card-row">
                             <span class="store-card-label">場所</span>
@@ -256,6 +256,7 @@
                     ・整理券はご購入をお約束するものではございません。完売の際はご容赦ください。<br>
                     ・整理券の発行枚数には限りがございます。<br>
                     ・販売店舗への事前の在庫確認等はお控えください。<br>
+                    ・しばらくの間、銀座本店の来店予約はお受けできません。 <br>
                 </div>
             </div>
 
