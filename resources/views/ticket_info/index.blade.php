@@ -100,11 +100,11 @@
                     <div class="store-card-body" x-show="open" x-cloak x-transition>
                         <div class="store-card-row">
                             <span class="store-card-label">配布方法</span>
-                            <span class="store-card-value">随時更新</span>
+                            <span class="store-card-value">開店前に整理券事前配布</span>
                         </div>
                         <div class="store-card-row">
                             <span class="store-card-label">場所</span>
-                            <span class="store-card-value">随時更新</span>
+                            <span class="store-card-value">開始時間:9月2日（水）午前9時〜　　1階正面口</span>
                         </div>
                     </div>
                 </div>
@@ -185,11 +185,11 @@
                     <div class="store-card-body" x-show="open" x-cloak x-transition>
                         <div class="store-card-row">
                             <span class="store-card-label">配布方法</span>
-                            <span class="store-card-value">随時更新</span>
+                            <span class="store-card-value">混雑状況により配布</span>
                         </div>
                         <div class="store-card-row">
                             <span class="store-card-label">場所</span>
-                            <span class="store-card-value">随時更新</span>
+                            <span class="store-card-value">ショップ入口</span>
                         </div>
                     </div>
                 </div>
